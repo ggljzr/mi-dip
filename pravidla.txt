@@ -1,0 +1,4 @@
+nazvy protokolu - verb
+wifi/ethernet - verb
+nazvy software - italic
+nazvy hw - italic
