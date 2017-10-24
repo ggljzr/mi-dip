@@ -4,3 +4,5 @@ nazvy software - italic
 nazvy hw/platforem - italic
 cizí slova - italic
 veci z kodu/listings - verb
+
+mezery mezi slovem a citaci

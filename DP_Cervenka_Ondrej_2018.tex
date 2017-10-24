@@ -80,14 +80,13 @@ Jelikož součástí zadání je i webové uživatelské rozhraní, bude v~každ
 
 HTTPS se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti webového serveru. 
 
-Zde lze použít například certifikáty nadace Let's Encrypt, které jsou zdarma. Kromě toho Let's Encrypt poskytuje také automatizačního klienta \textit{Certbot}\cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů.
+Zde lze použít například certifikáty nadace Let's Encrypt, které jsou zdarma. Kromě toho Let's Encrypt poskytuje také automatizačního klienta \textit{Certbot} \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů.
 
 Certifikát pro provoz HTTPS bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření identity uživatele.
 
 API realizované pomocí HTTPS je poměrně snadno rozšiřitelné. Pro nově implementovanou operaci stačí definovat URL a případně formát přenášených dat.
 
-Další výhodou je snadná implementace na straně klienta, tedy garážového čidla. Knihovny umožňující vytvářet HTTP požadavky jsou dostupné většině populárních platforem jako například \textit{Arduino}\cite{ard_web} nebo \textit{ESP8266}\cite{esp_web}.
-
+Další výhodou je snadná implementace na straně klienta, tedy garážového čidla. Knihovny umožňující vytvářet HTTP požadavky jsou dostupné většině populárních platforem jako například \textit{Arduino} \cite{ard_web} nebo \textit{ESP8266} \cite{esp_web}.
 
 %\begin{listing}[htbp]
 %\caption{\label{code:foo}Minted: Nyní ještě křupavější}
