@@ -1,4 +1,6 @@
-nazvy protokolu - verb
-wifi/ethernet - verb
+nazvy protokolu - normalne
+wifi/ethernet - normalne
 nazvy software - italic
-nazvy hw - italic
+nazvy hw/platforem - italic
+cizí slova - italic
+veci z kodu/listings - verb
