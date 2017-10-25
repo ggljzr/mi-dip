@@ -1,0 +1,37 @@
+\chapter{Analýza a návrh}
+
+\section{Výběr komunikačního protokolu}
+
+Nadřazený systém bude se svými klienty (monitorovací zařízení v~jednotlivých garážích) komunikovat přes WiFi nebo Ethernet. Základem komunikace bude TCP/IP protokol, je však potřeba zvolit vhodný protokol z~aplikační vrstvy OSI modelu, který na něm bude stavět.
+
+\subsection{Vlastní protokol}
+
+Jedna z~možností je implementovat vlastní protokol pomocí TCP/IP socketů. Toto řešení se mi však nezdá příliš vhodné, neboť nepřináší žádné významné výhody, naopak se s~ním pojí řada komplikací.
+
+Pro vlastní protokol by bylo nutné vytvořit robustní server, který zvládá obsluhu více klientů najednou. Dále by vzhledem k~citlivosti přenášených dat bylo nutné implementovat nějakou formu šifrování. Tyto velmi obsáhlé problémy přitom řeší většina dnešních protokolů.
+
+Další nevýhodou je nutnost implementace klientské části protokolu při vytváření nových zařízení spravovaných nadřazeným systémem. To do jisté míry omezuje jeho rozšiřitelnost.
+
+\subsection{\texttt{HTTPS}}
+
+Další možnost je využít ke komunikaci protokol HTTPS. V~tomto případě by klienti komunikovali se sytémem pomocí HTTP metod jako například \verb|get| nebo \verb|post|.
+
+Jelikož součástí požadavků na systém je i webové uživatelské rozhraní, bude v~každém případě nutné použít webový server pro jeho provoz. Ten by pak bylo možné využít i k~poskytnutí API pro komunikaci systému s~garážovými čidly.
+
+Vhodný webový server (jako například \textit{Nginx}) zajistí vícevláknovou obsluhu všech klientů. HTTPS se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru. 
+
+Lze použít například certifikáty nadace Let's Encrypt, které jsou poskytovány  zdarma. Kromě toho dodává Let's Encrypt také automatizačního klienta \textit{Certbot} \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů.
+
+Certifikát pro provoz HTTPS bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření identity uživatele. Nutnost pořízení certifikátu tedy nepředstavuje nevýhodu oproti jiným protokolům.
+
+API realizované pomocí HTTPS je poměrně snadno rozšiřitelné. Pro nově implementovanou operaci stačí definovat URL a případně formát přenášených dat.
+
+Další výhodou je snadná implementace na straně klienta, tedy garážového čidla. Knihovny umožňující vytvářet HTTP požadavky jsou dostupné na většině populárních platforem jako například \textit{Arduino} (s~Ethernet shieldem, oficiální knihovna \textit{EthernetClient} \cite{ard_web}) nebo \textit{ESP8266} (knihovna \textit{esp8266wifi} \cite{esp_web}).
+
+\subsection{Protokol \texttt{MQTT}}
+
+\section{Výběr platformy}
+
+Pro realizaci systému je nutné zvolit vhodnou platformu. Jelikož je cílem práce vytvořit fyzické zařízení, rozhodl jsem se jako základ použít některý z~jednodeskových počítačů, které jsou v~dnešní době na trhu. Tyto počítače bývají cenově velmi dostupné a zároveň poskytují dostatečný výkon a podporu pro provoz systému.
+
+Při výběru počítače byla nejdůležitejším kritériem podpora softwaru potřebného k~implementaci monitorovacího systému.

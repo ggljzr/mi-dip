@@ -2,6 +2,7 @@
 DP_Cervenka_Ondrej_2018.*
 !DP_Cervenka_Ondrej_2018.tex
 !DP_Cervenka_Ondrej_2018.pdf
+!chapters/*.tex
 .backup
 *_.bib
 images/*.pdf
