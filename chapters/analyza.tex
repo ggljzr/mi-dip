@@ -1,4 +1,4 @@
-\chapter{Analýza a návrh}
+\chapter{Analýza}
 
 \section{Výběr komunikačního protokolu}
 
@@ -12,7 +12,7 @@ Pro vlastní protokol by bylo nutné vytvořit robustní server, který zvládá
 
 Další nevýhodou je nutnost implementace klientské části protokolu při vytváření nových zařízení spravovaných nadřazeným systémem. To do jisté míry omezuje jeho rozšiřitelnost.
 
-\subsection{\texttt{HTTPS}}
+\subsection{HTTPS}
 
 Další možnost je využít ke komunikaci protokol HTTPS. V~tomto případě by klienti komunikovali se sytémem pomocí HTTP metod jako například \verb|get| nebo \verb|post|.
 
@@ -28,7 +28,7 @@ API realizované pomocí HTTPS je poměrně snadno rozšiřitelné. Pro nově im
 
 Další výhodou je snadná implementace na straně klienta, tedy garážového čidla. Knihovny umožňující vytvářet HTTP požadavky jsou dostupné na většině populárních platforem jako například \textit{Arduino} (s~Ethernet shieldem, oficiální knihovna \textit{EthernetClient} \cite{ard_web}) nebo \textit{ESP8266} (knihovna \textit{esp8266wifi} \cite{esp_web}).
 
-\subsection{Protokol \texttt{MQTT}}
+\subsection{MQTT}
 
 \section{Výběr platformy}
 
