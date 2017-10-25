@@ -76,17 +76,17 @@ Další nevýhodou je nutnost implementace klientské části protokolu při vyt
 
 Další možnost je využít ke komunikaci protokol HTTPS. V~tomto případě by klienti komunikovali se sytémem pomocí HTTP metod jako například \verb|get| nebo \verb|post|.
 
-Jelikož součástí zadání je i webové uživatelské rozhraní, bude v~každém případě nutné použít webový server pro jeho provoz. Tento server by pak bylo možné využít i k~poskytnutí API pro komunikaci systému s~garážovými čidly.
+Jelikož součástí požadavků na systém je i webové uživatelské rozhraní, bude v~každém případě nutné použít webový server pro jeho provoz. Ten by pak bylo možné využít i k~poskytnutí API pro komunikaci systému s~garážovými čidly.
 
-HTTPS se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti webového serveru. 
+Vhodný webový server (jako například \textit{Nginx}) zajistí vícevláknovou obsluhu všech klientů. HTTPS se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru. 
 
-Zde lze použít například certifikáty nadace Let's Encrypt, které jsou zdarma. Kromě toho Let's Encrypt poskytuje také automatizačního klienta \textit{Certbot} \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů.
+Lze použít například certifikáty nadace Let's Encrypt, které jsou poskytovány  zdarma. Kromě toho dodává Let's Encrypt také automatizačního klienta \textit{Certbot} \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů.
 
-Certifikát pro provoz HTTPS bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření identity uživatele.
+Certifikát pro provoz HTTPS bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření identity uživatele. Nutnost pořízení certifikátu tedy nepředstavuje nevýhodu oproti jiným protokolům.
 
 API realizované pomocí HTTPS je poměrně snadno rozšiřitelné. Pro nově implementovanou operaci stačí definovat URL a případně formát přenášených dat.
 
-Další výhodou je snadná implementace na straně klienta, tedy garážového čidla. Knihovny umožňující vytvářet HTTP požadavky jsou dostupné většině populárních platforem jako například \textit{Arduino} \cite{ard_web} nebo \textit{ESP8266} \cite{esp_web}.
+Další výhodou je snadná implementace na straně klienta, tedy garážového čidla. Knihovny umožňující vytvářet HTTP požadavky jsou dostupné většině populárních platforem jako například \textit{Arduino} (s~Ethernet shieldem, oficiální knihovna \textit{EthernetClient} \cite{ard_web}) nebo \textit{ESP8266} (knihovna \textit{esp8266wifi} \cite{esp_web}).
 
 %\begin{listing}[htbp]
 %\caption{\label{code:foo}Minted: Nyní ještě křupavější}
