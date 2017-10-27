@@ -1,0 +1,12 @@
+Cílem této práce je vytvořit nadřazený systém pro monitorování garážového komplexu. Výsledná aplikace bude komunikovat pomocí WiFi či Ethernetu s podřízenými systémy (zasílajícími údaje z čidel v garážích). Na základě získaných dat pak bude zaznamenáván stav jednotlivých garáží a vytvářet historii událostí.
+
+Systém bude možné spravovat pomocí webového rozhraní. V tom bude možné přidávat a odebírat podřízené systémy, zobrazit jejich stav a zaznamenané události.
+
+Vzhledem k povaze zadání je nutné systém navrhnout s ohledem na zabezpečení přenášených informací před odposloucháváním či manipulací. Též je nutné autorizovat uživatele přistupjící do webového rozhraní.
+
+Dalším důležitým požadavkem je snadná rozšiřitelnost o nové funkce. Systém by mělo být možné v budoucnu doplnit o možnost správy rozdílných podřízených systémů (například sledování skladových zásob).
+
+V této práci se chci zaměřit na tvorbu aplikace na jedné konkrétní platformě, jako například \textit{Raspberry Pi}. Aplikace spoulu se zvolenou platformou by pak měla tvořit kompletní zařízení, které bude možné po základní konfiguraci (připojení do WiFi sítě, nastavení hesla) hned nasadit.
+
+Výsledné řešení by však mělo být dostatečne nezávislé na zvolené platformě. Tudíž by neměl být problém spustit systém například na osobním počítači či virtuálním serveru.
+
