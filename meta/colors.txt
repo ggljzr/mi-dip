@@ -1,23 +1,12 @@
-black = "#212121"
-darkGrey = "#545454"
-
-darkRed = "#955252"
-red = "#BD6B6B"
-
-darkGreen = "#7A8A5D"
-green = "#A1B67B"
-
-darkYellow = "#C49D4E"
-yellow = "#FFCC66"
-
-darkBlue = "#61878B"
-blue = "#60B1B7"
-
-darkMagenta = "#7C5971"
-magenta = "#A77899"
-
-darkCyan = "#679787"
-cyan = "#7CB6A3"
-
-lightGrey = "#f0f0f0"
-white = "#fff4e8"
+#4B6EA7 -- blue
+#8A8AE4 -- blue
+#0000DD -- blue
+#E44F36 -- tomato
+#A5A5A5 -- grey
+#5F8FC2 -- blue
+#55D6EF -- cyan
+#BF1C75 -- pink
+#068906 -- green
+#0B6CBC -- blue
+#068971 -- cyan/green
+#A60725 -- light red
