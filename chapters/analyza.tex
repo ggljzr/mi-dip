@@ -2,6 +2,12 @@
 
 \section{Struktura systému}
 
+Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Podřízené systémy komunikují s nadřazeným na základě událostí. Ty jsou přesněji popsány v sekci \ref{sec:event}.
+
+Nadřazený systém tyto události zpracovává a upravuje podle nich stav garáží v evidenci. Zaznamenané události jsou také uchovávány v historii událostí, spolu s dalšími metadaty jako čas přijetí nebo původce.
+
+Další, kdo přistupuje do systému je uživatel. Přes webové rozhraní může sledovat stav garáží a historii událostí. Také zde může spravovat klíče, které slouží pro přístup ke komunikačnímu API systému. Přístup do webového rozhraní je zabezpečen heslem. 
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/basic_struct.pdf}
@@ -12,8 +18,11 @@
 \subsection{Podřízený systém}
 
 \subsection{Událost}
+\label{sec:event}
 
 \section{Výběr komunikačního protokolu}
+
+Nejdřív je nutné určit způsob komunikace, který bude systém používat. Díky tomu se budu při vybíraní platformy moci ujistit, že jsou dostupné vhodné knihovny a další software. 
 
 Nadřazený systém bude se svými klienty (monitorovací zařízení v~jednotlivých garážích) komunikovat přes WiFi nebo Ethernet. Základem komunikace bude TCP/IP protokol, je však potřeba zvolit vhodný protokol z~aplikační vrstvy OSI modelu, který na něm bude stavět.
 
