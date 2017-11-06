@@ -1,0 +1,7 @@
+komunikace mezi podrizenejma systemama a nadrazenym systemem -- klient/server? publisher/subscriber -- mqtt?
+
+klient/server je bez problemu na https ale publisher/subscriber by byl mozna problem (jak poslat nakou zpravu ze serveru na klienta) -- viz https://en.wikipedia.org/wiki/Push_technology#HTTP_server_push
+
+mqtt tohle resi -- nadraz. sys. ma subscribnuty garaze jako publishery a garaze maj subscribnuty nadraz. sys jako publishera
+
+zalezi jestli chceme posilat zpravy ze serveru na klienta (treba prikazy zamknout/vodemknout). jestli staci sbirat data z garazi, tak staci vobyc klient/server (nebo v mqtt budou publisheri akorat garaze).
