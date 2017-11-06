@@ -6,3 +6,9 @@ cizí slova - italic
 veci z kodu/listings - verb
 
 mezery mezi slovem a citaci
+
+labely sekci:
+analyza -- an_
+navrh -- de_
+implementace -- im_
+testovani -- te_
