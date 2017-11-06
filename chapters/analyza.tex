@@ -1,14 +1,15 @@
 \chapter{Analýza}
+\label{sec:an}
 
 \section{Struktura systému}
 
-Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Podřízené systémy komunikují s~nadřazeným na základě událostí.
+Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Podřízené systémy komunikují s~nadřazeným na základě událostí. Nadřazený systém tyto události zpracovává a upravuje podle nich stav garáží v~evidenci. 
 
-Nadřazený systém tyto události zpracovává a upravuje podle nich stav garáží v~evidenci. Zaznamenané události jsou také uchovávány v~historii událostí, spolu s~dalšími metadaty jako čas přijetí nebo původce.
+Zaznamenané události jsou také uchovávány v~historii událostí, spolu s~dalšími metadaty jako čas přijetí nebo původce.
 
 %Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu klient-server. Nadřazený systém tedy provozuje server zvoleného protokolu, ke kterému se podřízené systémy připojují. %tohle sem pridat kdyz mi potvrdi klient/server model, jinak napsat ze subscriber/publisher, s tim ze garaze i system sou publisheri
 
-Další, kdo přistupuje do systému je uživatel. Přes webové rozhraní může sledovat stav garáží a historii událostí. Také zde může spravovat klíče, které slouží pro přístup ke komunikačnímu API systému. Přístup do webového rozhraní je zabezpečen heslem. 
+Další, kdo přistupuje do systému, je uživatel. Přes webové rozhraní může sledovat stav garáží a historii událostí. Také zde může spravovat klíče, které slouží pro přístup ke komunikačnímu API systému. Přístup do webového rozhraní je zabezpečen heslem. 
 
 \begin{figure}[h!]
     \centering
@@ -29,9 +30,11 @@ Podřízený systém je zařízení umístěné v~každé garáži, které sledu
     \item stav dveří.
 \end{itemize}
 
-V~případě překročení mezních hodnot se zařízení okamžitě hlásí nadřazenému systému. Kromě toho také v~pravidelných intervalech odesílá kontrolní hlášení.
+V~případě překročení mezních hodnot se zařízení okamžitě hlásí nadřazenému systému. Kromě toho také v~pravidelných intervalech odesílá kontrolní hlášení. 
 
-Základní požadavek na podřízený systém je schopnost komunikace přes Ethernet či WiFi pomocí protokolu zvoleného v~sekci \ref{sec:an_protocol}.
+Vyhodnocení události je provedeno nadřazeným systémem. Podřízený systém tedy hlásí každou událost (například otevření dveří), aniž by nějak zkoumal její závažnost.
+
+Základní požadavek na podřízený systém je schopnost komunikace přes Ethernet či WiFi pomocí protokolu zvoleného v~sekci \ref{sec:an_protocol}. Kromě toho může být hardware prakticky libovolný.
 
 \section{Výběr komunikačního protokolu}
 \label{sec:an_protocol}
