@@ -2,9 +2,11 @@
 
 \section{Struktura systému}
 
-Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Podřízené systémy komunikují s nadřazeným na základě událostí. Ty jsou přesněji popsány v sekci \ref{sec:event}.
+Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Podřízené systémy komunikují s nadřazeným na základě událostí.
 
 Nadřazený systém tyto události zpracovává a upravuje podle nich stav garáží v evidenci. Zaznamenané události jsou také uchovávány v historii událostí, spolu s dalšími metadaty jako čas přijetí nebo původce.
+
+%Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu klient-server. Nadřazený systém tedy provozuje server zvoleného protokolu, ke kterému se podřízené systémy připojují. %tohle sem pridat kdyz mi potvrdi klient/server model, jinak napsat ze subscriber/publisher, s tim ze garaze i system sou publisheri
 
 Další, kdo přistupuje do systému je uživatel. Přes webové rozhraní může sledovat stav garáží a historii událostí. Také zde může spravovat klíče, které slouží pro přístup ke komunikačnímu API systému. Přístup do webového rozhraní je zabezpečen heslem. 
 
@@ -17,10 +19,22 @@ Další, kdo přistupuje do systému je uživatel. Přes webové rozhraní můž
 
 \subsection{Podřízený systém}
 
-\subsection{Událost}
-\label{sec:event}
+Podřízený systém je zařízení umístěné v každé garáži, které sleduje stav okolí pomocí těchto senzorových vstupů:
+
+\begin{itemize}
+    \item teplota,
+    \item světelá intenzita (fotobuňka),
+    \item detekce kouře,
+    \item detekce pohybu,
+    \item stav dveří.
+\end{itemize}
+
+V případě překročení mezních hodnot se zařízení okamžitě hlásí nadřazenému systému. Kromě toho také v pravidelných intervalech odesílá kontrolní hlášení.
+
+Základní požadavek na podřízený systém je schopnost komunikace přes Ethernet či WiFi pomocí protokolu zvoleného v sekci \ref{sec:an_protocol}.
 
 \section{Výběr komunikačního protokolu}
+\label{sec:an_protocol}
 
 Nejdřív je nutné určit způsob komunikace, který bude systém používat. Díky tomu se budu při vybíraní platformy moci ujistit, že jsou dostupné vhodné knihovny a další software. 
 
