@@ -10,4 +10,4 @@ este taky bude problem s tim certifikatem -- viz https://community.letsencrypt.o
 
 v ty kapitole "implementace" proste popsat jen vytvareni ty aplikace, pak asi udelat extra kapitolu vo nasazovani na rpi (rozjeti web serveru, generovani certifikatu atd...)
 
-taky pak mozna pri prihlasovani do aplikace pouzit https://en.wikipedia.org/wiki/Digest_access_authentication
+taky pak mozna pri prihlasovani do aplikace pouzit https://en.wikipedia.org/wiki/Digest_access_authentication, ale imho by pres https mel basic auth stacit (zeptat se cejky? viz https://alfresco.fit.cvut.cz/share/proxy/alfresco/api/node/content/workspace/SpacesStore/e1b81080-35e9-4bac-ad67-749e242af633)
