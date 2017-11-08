@@ -57,7 +57,9 @@ Další možnost je využít ke komunikaci protokol HTTPS. V~tomto případě by
 
 Jelikož součástí požadavků na systém je i webové uživatelské rozhraní, bude v~každém případě nutné použít webový server pro jeho provoz. Ten by pak bylo možné využít i k~poskytnutí API pro komunikaci systému s~garážovými čidly.
 
-Vhodný webový server (jako například \textit{Nginx}) zajistí vícevláknovou obsluhu všech klientů. Protokol se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru (viz sekce \ref{an_certs}). 
+Vhodný webový server (jako například \textit{Nginx}) zajistí vícevláknovou obsluhu všech klientů. Protokol se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru (viz sekci \ref{an_certs}).
+
+Certifikát bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření identity uživatele. Nutnost pořízení certifikátu tedy nepředstavuje nevýhodu oproti jiným protokolům. 
 
 API realizované pomocí tohoto protokolu je poměrně snadno rozšiřitelné. Pro nově implementovanou operaci stačí definovat URL a případně formát přenášených dat.
 
@@ -66,11 +68,15 @@ Výhodou je také snadná implementace na straně klienta, tedy garážového č
 \subsubsection{Certifikáty pro provoz HTTPS}
 \label{an_certs}
 
-Pro provoz HTTPS serveru lze použít například certifikáty nadace Let's Encrypt, které jsou poskytovány  zdarma. Kromě toho dodává Let's Encrypt také automatizačního klienta \textit{Certbot} \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů. Bohužel certifikáty jsou vydávány pouze na doménu \cite{lets_encrypt_faq}, což by značně komplikovalo nasazení zařízení v~místní síti.
+Pro provoz HTTPS serveru lze použít například certifikáty certifikační autority Let's Encrypt, které jsou poskytovány  zdarma. Kromě toho dodává Let's Encrypt také automatizačního klienta \textit{Certbot} \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů. Bohužel certifikáty jsou vydávány pouze na doménu \cite{lets_encrypt_faq}, což komplikuje použití v~místní síti.
 
-Jiná možnost je použití \textit{self-signed} certifikátu.
+Jiná možnost je použití \textit{self-signed} certifikátu. Tento certifikát není podepsaný žádnou certifikační autoritou, ale pouze vlastníkem certifikátu. Může tedy sloužit k~šifrování komunikace (poskytuje veřejný klíč), ale je zranitelný vůči \textit{man-in-the-middle} útoku \cite{cert_wallen}.
 
-Certifikát bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření identity uživatele. Nutnost pořízení certifikátu tedy nepředstavuje nevýhodu oproti jiným protokolům.
+\textit{Self-signed} certifiát však lze použít k~šifrování komunikace na uzavřené lokální síti, za předpokladu, že je server s~certifikátem (přesněji s~jeho soukromým klíčem) dostatečně zabezpečen \cite{cert_wallen}. 
+
+Nevýhodou tohoto řešení je nepřítomnost certifikátu ve webových klientech, což by ovlivnilo přístup k~uživatelskému rozhraní a API systému. V~případě webového rozhraní by prohlížeč zobrazil varování o~neznámém certifikátu. To by však mohl uživatel ignorovat. 
+
+U~pořízených systému by bylo nutné nějakým způsobem distribuovat veřejnou část certifikátu do jednotlivých zařízení. Například u~platformy \textit{Arduino} lze použít \textit{FirmwareUpdater} pro ruční nahrání nových certifikátů \cite{cert_arduino}.
 
 \subsection{MQTT}
 
