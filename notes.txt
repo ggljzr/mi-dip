@@ -7,3 +7,5 @@ mqtt tohle resi -- nadraz. sys. ma subscribnuty garaze jako publishery a garaze 
 zalezi jestli chceme posilat zpravy ze serveru na klienta (treba prikazy zamknout/vodemknout). jestli staci sbirat data z garazi, tak staci vobyc klient/server (nebo v mqtt budou publisheri akorat garaze).
 
 este taky bude problem s tim certifikatem -- viz https://community.letsencrypt.org/t/certificates-for-hosts-on-private-networks/174/35, mozna spis pouzit self signed certifikat, dostat self signed cert na raspberry pi klienty by asi nebyl problem (https://stackoverflow.com/questions/30405867/how-to-get-python-requests-to-trust-a-self-signed-ssl-certificate), u arduina nakym wifi shieldem by to asi bylo slozitejsi (https://www.arduino.cc/en/Reference/WiFi101ClientConnectSSL)
+
+v ty kapitole "implementace" proste popsat jen vytvareni ty aplikace, pak asi udelat extra kapitolu vo nasazovani na rpi (rozjeti web serveru, generovani certifikatu atd...)
