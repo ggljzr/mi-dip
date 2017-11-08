@@ -6,8 +6,14 @@ mqtt tohle resi -- nadraz. sys. ma subscribnuty garaze jako publishery a garaze 
 
 zalezi jestli chceme posilat zpravy ze serveru na klienta (treba prikazy zamknout/vodemknout). jestli staci sbirat data z garazi, tak staci vobyc klient/server (nebo v mqtt budou publisheri akorat garaze).
 
-este taky bude problem s tim certifikatem -- viz https://community.letsencrypt.org/t/certificates-for-hosts-on-private-networks/174/35, mozna spis pouzit self signed certifikat, dostat self signed cert na raspberry pi klienty by asi nebyl problem (https://stackoverflow.com/questions/30405867/how-to-get-python-requests-to-trust-a-self-signed-ssl-certificate), u arduina nakym wifi shieldem by to asi bylo slozitejsi (https://www.arduino.cc/en/Reference/WiFi101ClientConnectSSL)
+dostat self signed cert na raspberry pi klienty by asi nebyl problem (https://stackoverflow.com/questions/30405867/how-to-get-python-requests-to-trust-a-self-signed-ssl-certificate)
 
 v ty kapitole "implementace" proste popsat jen vytvareni ty aplikace, pak asi udelat extra kapitolu vo nasazovani na rpi (rozjeti web serveru, generovani certifikatu atd...)
 
 taky pak mozna pri prihlasovani do aplikace pouzit https://en.wikipedia.org/wiki/Digest_access_authentication, ale imho by pres https mel basic auth stacit (zeptat se cejky? viz https://alfresco.fit.cvut.cz/share/proxy/alfresco/api/node/content/workspace/SpacesStore/e1b81080-35e9-4bac-ad67-749e242af633)
+
+neco vo sifrovani na mqtt:
+https://www.hivemq.com/blog/mqtt-security-fundamentals-tls-ssl
+https://www.hivemq.com/blog/mqtt-security-fundamentals-payload-encryption
+teoreticky ta payload encryption by nemela bejt nutna,
+staci jen to sifrovani v tsl -- ten broker nedovoli pripojeni klientu co neznaj heslo
