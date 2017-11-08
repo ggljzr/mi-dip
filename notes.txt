@@ -6,7 +6,7 @@ mqtt tohle resi -- nadraz. sys. ma subscribnuty garaze jako publishery a garaze 
 
 zalezi jestli chceme posilat zpravy ze serveru na klienta (treba prikazy zamknout/vodemknout). jestli staci sbirat data z garazi, tak staci vobyc klient/server (nebo v mqtt budou publisheri akorat garaze).
 
-dostat self signed cert na raspberry pi klienty by asi nebyl problem (https://stackoverflow.com/questions/30405867/how-to-get-python-requests-to-trust-a-self-signed-ssl-certificate)
+dostat self signed cert na raspberry pi klienty by asi nebyl problem (https://stackoverflow.com/questions/30405867/how-to-get-python-requests-to-trust-a-self-signed-ssl-certificate) <-- tohle mozna plati jen kdyz to je custom certificate authority, teoreticky by mohlo stacit dat to verify = false. Zkusit lokalne (s python requests), pak by nebylo treba potreba nak nahravat ty certifikaty na podrizeny systemy.
 
 v ty kapitole "implementace" proste popsat jen vytvareni ty aplikace, pak asi udelat extra kapitolu vo nasazovani na rpi (rozjeti web serveru, generovani certifikatu atd...)
 
