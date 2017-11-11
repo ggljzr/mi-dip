@@ -76,7 +76,17 @@ Jiná možnost je použití \textit{self-signed} certifikátu. Tento certifikát
 
 Nevýhodou tohoto řešení je nepřítomnost certifikátu ve webových klientech, což by ovlivnilo přístup k~uživatelskému rozhraní a API systému. V~případě webového rozhraní by prohlížeč zobrazil varování o~neznámém certifikátu. To by však mohl uživatel ignorovat. 
 
-U~pořízených systému by bylo nutné nějakým způsobem distribuovat veřejnou část certifikátu do jednotlivých zařízení. Například u~platformy \textit{Arduino} lze použít \textit{FirmwareUpdater} pro ruční nahrání nových certifikátů \cite{cert_arduino}.
+Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout v~knihovně \textit{Requests} pro Python (dostupné i pro \textit{Raspberry Pi}), je naznačeno v~ukázce \ref{lst:req_selfsigned}.
+
+\begin{listing}[htbp]
+\caption{\label{lst:req_selfsigned} Vytvoření HTTPS požadavku v~knihovně \textit{Requests}, bez verifikace serveru}
+\begin{minted}[bgcolor=codebg]{python}
+>>> import requests
+>>> r = requests.get('https://testserver/test', verify=False)
+>>> r.status_code
+200
+\end{minted}
+\end{listing}
 
 \subsection{MQTT}
 
