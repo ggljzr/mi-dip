@@ -5,7 +5,7 @@ DP_Cervenka_Ondrej_2018.*
 !chapters/*.tex
 .backup
 *_.bib
-images/*.pdf
+!images/*.pdf
 pokusy
 *~
 *bx
