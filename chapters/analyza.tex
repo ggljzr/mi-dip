@@ -90,6 +90,10 @@ Podřízené systémy by při zasílání požadavků museli přeskočit krok ov
 
 \subsection{MQTT}
 
+MQTT je komunikační protokol založený na modelu \textit{publisher/subscriber}, vhod\-ný pro použití v~prostředí s~omezenými zdroji (malý výkon procesoru, omezená paměť atd.) \cite{mqtt_valerie}.
+
+Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí centrály, nazývané \textit{broker}. Ta spravuje adresy -- \textit{topics} -- na kterých mohou klienti publikovat či odebírat zprávy.
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/basic_mqtt.pdf}
@@ -97,7 +101,9 @@ Podřízené systémy by při zasílání požadavků museli přeskočit krok ov
     \caption[Příklad struktury protokolu MQTT]{Příklad struktury protokolu MQTT \cite{mqtt_eclipse}}
 \end{figure}
 
-\cite{mqtt_valerie}
+Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{green}{B} začnou odebírat (\textit{subscribe}) \textit{topic} \uv{Teplota}. Když pak klient \textcolor{magenta}{C} pak publikuje zprávu na tuto adresu, \textcolor{blue}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
+
+V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovali naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker Mosquitto} je dostupný na řadě platforem, včetně \textit{Raspberry Pi} \cite{mqtt_mosquitto_wiki}).
 
 \section{Výběr platformy}
 
