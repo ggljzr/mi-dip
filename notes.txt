@@ -18,6 +18,10 @@ https://www.hivemq.com/blog/mqtt-security-fundamentals-payload-encryption
 teoreticky ta payload encryption by nemela bejt nutna,
 staci jen to sifrovani v tsl -- ten broker nedovoli pripojeni klientu co neznaj heslo
 
+podivat se jak je to RTC na rpi
+https://www.adafruit.com/product/3386
+https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi/overview
+
 jak spoustet flask s apache:
 http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/ --basic navod
 https://stackoverflow.com/questions/19344252/how-to-install-configure-mod-wsgi-for-py3 -- python3
