@@ -7,7 +7,7 @@ Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Pod
 
 Zaznamenané události jsou také uchovávány v~historii událostí, spolu s~dalšími metadaty jako čas přijetí nebo původce.
 
-%Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu klient-server. Nadřazený systém tedy provozuje server zvoleného protokolu, ke kterému se podřízené systémy připojují. %tohle sem pridat kdyz mi potvrdi klient/server model, jinak napsat ze subscriber/publisher, s tim ze garaze i system sou publisheri
+Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu klient-server. Nadřazený systém tedy provozuje server zvoleného protokolu, ke kterému se podřízené systémy připojují. Komunikaci tedy vždy iniciuje podřízený systém. S~možností zasílání nevyžádaných zpráv podřízeným systémům v~této práci nepočítám, mohl by to však být námět pro další rozšíření.
 
 Další, kdo přistupuje do systému, je uživatel. Přes webové rozhraní může sledovat stav garáží a historii událostí. Také zde může spravovat klíče, které slouží pro přístup ke komunikačnímu API systému. Přístup do webového rozhraní je zabezpečen heslem. 
 
