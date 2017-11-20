@@ -18,6 +18,8 @@ https://www.hivemq.com/blog/mqtt-security-fundamentals-payload-encryption
 teoreticky ta payload encryption by nemela bejt nutna,
 staci jen to sifrovani v tsl -- ten broker nedovoli pripojeni klientu co neznaj heslo
 https://medium.com/@waxpraxis/setting-up-mosquitto-1-4-with-tls-84b4caa3ecd8 -- tls sifrovani se self signed certifikatem
+https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.iotsdk.v0.9.0%2Fiot_sdk_user_guides_mosquitto.html
+taky viz citace v praci
 
 podivat se jak je to RTC na rpi
 https://www.adafruit.com/product/3386
