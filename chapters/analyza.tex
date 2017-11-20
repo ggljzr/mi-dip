@@ -66,7 +66,7 @@ API realizované pomocí tohoto protokolu je poměrně snadno rozšiřitelné. P
 Výhodou je také snadná implementace na straně klienta, tedy garážového čidla. Knihovny realizující klientskou část protokolu jsou dostupné na většině populárních platforem jako například \textit{Arduino} (s~Ethernet shieldem, oficiální knihovna \textit{EthernetClient} \cite{ard_web}) nebo \textit{ESP8266} (knihovna \textit{esp8266wifi} \cite{esp_web}).
 
 \subsubsection{Certifikáty pro provoz HTTPS}
-\label{an_certs}
+\label{sec:an_certs}
 
 Pro provoz HTTPS serveru lze použít například certifikáty certifikační autority Let's Encrypt, které jsou poskytovány  zdarma. Kromě toho dodává Let's Encrypt také automatizačního klienta \textit{Certbot} \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů. Bohužel certifikáty jsou vydávány pouze na doménu \cite{lets_encrypt_faq}, což komplikuje použití v~místní síti.
 
@@ -111,6 +111,15 @@ V~případě této práce by tedy jak nadřazený systém, tak podřízené syst
 
 \subsubsection{Šifrování na MQTT}
 
+V~této části se budu zabývat prostředky pro šifrování komunikace, které jsou dostupné v~\textit{brokeru} \textit{Mosquitto}.
+
+První možnost je pro zabezpečení komunikace využít certifikáty, podobně jako u~HTTPS. Zde by se pravděpodobně také využil \textit{self-signed} certifikát (blíže popsaný v~sekci \ref{sec:an_certs}). \textit{Mosquitto} navíc také vyžaduje kořenový certifikát certifikační autority \cite{mqtt_mosquitto_tsl}. Při použití \textit{self-signed} ceritifikátů by bylo nutné tuto autoritu vytvořit a používané certifikáty u~ní podepsat (pro bližší informace viz \cite{ca_nguyen}). Kořenový certifikát by také bylo nutné distribuovat klientům.
+
+Kromě certifikátů lze pro šifrování použít i PSK (\textit{pre-shared key}). V~tom případě \textit{broker} a jeho klienti používají pro zašifrování komunikace společné heslo. Různí klienti přitom mohou mít různá hesla. \cite{mqtt_mosquitto_conf}
+
+Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při použití certifikátů lze v~konfiguračním souboru \textit{Mosquitta} zvolit \verb|require_certificate|. Poté bude od klienta vyžadován certifikát prokazující jeho totožnost. V~případě, že tato možnost není nastavena, se klient prokazuje kombinací uživatelského jména a hesla. \cite{mqtt_mosquitto_conf}
+
+Autentizace na základě jména a hesla je použita i při použití PSK. Zde heslo kromě ověření totožnosti slouží i k~zašifrování komunikace\cite{mqtt_mosquitto_conf}.
 
 \section{Výběr platformy}
 
