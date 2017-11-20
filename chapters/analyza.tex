@@ -74,7 +74,7 @@ Jiná možnost je použití \textit{self-signed} certifikátu. Tento certifikát
 
 \textit{Self-signed} certifiát však lze použít k~šifrování komunikace na uzavřené lokální síti, za předpokladu, že je server s~certifikátem (přesněji s~jeho soukromým klíčem) dostatečně zabezpečen \cite{cert_wallen}. 
 
-Nevýhodou tohoto řešení je nepřítomnost certifikátu ve webových klientech, což by ovlivnilo přístup k~uživatelskému rozhraní a API systému. V~případě webového rozhraní by prohlížeč zobrazil varování o~neznámém certifikátu. To by však mohl uživatel ignorovat. 
+Nevýhodou tohoto řešení je nedůvěra webových klientů (certifikát není podepsán certifikační autoritou), což by ovlivnilo přístup k~uživatelskému rozhraní a API systému. V~případě webového rozhraní by prohlížeč zobrazil varování o~neznámém certifikátu. To by však mohl uživatel ignorovat. 
 
 Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout v~knihovně \textit{Requests} pro Python (dostupné i pro \textit{Raspberry Pi}), je naznačeno v~ukázce \ref{lst:req_selfsigned}.
 
