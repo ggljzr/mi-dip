@@ -57,7 +57,7 @@ Další možnost je využít ke komunikaci protokol HTTPS. V~tomto případě by
 
 Jelikož součástí požadavků na systém je i webové uživatelské rozhraní, bude v~každém případě nutné použít webový server pro jeho provoz. Ten by pak bylo možné využít i k~poskytnutí API pro komunikaci systému s~garážovými čidly.
 
-Vhodný webový server (jako například \textit{Nginx}) zajistí vícevláknovou obsluhu všech klientů. Protokol se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru (viz sekci \ref{an_certs}).
+Vhodný webový server (jako například \textit{Nginx}) zajistí vícevláknovou obsluhu všech klientů. Protokol se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru (viz sekci \ref{sec:an_certs}).
 
 Certifikát bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření identity uživatele. Nutnost pořízení certifikátu tedy nepředstavuje nevýhodu oproti jiným protokolům. 
 
