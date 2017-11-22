@@ -107,9 +107,9 @@ Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí ce
 
 Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{green}{B} začnou odebírat (\textit{subscribe}) \textit{topic} \uv{Teplota}. Když pak klient \textcolor{magenta}{C} pak publikuje zprávu na tuto adresu, \textcolor{blue}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
 
-V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovali naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker Mosquitto} je dostupný na řadě platforem, včetně \textit{Raspberry Pi} \cite{mqtt_mosquitto_wiki}).
+Adresy je možné hierarchicky strukturovat. Lze tedy tvořit skupiny, například \verb|/senzory/obyvak/teplota| nebo \verb|/senzory/kuchyne/vlhkost|. Zprávy je nutné publikovat na jednoznačnou adresu, při odebírání je však možné použít modifikátory \verb|+| a \verb|#| pro specifikování skupiny adres. Modifikátor \verb|+| odpovídá libovolnému jednomu stupni hierarchie, \verb|#| pak libovolnému počtu libovolných stupňů. Pro odebírání všech senzorů vlhkosti lze tedy použít adresu \verb|/senzory/+/vlhkost|. Všechna data by pak bylo možné odebírat na adrese \verb|/senzory/#|. \cite{mqtt_eclipse}
 
-\newpage
+V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovali naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker Mosquitto} je dostupný na řadě platforem, včetně \textit{Raspberry Pi} \cite{mqtt_mosquitto_wiki}).
 
 Protokol podporuje tři možnosti QoS (\textit{Quality of Service}) \cite{mqtt_valerie}:
 
@@ -134,8 +134,6 @@ Bohužel podpora PSK v~MQTT klientech není příliš rozšířená. PSK je mož
 \textit{Paho} poskytuje implementace MQTT klientů pro mnoho platforem (včetně například \textit{Arduina} \cite{paho_embedded}). Dokumentace klientů pro C++ a Python však možnost šifrování pomocí PSK vůbec nezmiňuje \cite{paho_cpp_doc} \cite{paho_pyt_doc}.
 
 Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při použití certifikátů lze v~konfiguračním souboru \textit{Mosquitta} zvolit \verb|require_certificate|. Poté bude od klienta vyžadován certifikát prokazující jeho totožnost. Při použití PSK lze k~autentizaci využít sdílený klíč (\textit{broker} odmítne klienty s~neplatnými klíči). Kromě toho je možno použít také autentizaci pomocí uživatelského jména a hesla, která je součástí MQTT protokolu, případně klienty neověřovat vůbec (a pouze šifrovat komunikaci). \cite{mqtt_mosquitto_conf}
-
-\subsubsection{Veřejné \textit{brokery}}
 
 \section{Výběr platformy}
 
