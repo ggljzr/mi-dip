@@ -121,7 +121,7 @@ Protokol podporuje tři možnosti QoS (\textit{Quality of Service}) \cite{mqtt_v
 
 Použití sofistikovanějších metod doručení má vliv na výkon, a proto se v~některých případech vyplatí zvolit nižší úroveň QoS (například při posílání idempotentních zpráv). Pro tuto práci bych však pravděpodobně zvolil záruku přesně jednoho doručení.
 
-\subsubsection{Šifrování na MQTT}
+\subsubsection{Šifrování a autentizace na MQTT}
 
 V~této části se budu zabývat prostředky pro šifrování komunikace, které jsou dostupné v~\textit{brokeru} \textit{Mosquitto}.
 
@@ -134,6 +134,8 @@ Bohužel podpora PSK v~MQTT klientech není příliš rozšířená. PSK je mož
 \textit{Paho} poskytuje implementace MQTT klientů pro mnoho platforem (včetně například \textit{Arduina} \cite{paho_embedded}). Dokumentace klientů pro C++ a Python však možnost šifrování pomocí PSK vůbec nezmiňuje \cite{paho_cpp_doc} \cite{paho_pyt_doc}.
 
 Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při použití certifikátů lze v~konfiguračním souboru \textit{Mosquitta} zvolit \verb|require_certificate|. Poté bude od klienta vyžadován certifikát prokazující jeho totožnost. Při použití PSK lze k~autentizaci využít sdílený klíč (\textit{broker} odmítne klienty s~neplatnými klíči). Kromě toho je možno použít také autentizaci pomocí uživatelského jména a hesla, která je součástí MQTT protokolu, případně klienty neověřovat vůbec (a pouze šifrovat komunikaci). \cite{mqtt_mosquitto_conf}
+
+\section{Ukládání dat}
 
 \section{Výběr platformy}
 

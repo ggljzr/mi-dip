@@ -12,4 +12,5 @@ labely sekci:
 analyza -- an_
 navrh -- de_
 implementace -- im_
+nasazeni -- dp_
 testovani -- te_
