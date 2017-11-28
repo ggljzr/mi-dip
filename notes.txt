@@ -28,3 +28,6 @@ http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/ --basic navod
 https://stackoverflow.com/questions/19344252/how-to-install-configure-mod-wsgi-for-py3 -- python3
 https://stackoverflow.com/questions/36493678/how-do-i-set-up-the-wsgi-file-and-apache-configuration-to-deploy-on-a-large-fla --dalsi info (musi se nastavit secret_key pro sessions v tim .wsgi)
 https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-16-04 --self signed cert
+
+neco vo autentizaci pres https:
+https://zapier.com/engineering/apikey-oauth-jwt/
