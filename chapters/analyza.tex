@@ -98,6 +98,14 @@ Jednoduchou autentizaci přes HTTPS lze realizovat například pomocí generová
 
 Tyto klíče by také bylo nutné nahrát a uchovávat na podřízených systémech. Detaily tohoto procesu by záležely na platformě těchto systému. Například u~\textit{Arduina} by šlo klíč nahrát z~uživatelova počítače pomocí sériové linky (s~USB převodníkem) a udržovat ho v~EEPROM.
 
+Také by bylo možné implementovat v~nadřazeném systému \uv{registrační mód}, který by bylo možné dočasně povolit ve webovém rozhraní. V~tomto módu by systém po přijetí speciálního API požadavku vygeneroval nový klíč. Ten by si uložil do své databáze platných klíčů, a také ho v~odpovědi zaslal žádajícímu zařízení. Pokud by mód povolen nebyl, odpovědel by systém chybovým kódem, například 403 -- \textit{Forbidden}. Zaslání požadavku z~podřízeného systému mohlo být provedeno stisknutím tlačítka.
+
+Tento přístup by byl pravděpodobně uživatelsky příjemnější, přináší však potencionální bezpečnostní rizika. Například pokud by uživatel zapomněl mód vypnout, systém by byl otevřený k~registraci nežádoucích zařízení. Takový problém by se však dal řešit například automatickou deaktivací módu po uplynutí časového limitu.
+
+Útočník snažící se získat klíč k~API by také mohl periodicky zkoušet registrační požadavek a čekat na aktivaci módu. Obrana proti tomuto útoku by byla složitější, šlo by například filtrovat IP adresy s~příliš častými požadavky.
+
+Obecně vycházím z~toho, že i v~případě registrace nežádoucího zařízení nemůže toto zařízení krátkodobě způsobit výraznější škody -- do databáze nadřazeného systému může pouze zasílat nová data, která jsou navíc vázana k~jeho identitě (API klíči). Nemůže tedy získávat data od jiných podřízených systému či měnit jejich záznamy. Neautorizované zařízení se také objeví v~seznamu registrovaných API klíčů, kde může být snadno odhaleno. 
+
 \subsection{MQTT}
 \label{sec:an_mqtt}
 
