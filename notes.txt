@@ -38,3 +38,7 @@ zvazit nejakou moznost sifrovani uloziste (sd karty) na rpi
 u ty autentizace by to nahravani klicu krome ty seriovy linky slo udelat treba tak, ze v tim webovym rozhrani by sel (na omezenou dobu) zapnout nakej registracni mod, kterej by povoloval nakej specialni request, kterej by vygeneroval novej klic pro zarizeni, poslal mu ho a ulozil ho do databaze. Tj uzivatel by zapnul tenhle mod, na podrizenym systemu zmack naky special tlacitko, tim by poslal tenhle request, a nadrazenej system by tomu podrizenymu poslal zpatky klic a do databaze si ulozil ze ma novy zarizeni. Po tyhle registraci by uzivatel ten reg. mod zase vypnul. <-- nevim jestli tohle popsat v analyze, nebo az pak treba v navrhu
 
 nejak formalne sepsat pozadavky na ten system (provoz v mistni siti atd...)? mozna na zacatek ty analyzi uplne
+
+databaze:
+sqlite3 -- https://www.sqlite.org/about.html
+sqlcipher -- rozsireni sqlite pro sifrovani https://www.zetetic.net/sqlcipher/
