@@ -42,5 +42,6 @@ nejak formalne sepsat pozadavky na ten system (provoz v mistni siti atd...)? moz
 databaze:
 sqlite3 -- https://www.sqlite.org/about.html
 sqlcipher -- rozsireni sqlite pro sifrovani https://www.zetetic.net/sqlcipher/
+https://github.com/rigglemania/pysqlcipher3 -- python bindings (req libsqlcipher-dev to build)
 
 meta: mozna psat programovaci jazyky italic
