@@ -160,9 +160,9 @@ Jelikož se však v~této práci zabývám systémem, který zprávy pouze přij
 
 Každopádně bude mým cílem navrhnout výslednou aplikaci tak, aby rozhraní pro podřízené systémy realizované pomocí HTTPS bylo možné snadno nahradit MQTT rozhraním.
 
-K~zabezpečení komunikace (včetně webového rozhraní) použiju \textit{self-signed} certifikát. Hlavní důvod je požadavek na použití v~místní síti, bez zaručeného přístupu k~internetu. Toto rozhodnutí nemá vliv na návrh a implementaci systému, pouze na jeho nasazení. 
+K~zabezpečení komunikace (včetně webového rozhraní) použiju \textit{self-signed} certifikát. Hlavní důvod je požadavek na použití v~místní síti, bez zaručeného přístupu k~internetu. Toto rozhodnutí nemá vliv na návrh a implementaci systému, pouze na jeho nasazení -- konkrétně kofiguraci webového serveru. 
 
-Pokud má provozovatel systému k~dispozici doménu a veřejnou IP, může k~zabezpečení použít certifikát podepsaný důvěryhodnou autoritou (vázaný na doménu). Stačí pouze v~konfiguračním souboru webového serveru nahradit \textit{self-signed} certifikát podepsaným certifikátem. Není tedy nutné provádět změny v~kódu aplikace.
+Pokud má provozovatel systému k~dispozici doménu a veřejnou IP (a systém tedy bude dostupný z~internetu), měl by v~každém případě k~zabezpečení použít certifikát podepsaný důvěryhodnou autoritou (vázaný na doménu). Stačí pouze v~konfiguračním souboru webového serveru nahradit \textit{self-signed} certifikát podepsaným certifikátem. Není tedy nutné provádět změny v~kódu aplikace.
 
 \section{Ukládání dat}
 
@@ -171,8 +171,6 @@ Zaznamenané události bude potřeba presistentně uchovávat. Zde by šly využ
 Z~dostupných možností mě zaujal \textit{SQLite}, což není klasický databázový stroj s~modelem \textit{client/server}, ale místo toho tvoří součást programu, který databázi používá. Přístup k~datům je realizován pomocí přímého čtení/zápisu do databázového souboru na disku.  Díky tomu má malé nároky na diskový prostor a operační paměť. \cite{sqlite_about}
 
 Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omezenými zdroji, představují tyto vlastnosti nezanedbatelnou výhodu.
-
-\subsection{Šifrování databáze}
 
 \section{Webový server}
 
