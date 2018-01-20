@@ -43,5 +43,7 @@ databaze:
 sqlite3 -- https://www.sqlite.org/about.html
 sqlcipher -- rozsireni sqlite pro sifrovani https://www.zetetic.net/sqlcipher/
 https://github.com/rigglemania/pysqlcipher3 -- python bindings (req libsqlcipher-dev to build)
+ale to sifrovani je k hovnu asi protoze stejne neni kam ulozit ten klic (nemuzu ho mit na disku spolu s tim db souborem), 
+leda ze by se nahral na vsechny ty subsystemy (jak?) -- sekci vo sifrovani db sem zatim dal pryc
 
 meta: mozna psat programovaci jazyky italic
