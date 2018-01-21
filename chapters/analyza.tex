@@ -80,13 +80,13 @@ Jiná možnost je použití \textit{self-signed} certifikátu. Tento certifikát
 
 Nevýhodou tohoto řešení je nedůvěra webových klientů (certifikát není podepsán certifikační autoritou a nelze tedy ověřit jeho pravost), což by ovlivnilo přístup k~uživatelskému rozhraní a API systému. V~případě webového rozhraní by prohlížeč zobrazil varování o~neznámém certifikátu. To by však mohl uživatel ignorovat. 
 
-Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout v~knihovně \textit{Requests} pro Python (dostupné i pro \textit{Raspberry Pi}), je naznačeno v~ukázce \ref{lst:req_selfsigned}.
+Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout například v~knihovně \textit{Requests} pro Python je naznačeno v~ukázce \ref{lst:req_selfsigned}.
 
 \begin{listing}[htbp]
 \caption{\label{lst:req_selfsigned} Vytvoření HTTPS požadavku v~knihovně \textit{Requests}, bez verifikace serveru}
 \begin{minted}[bgcolor=codebg]{python}
 >>> import requests
->>> r = requests.get('https://testserver/test', verify=False)
+>>> r = requests.get('https://test.local/hello', verify=False)
 >>> r.status_code
 200
 \end{minted}
