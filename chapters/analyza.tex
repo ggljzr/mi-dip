@@ -170,13 +170,13 @@ Zaznamenané události bude potřeba presistentně uchovávat. Zde by šly využ
 
 Z~dostupných možností mě zaujal \textit{SQLite}, což není klasický databázový stroj s~modelem \textit{client/server}, ale místo toho tvoří součást programu, který databázi používá. Přístup k~datům je realizován pomocí přímého čtení/zápisu do databázového souboru na disku.  Díky tomu má malé nároky na diskový prostor a operační paměť. \cite{sqlite_about}
 
-Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omezenými zdroji, představují tyto vlastnosti nezanedbatelnou výhodu.
-
-\section{Webový server}
-
-???
+Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omezenými zdroji, představují tyto vlastnosti nezanedbatelnou výhodu. Použití \textit{SQLite} také zjednouší nasazení aplikace, neboť nebude nutné vytvářet a konfigurovat databázový server.
 
 \section{Programovací jazyk pro tvorbu systému}
+
+Pro tvorbu systému jsem se rozhodl použít programovací jazyk Python. S~tímto jazykem mám nejvíce zkušeností co se týče implementace webových aplikací. Je také dostatečně rozšířený, takže výsledný systém bude možné nasadit na poměrně širokém spektru platforem bez nutnosti složitějšího portování.
+
+K~vytvoření webového rozhraní i API pro podřízené systémy jsem zvolil framework \textit{Flask}. Hlavní důvod jsou opět předchozí zkušenosti s~tímto frameworkem. \textit{Flask} také dává více volnosti při návrhu aplikace než například také velmi rozšířený framework \textit{Django}.
 
 \section{Výběr platformy}
 
