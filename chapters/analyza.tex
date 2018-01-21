@@ -98,7 +98,7 @@ Přístup k~API nadřazeného systému by měl být povolen pouze ověřeným kl
 
 Jednoduchou autentizaci přes HTTPS lze realizovat například pomocí generování API klíčů. Pro každý podřízený systém bude vygenerován klíč, kterým se při zasílání požadavku systém prokáže. Seznam platných klíčů by byl udržován v~databázi nadřazeného systému. Klíče by uživatel mohl přidávat nebo odebírat (například v~případě odcizení podřízeného systému) pomocí webového rozhraní.
 
-Tyto klíče by také bylo nutné nahrát a uchovávat na podřízených systémech. Detaily tohoto procesu by záležely na platformě těchto systému. Například u~\textit{Arduina} by šlo klíč nahrát z~uživatelova počítače pomocí sériové linky (s~USB převodníkem) a udržovat ho v~EEPROM.
+Tyto klíče by také bylo nutné nahrát a uchovávat na podřízených systémech. Detaily tohoto procesu by záležely na platformě těchto systémů. Například u~\textit{Arduina} by šlo klíč nahrát z~uživatelova počítače pomocí sériové linky (s~USB převodníkem) a udržovat ho v~EEPROM.
 
 Také by bylo možné implementovat v~nadřazeném systému \uv{registrační mód}, který by bylo možné dočasně povolit ve webovém rozhraní. V~tomto módu by systém po přijetí speciálního API požadavku vygeneroval nový klíč. Ten by si uložil do své databáze platných klíčů, a také ho v~odpovědi zaslal žádajícímu zařízení. Pokud by mód povolen nebyl, odpovědel by systém chybovým kódem, například 403 -- \textit{Forbidden}. Zaslání požadavku z~podřízeného systému mohlo být provedeno stisknutím tlačítka.
 
@@ -126,7 +126,7 @@ Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{
 
 Adresy je možné hierarchicky strukturovat. Lze tedy tvořit skupiny, například \verb|/senzory/obyvak/teplota| nebo \verb|/senzory/kuchyne/vlhkost|. Zprávy je nutné publikovat na jednoznačnou adresu, při odebírání je však možné použít modifikátory \verb|+| a \verb|#| pro specifikování skupiny adres. Modifikátor \verb|+| odpovídá libovolnému jednomu stupni hierarchie, \verb|#| pak libovolnému počtu libovolných stupňů. Pro odebírání všech senzorů vlhkosti lze tedy použít adresu \verb|/senzory/+/vlhkost|. Všechna data by pak bylo možné odebírat na adrese \verb|/senzory/#|. \cite{mqtt_eclipse}
 
-V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovali naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker Mosquitto} je dostupný na řadě platforem, včetně \textit{Raspberry Pi} \cite{mqtt_mosquitto_wiki}).
+V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker Mosquitto} je dostupný na řadě platforem, včetně \textit{Raspberry Pi} \cite{mqtt_mosquitto_wiki}).
 
 Protokol podporuje tři možnosti QoS (\textit{Quality of Service}) \cite{mqtt_valerie}:
 
@@ -164,7 +164,7 @@ Každopádně bude mým cílem navrhnout výslednou aplikaci tak, aby rozhraní 
 
 K~zabezpečení komunikace (včetně webového rozhraní) použiju \textit{self-signed} certifikát. Hlavní důvod je požadavek na použití v~místní síti, bez zaručeného přístupu k~internetu. Toto rozhodnutí nemá vliv na návrh a implementaci systému, pouze na jeho nasazení -- konkrétně konfiguraci webového serveru.
 
-Pokud by provozovatel plánoval mít systém přístupný z~internetu (přes registrovanou doménu), musí v~každém případě k~zabezpečení použít certifikát podepsaný důvěryhodnou certifikační autoritou. Stačí pouze v~konfiguračním souboru webového serveru nahradit \textit{self-signed} certifikát podepsaným certifikátem. Není tedy nutné provádět změny v~kódu aplikace.
+Pokud by provozovatel plánoval mít systém přístupný z~internetu (přes registrovanou doménu), musí v~každém případě k~zabezpečení použít certifikát podepsaný důvěryhodnou certifikační autoritou. Pak stačí pouze v~konfiguračním souboru webového serveru nahradit \textit{self-signed} certifikát podepsaným certifikátem. Není tedy nutné provádět změny v~kódu aplikace.
 
 \section{Ukládání dat}
 
