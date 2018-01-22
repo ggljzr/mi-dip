@@ -47,3 +47,5 @@ ale to sifrovani je k hovnu asi protoze stejne neni kam ulozit ten klic (nemuzu 
 leda ze by se nahral na vsechny ty subsystemy (jak?) -- sekci vo sifrovani db sem zatim dal pryc
 
 meta: mozna psat programovaci jazyky italic
+
+implementace: podivat se na to RTC, mozna nefunguje ta synchronizace systemovejch hodin -> cas ulozenej na rtc (prectenej pomoci hwclock) je spravne, ale kdyz se to vypne a zapne tak je systemovej cas spatne (jinej nez v hwclock), a sesynchronizuje se az kdyz se to pripoji k internetu. Moznej workaround -> zavolat hwclock -s (nastaveni systemovyho casu z hwclock) pri bootu (also basic info: https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi?view=all#set-rtc-time)
