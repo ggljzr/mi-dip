@@ -49,3 +49,5 @@ leda ze by se nahral na vsechny ty subsystemy (jak?) -- sekci vo sifrovani db se
 meta: mozna psat programovaci jazyky italic
 
 implementace: podivat se na to RTC, mozna nefunguje ta synchronizace systemovejch hodin -> cas ulozenej na rtc (prectenej pomoci hwclock) je spravne, ale kdyz se to vypne a zapne tak je systemovej cas spatne (jinej nez v hwclock), a sesynchronizuje se az kdyz se to pripoji k internetu. Moznej workaround -> zavolat hwclock -s (nastaveni systemovyho casu z hwclock) pri bootu (also basic info: https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi?view=all#set-rtc-time, vo tim hwclock -s syncu https://raspberrypi.stackexchange.com/questions/28583/hwclock-s-in-rc-local-wont-work)
+
+mozna este vic srovnat ty frameworky django a flask, nebo se aspon podivat jestli by to django nebylo lepsi. kdyby z toho vyslo naky detailnejsi srovnani, tak asi rozdelit tu sekci programovaci jazyk na dve, s tim ze v ty druhy bude popis vyberu frameworku
