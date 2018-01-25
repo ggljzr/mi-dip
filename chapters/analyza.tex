@@ -181,6 +181,7 @@ Pro tvorbu systému jsem se rozhodl použít programovací jazyk Python. S~tímt
 K~vytvoření webového rozhraní i API pro podřízené systémy jsem zvolil framework \textit{Flask}. Hlavní důvod jsou opět předchozí zkušenosti s~tímto frameworkem. \textit{Flask} také dává více volnosti při návrhu aplikace než například také velmi rozšířený framework \textit{Django}.
 
 \section{Výběr platformy}
+\label{sec:an_plat}
 
 Pro realizaci systému je nutné zvolit vhodnou platformu. Jelikož je cílem práce vytvořit fyzické zařízení, rozhodl jsem se jako základ použít některý z~jednodeskových počítačů, které jsou v~dnešní době na trhu. Tyto počítače bývají cenově velmi dostupné a zároveň poskytují dostatečný výkon a podporu pro provoz systému.
 
@@ -195,10 +196,31 @@ Při výběru počítače byla nejdůležitejším kritériem podpora softwaru p
     \end{itemize}
 \end{itemize}
 
-Kromě toho je také potřeba připojení k~síti pomocí Ethernetu nebo WiFi. V~dalších sekcích přiblížím několik vhodných kandidátů.
+Pro provoz tohoto softwaru bude potřeba plnohodnotný operační systém, což vylučuje platformy jako \textit{Arduino Uno}. Kromě toho je nutné připojení k~síti pomocí Ethernetu nebo WiFi. 
+
+V~dalších sekcích jsem se blíže podíval na jednodeskové počítače \textit{Raspberry Pi} (sekce \ref{sec:an_rpi}) a \textit{Zybo Zynq-7000} (sekce \ref{sec:an_zyb}) a zvážil jejich výhody a nevýhody při implementaci systému.
 
 \subsection{Raspberry Pi}
+\label{sec:an_rpi}
+
+\textit{Raspberry Pi} je velmi rozšířený jednodeskový počítač. Jeho poslední verze, \textit{Raspberry Pi 3}, je postavena na SoC \textit{Broadcom BCM2837} s~čtyřjádrovým procesorem \textit{ARM Cortex A53} \cite{rpi_benchoff}.
+
+S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně \textit{Raspbian}, což je linuxový operační systém postavený na \textit{Debianu}. Pro tento operační systém jsou dostupné všchny potřebné softwarové balíčky, popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
+
+Oproti předchozím verzím již \textit{Raspberry Pi 3} obsahuje vlastní WiFi modul \cite{rpi_benchoff} -- není tedy nutné se spoléhat na externí moduly. Kromě toho je možné počítač připojit k~síti pomocí Ethernetového portu. Ten je omezený na 100 Mb/s, to by však vzhledem k~objemu dat přenášených mezi nadřazeným a podřízenými systémy nemělo představovat problém. 
+
+\textit{Raspberry Pi 3} bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udržování času využívá NTP. K~tomu je však zapotřebí připojení k~internetu \cite{rpi_rtc_ada}. Jelikož by zařízení mělo být možné používat i v~síti bez přístupu k~internetu, je nutné připojit externí RTC obvod.
+
+
+%cena + mutace
+ 
 
 \subsubsection{RTC obvod}
 
 \subsection{Zybo Zynq-7000}
+\label{sec:an_zyb}
+
+\subsection{Provoz aplikace na cloudové platformě}
+\label{sec:an_cloud}
+
+navrh k servirovani
