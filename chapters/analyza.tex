@@ -223,19 +223,6 @@ Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Pos
 \subsection{\textit{Zybo Zynq-7000}}
 \label{sec:an_zyb}
 
-Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Zynq Z-7010}. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru \textit{ARM Cortex A9} s~FPGA \cite{zybo_man}. 
-
-Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
-
-%dostupne operacni systemy -- petalinux, xilinux
-Pro SoC ze série \textit{Zynq} vznikla linuxová distribuce \textit{Xilinux}, vycházející z~Ubuntu. Ta kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá IP jádro \textit{Xilibus}.
-
-%nevyhody - cena
-
-%(srovnani s rpi (pomalejsi procesor atd...) nechat na dalsi kapitolu)
-
-%moznosti fpga
-
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/zybo.jpg}
@@ -243,12 +230,33 @@ Pro SoC ze série \textit{Zynq} vznikla linuxová distribuce \textit{Xilinux}, v
     \caption[Přípravek \textit{Zybo Zynq-7000}]{Připravek \textit{Zybo Zynq-7000} (obrázek převzat z~\url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html})}
 \end{figure}
 
+Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Zynq Z-7010}. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru \textit{ARM Cortex A9} s~FPGA \cite{zybo_man}. 
+
+Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
+
+%dostupne operacni systemy -- petalinux, xilinux
+Pro SoC ze série \textit{Zynq} vznikla linuxová distribuce \textit{Xilinux}, vycházející z~Ubuntu. Ta kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá IP jádro \textit{Xilibus}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/xilibus.pdf}
+    \label{fig:xilibus}
+    \caption[Blokové schéma využití IP jádra \textit{Xilibus}]{Blokové schéma využití IP jádra \textit{Xilibus} \cite{xilibus}}
+\end{figure}
+
+
+%nevyhody - cena
+
+%(srovnani s rpi (pomalejsi procesor atd...) nechat na dalsi kapitolu)
+
+%moznosti fpga
+
 \subsection{Provoz aplikace na cloudové platformě}
 \label{sec:an_cloud}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/aws.pdf}
+    \includegraphics[width=0.8\textwidth]{images/aws.pdf}
     \label{fig:aws}
     \caption{Struktura systému při použití cloudu Amazon EC2}
 \end{figure}
