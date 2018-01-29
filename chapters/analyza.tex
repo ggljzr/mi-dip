@@ -196,9 +196,9 @@ Při výběru počítače byla nejdůležitejším kritériem podpora softwaru p
     \end{itemize}
 \end{itemize}
 
-Pro provoz tohoto softwaru bude potřeba plnohodnotný operační systém, což vylučuje platformy jako \textit{Arduino Uno}. Kromě toho je nutné připojení k~síti pomocí Ethernetu nebo WiFi. 
+Pro provoz tohoto softwaru bude potřeba plnohodnotný operační systém, což vylučuje platformy využívající jednoduché mikrokontroléry, jako například \textit{Arduino Uno}. Kromě toho je nutné připojení k~síti pomocí Ethernetu nebo WiFi. 
 
-V~dalších sekcích jsem se blíže podíval na jednodeskové počítače \textit{Raspberry Pi} (sekce \ref{sec:an_rpi}) a \textit{Zybo Zynq-7000} (sekce \ref{sec:an_zyb}) a zvážil jejich výhody a nevýhody při implementaci systému.
+V~dalších sekcích jsem se blíže podíval na jednodeskové počítače \textit{Raspberry Pi} (sekce \ref{sec:an_rpi}) a \textit{Zybo Zynq-7000} (sekce \ref{sec:an_zyb}) a zvážil jejich výhody a nevýhody pro implementaci systému.
 
 \subsection{\textit{Raspberry Pi}}
 \label{sec:an_rpi}
@@ -212,7 +212,7 @@ V~dalších sekcích jsem se blíže podíval na jednodeskové počítače \text
 
 \textit{Raspberry Pi} je velmi rozšířený jednodeskový počítač. Jeho poslední verze, \textit{Raspberry Pi 3}, je postavena na SoC \textit{Broadcom BCM2837} s~čtyřjádrovým procesorem \textit{ARM Cortex A53} \cite{rpi_benchoff}.
 
-S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně \textit{Raspbian}, což je linuxový operační systém postavený na \textit{Debianu}. Pro tento operační systém jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
+S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně \textit{Raspbian}, linuxový systém postavený na \textit{Debianu}. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
 
 Oproti předchozím verzím již \textit{Raspberry Pi 3} obsahuje vlastní WiFi modul \cite{rpi_benchoff} -- není tedy nutné se spoléhat na externí moduly. Kromě toho je možné počítač připojit k~síti pomocí Ethernetového portu. Ten je omezený na 100 Mb/s \cite{rpi_benchoff}, to by však vzhledem k~objemu dat přenášených mezi nadřazeným a podřízenými systémy nemělo představovat problém. 
 
@@ -223,14 +223,16 @@ Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Pos
 \subsection{\textit{Zybo Zynq-7000}}
 \label{sec:an_zyb}
 
-Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Zynq Z-7010}. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru \textit{ARM Cortex A9} s~FPGA \cite{zybo_man}. To umožňuje těsnou integraci mezi procesorem a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
+Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Zynq Z-7010}. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru \textit{ARM Cortex A9} s~FPGA \cite{zybo_man}. 
+
+Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
 
 %dostupne operacni systemy -- petalinux, xilinux
-Pro tento SoC vznikla linuxová distribuce \textit{Xilinux}, vycházející z~Ubuntu. Ta kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice.
+Pro SoC ze série \textit{Zynq} vznikla linuxová distribuce \textit{Xilinux}, vycházející z~Ubuntu. Ta kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá IP jádro \textit{Xilibus}.
 
-%vyhody proti rpi
+%nevyhody - cena
 
-%nevyhody - pomalej procesor a cena
+%(srovnani s rpi (pomalejsi procesor atd...) nechat na dalsi kapitolu)
 
 %moznosti fpga
 
