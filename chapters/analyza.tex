@@ -111,7 +111,7 @@ Obecně vycházím z~toho, že i v~případě registrace nežádoucího zaříze
 \subsection{MQTT}
 \label{sec:an_mqtt}
 
-MQTT je komunikační protokol založený na modelu \textit{publisher/subscriber}, vhod\-ný pro použití v~prostředí s~omezenými zdroji (malý výkon procesoru, omezená paměť atd.) \cite{mqtt_valerie}.
+MQTT je komunikační protokol založený na modelu \textit{publisher/subscriber}, určený pro použití v~prostředí s~omezenými zdroji (malý výkon procesoru, omezená paměť atd.) \cite{mqtt_valerie}.
 
 Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí centrály, nazývané \textit{broker}. Ta spravuje adresy -- \textit{topics} -- na kterých mohou klienti publikovat či odebírat zprávy.
 
@@ -150,7 +150,7 @@ Bohužel podpora PSK v~MQTT klientech není příliš rozšířená. PSK je mož
 
 \textit{Paho} poskytuje implementace MQTT klientů pro mnoho platforem (včetně například \textit{Arduina} \cite{paho_embedded}). Dokumentace klientů pro C++ a Python však možnost šifrování pomocí PSK vůbec nezmiňuje \cite{paho_cpp_doc} \cite{paho_pyt_doc}.
 
-Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při použití certifikátů lze v~konfiguračním souboru \textit{Mosquitta} zvolit \verb|require_certificate|. Poté bude od klienta vyžadován certifikát prokazující jeho totožnost. Při použití PSK lze k~autentizaci využít sdílený klíč (\textit{broker} odmítne klienty s~neplatnými klíči). Kromě toho je možno použít také autentizaci pomocí uživatelského jména a hesla, která je součástí MQTT protokolu, případně klienty neověřovat vůbec (a pouze šifrovat komunikaci). \cite{mqtt_mosquitto_conf}
+Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při použití certifikátů lze v~konfiguračním souboru \textit{Mosquitta} zvolit \verb|require_certificate| \cite{mqtt_mosquitto_conf}. Poté bude od klienta vyžadován certifikát prokazující jeho totožnost. Při použití PSK lze k~autentizaci využít sdílený klíč (\textit{broker} odmítne klienty s~neplatnými klíči) \cite{mqtt_mosquitto_conf}. Kromě toho je možno použít také autentizaci pomocí uživatelského jména a hesla, která je součástí MQTT protokolu, případně klienty neověřovat vůbec (a pouze šifrovat komunikaci) \cite{mqtt_mosquitto_conf}.
 
 \subsection{Závěr výběru protokolu}
 
@@ -214,9 +214,9 @@ V~dalších sekcích jsem se blíže podíval na jednodeskové počítače \text
 
 S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně \textit{Raspbian}, což je linuxový operační systém postavený na \textit{Debianu}. Pro tento operační systém jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
 
-Oproti předchozím verzím již \textit{Raspberry Pi 3} obsahuje vlastní WiFi modul \cite{rpi_benchoff} -- není tedy nutné se spoléhat na externí moduly. Kromě toho je možné počítač připojit k~síti pomocí Ethernetového portu. Ten je omezený na 100 Mb/s, to by však vzhledem k~objemu dat přenášených mezi nadřazeným a podřízenými systémy nemělo představovat problém. 
+Oproti předchozím verzím již \textit{Raspberry Pi 3} obsahuje vlastní WiFi modul \cite{rpi_benchoff} -- není tedy nutné se spoléhat na externí moduly. Kromě toho je možné počítač připojit k~síti pomocí Ethernetového portu. Ten je omezený na 100 Mb/s \cite{rpi_benchoff}, to by však vzhledem k~objemu dat přenášených mezi nadřazeným a podřízenými systémy nemělo představovat problém. 
 
-\textit{Raspberry Pi 3} bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udržování času využívá NTP. K~tomu je však zapotřebí připojení k~internetu \cite{rpi_rtc_ada}. Jelikož by zařízení mělo být možné používat i v~síti bez přístupu k~internetu, je nutné připojit externí RTC obvod, napřílad pomocí I2C sběrnice. Poté je možné systémové hodiny synchronizovat offline pomocí tohoto obvodu (místo NTP).
+\textit{Raspberry Pi 3} bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udržování času využívá NTP \cite{rpi_rtc_ada}. K~tomu je však zapotřebí připojení k~internetu. Jelikož by zařízení mělo být možné používat i v~síti bez přístupu k~internetu, je nutné připojit externí RTC obvod, napřílad pomocí I2C sběrnice. Poté je možné systémové hodiny synchronizovat offline pomocí tohoto obvodu (místo NTP).
 
 Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Poslední verze se pohybuje kolem 1200 Kč\footnote{\url{http://www.snailshop.cz/raspberry-pi/2391-raspberry-pi-3-model-b-armv8-with-1g-ram.html}}. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523. Ten vyjde asi na 200 Kč\footnote{\url{http://www.snailshop.cz/rtc-obvody-realneho-casu/2289-adafruit-pirtc-pcf8523-real-time-clock-for-raspberry-pi.html}}. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč.
 
@@ -225,7 +225,8 @@ Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Pos
 
 Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Zynq Z-7010}. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru \textit{ARM Cortex A9} s~FPGA \cite{zybo_man}. To umožňuje těsnou integraci mezi procesorem a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
 
-%dostupne operacni systemy
+%dostupne operacni systemy -- petalinux, xilinux
+Pro tento SoC vznikla linuxová distribuce \textit{Xilinux}, vycházející z~Ubuntu. Ta kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice.
 
 %vyhody proti rpi
 
