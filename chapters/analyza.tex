@@ -15,8 +15,8 @@ Další, kdo přistupuje do systému, je uživatel. Přes webové rozhraní mů�
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/basic_struct.pdf}
-    \label{fig:basic_struct}
     \caption{Základní struktura systému}
+    \label{fig:basic_struct}
 \end{figure}
 
 \subsection{Podřízený systém}
@@ -118,11 +118,11 @@ Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí ce
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/basic_mqtt.pdf}
-    \label{fig:basic_mqtt}
     \caption[Příklad struktury protokolu MQTT]{Příklad struktury protokolu MQTT \cite{mqtt_eclipse}}
+    \label{fig:basic_mqtt}
 \end{figure}
 
-Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{green}{B} začnou odebírat (\textit{subscribe}) \textit{topic} \uv{Teplota}. Když pak klient \textcolor{magenta}{C} pak publikuje zprávu na tuto adresu, \textcolor{blue2}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
+Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{green}{B} začnou odebírat \textit{topic} \uv{Teplota}. Když pak klient \textcolor{magenta}{C} pak publikuje zprávu na tuto adresu, \textcolor{blue2}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
 
 Adresy je možné hierarchicky strukturovat. Lze tedy tvořit skupiny, například \verb|/senzory/obyvak/teplota| nebo \verb|/senzory/kuchyne/vlhkost|. Zprávy je nutné publikovat na jednoznačnou adresu, při odebírání je však možné použít modifikátory \verb|+| a \verb|#| pro specifikování skupiny adres. Modifikátor \verb|+| odpovídá libovolnému jednomu stupni hierarchie, \verb|#| pak libovolnému počtu libovolných stupňů. Pro odebírání všech senzorů vlhkosti lze tedy použít adresu \verb|/senzory/+/vlhkost|. Všechna data by pak bylo možné odebírat na adrese \verb|/senzory/#|. \cite{mqtt_eclipse}
 
@@ -206,8 +206,8 @@ V~dalších sekcích jsem se blíže podíval na jednodeskové počítače \text
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/rpi.jpg}
-    \label{fig:rpi}
     \caption[\textit{Raspberry Pi 3}]{\textit{Raspberry Pi 3} (obrázek převzat z~\url{https://en.wikipedia.org/wiki/Raspberry_Pi})}
+    \label{fig:rpi}
 \end{figure}
 
 \textit{Raspberry Pi} je velmi rozšířený jednodeskový počítač. Jeho poslední verze, \textit{Raspberry Pi 3}, je postavena na SoC \textit{Broadcom BCM2837} s~čtyřjádrovým procesorem \textit{ARM Cortex A53}, který je až o~50 \% rychlejší než procesor předchozí verze \cite{rpi_benchoff}.
@@ -218,7 +218,7 @@ Deska také obsahuje čtyři USB a jeden HDMI port. Ty nejsou pro implementovan�
 
 \textit{Raspberry Pi 3} bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udržování času využívá NTP \cite{rpi_rtc_ada}. K~tomu je však zapotřebí internetové připojení. Jelikož by zařízení mělo být možné používat i v~síti bez přístupu k~internetu, je nutné připojit externí RTC obvod, napřílad pomocí I2C sběrnice. Poté je možné systémové hodiny synchronizovat offline pomocí tohoto obvodu (místo NTP).
 
-S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně \textit{Raspbian}, linuxový systém postavený na \textit{Debianu}. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Výhodou je také široká podpora jazyka Python, včetně knihoven pro ovládání GPIO pinů. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
+S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně \textit{Raspbian}, linuxový systém postavený na \textit{Debianu}. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
 
 Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523. Ten vyjde asi na 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč.
 
@@ -228,8 +228,8 @@ Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Pos
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/zybo.jpg}
-    \label{fig:zybo}
     \caption[Přípravek \textit{Zybo Zynq-7000}]{Připravek \textit{Zybo Zynq-7000} (obrázek převzat z~\url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html})}
+    \label{fig:zybo}
 \end{figure}
 
 Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Zynq Z-7010}. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru \textit{ARM Cortex A9} s~FPGA \cite{zybo_man}. 
@@ -237,23 +237,24 @@ Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Z
 Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
 
 %dostupne operacni systemy -- petalinux, xilinux
-Pro SoC ze série \textit{Zynq} vznikla linuxová distribuce \textit{Xilinux}, vycházející z~Ubuntu. Ta kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá IP jádro \textit{Xilibus}.
+Pro SoC ze série \textit{Zynq} vznikla linuxová distribuce \textit{Xilinux}, vycházející z~\textit{Ubuntu}. Kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje \textit{Xilinux} také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá IP jádro \textit{Xilibus}, které funguje jako adaptér mezi procesorem a FPGA modulem (viz obrázek \ref{fig:xilibus}). Ten pak ke komunikaci může využívat standardni FIFO fronty a nemusí se zabývat AXI sběrnicí \cite{xilibus}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/xilibus.pdf}
-    \label{fig:xilibus}
     \caption[Blokové schéma využití IP jádra \textit{Xilibus}]{Blokové schéma využití IP jádra \textit{Xilibus} \cite{xilibus}}
+    \label{fig:xilibus}
 \end{figure}
 
+Připojení k~síti je možné pomocí Ethernetového portu, který podporuje rychlost až 1Gb/s \cite{zybo_man}. WiFi připojení by bylo možné realizovat pomocí USB modulu. Dále přípravek obsahuje HDMI a VGA port, audio konektory, čtyři tlačítka, čtyři přepínače a slot pro SD kartu \cite{zybo_man}.
 
-%nevyhody - cena
+Na přípravku je také k~dispozici 128 MB flash paměti \cite{zybo_man}, k~provozu tedy teoreticky není potřeba SD karta. Tato paměť by však pravděpodobně nestačila k~instalaci vhodného operačního systému a potřebného softwaru. I~zde by tedy bylo nutné použít SD kartu.
+
+Nevýhodu této desky (především v~porovnání \textit{Raspberry Pi}) je její cena.
 
 %(srovnani s rpi (pomalejsi procesor atd...) nechat na dalsi kapitolu)
 
-%moznosti fpga
-
-%este si to znova cely precist to rpi a zybo mi to prijde naky divny
+%moznosti fpga asi taky v dalsi kapitole (zaver vyberu, srovnani)
 
 \subsection{Provoz aplikace na cloudové platformě}
 \label{sec:an_cloud}
