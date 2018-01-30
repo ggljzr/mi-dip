@@ -1,0 +1,3 @@
+* operacni system na zybo
+* co presne se mysli tim "Navržený systém na základě příchozích událostí vyhodnotí situaci a zareaguje vhodnou akcí" v zadani
+* jestli budeme to zadani este nak upravovat
