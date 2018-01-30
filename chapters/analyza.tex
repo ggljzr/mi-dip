@@ -250,11 +250,15 @@ Připojení k~síti je možné pomocí Ethernetového portu, který podporuje ry
 
 Na přípravku je také k~dispozici 128 MB flash paměti \cite{zybo_man}, k~provozu tedy teoreticky není potřeba SD karta. Tato paměť by však pravděpodobně nestačila k~instalaci vhodného operačního systému a potřebného softwaru. I~zde by tedy bylo nutné použít SD kartu.
 
-Nevýhodu této desky (především v~porovnání \textit{Raspberry Pi}) je její cena.
+Stejně jako \textit{Raspberry Pi} tato deska postrádá RTC obvod. Firma Digilent však dodává externí bateriově zálohované hodiny, které lze připojit pomocí Pmod rozhraní \cite{pmod_rtc_man}. 
+
+Nevýhodu této desky (především v~porovnání \textit{Raspberry Pi}) je její cena. Ta se pohybuje okolo 4000 Kč. K~tomu je nutné přičíst náklady na SD kartu a RTC obvod, případně i WiFi modul. Cena celého zařízení by se tedy pohybovala v~rozmezí 4500 až 5000 Kč.
 
 %(srovnani s rpi (pomalejsi procesor atd...) nechat na dalsi kapitolu)
 
 %moznosti fpga asi taky v dalsi kapitole (zaver vyberu, srovnani)
+
+\subsection{Závěr výberu platformy}
 
 \subsection{Provoz aplikace na cloudové platformě}
 \label{sec:an_cloud}
