@@ -210,15 +210,17 @@ V~dalších sekcích jsem se blíže podíval na jednodeskové počítače \text
     \caption[\textit{Raspberry Pi 3}]{\textit{Raspberry Pi 3} (obrázek převzat z~\url{https://en.wikipedia.org/wiki/Raspberry_Pi})}
 \end{figure}
 
-\textit{Raspberry Pi} je velmi rozšířený jednodeskový počítač. Jeho poslední verze, \textit{Raspberry Pi 3}, je postavena na SoC \textit{Broadcom BCM2837} s~čtyřjádrovým procesorem \textit{ARM Cortex A53} \cite{rpi_benchoff}.
+\textit{Raspberry Pi} je velmi rozšířený jednodeskový počítač. Jeho poslední verze, \textit{Raspberry Pi 3}, je postavena na SoC \textit{Broadcom BCM2837} s~čtyřjádrovým procesorem \textit{ARM Cortex A53}, který je až o~50 \% rychlejší než procesor předchozí verze \cite{rpi_benchoff}.
 
-S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně \textit{Raspbian}, linuxový systém postavený na \textit{Debianu}. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
+Dále nová verze přináší vlastní WiFi modul \cite{rpi_benchoff}, není tedy nutné se spoléhat na externí moduly. Kromě toho je možné počítač připojit k~síti pomocí Ethernetového portu. Ten je omezený na 100 Mb/s \cite{rpi_benchoff}, to by však vzhledem k~objemu dat přenášených mezi nadřazeným a podřízenými systémy nemělo představovat problém.
 
-Oproti předchozím verzím již \textit{Raspberry Pi 3} obsahuje vlastní WiFi modul \cite{rpi_benchoff} -- není tedy nutné se spoléhat na externí moduly. Kromě toho je možné počítač připojit k~síti pomocí Ethernetového portu. Ten je omezený na 100 Mb/s \cite{rpi_benchoff}, to by však vzhledem k~objemu dat přenášených mezi nadřazeným a podřízenými systémy nemělo představovat problém. 
+Deska také obsahuje čtyři USB a jeden HDMI port. Ty nejsou pro implementovaný systém zásadní, nicméně při počáteční konfiguraci zařízení (například nastavení WiFi hesla) může být připojení monitoru a klávesnice pro některé uživatele pohodlnější než použití SSH či sériové linky. Připojený monitor se také hodí při řešení problémů se startem operačního systému.
 
-\textit{Raspberry Pi 3} bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udržování času využívá NTP \cite{rpi_rtc_ada}. K~tomu je však zapotřebí připojení k~internetu. Jelikož by zařízení mělo být možné používat i v~síti bez přístupu k~internetu, je nutné připojit externí RTC obvod, napřílad pomocí I2C sběrnice. Poté je možné systémové hodiny synchronizovat offline pomocí tohoto obvodu (místo NTP).
+\textit{Raspberry Pi 3} bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udržování času využívá NTP \cite{rpi_rtc_ada}. K~tomu je však zapotřebí internetové připojení. Jelikož by zařízení mělo být možné používat i v~síti bez přístupu k~internetu, je nutné připojit externí RTC obvod, napřílad pomocí I2C sběrnice. Poté je možné systémové hodiny synchronizovat offline pomocí tohoto obvodu (místo NTP).
 
-Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Poslední verze se pohybuje kolem 1200 Kč\footnote{\url{http://www.snailshop.cz/raspberry-pi/2391-raspberry-pi-3-model-b-armv8-with-1g-ram.html}}. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523. Ten vyjde asi na 200 Kč\footnote{\url{http://www.snailshop.cz/rtc-obvody-realneho-casu/2289-adafruit-pirtc-pcf8523-real-time-clock-for-raspberry-pi.html}}. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč.
+S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně \textit{Raspbian}, linuxový systém postavený na \textit{Debianu}. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Výhodou je také široká podpora jazyka Python, včetně knihoven pro ovládání GPIO pinů. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
+
+Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523. Ten vyjde asi na 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč.
 
 \subsection{\textit{Zybo Zynq-7000}}
 \label{sec:an_zyb}
@@ -250,6 +252,8 @@ Pro SoC ze série \textit{Zynq} vznikla linuxová distribuce \textit{Xilinux}, v
 %(srovnani s rpi (pomalejsi procesor atd...) nechat na dalsi kapitolu)
 
 %moznosti fpga
+
+%este si to znova cely precist to rpi a zybo mi to prijde naky divny
 
 \subsection{Provoz aplikace na cloudové platformě}
 \label{sec:an_cloud}
