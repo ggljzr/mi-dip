@@ -232,7 +232,7 @@ Kromě široké podpory je hlavní výhodou \textit{Raspberry Pi} jeho cena. Pos
     \label{fig:zybo}
 \end{figure}
 
-Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Zynq Z-7010}. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru \textit{ARM Cortex A9} s~FPGA \cite{zybo_man}. 
+Tento přípravek od společnosti Digilent je postavený na SoC \textit{Xilinx Zynq Z-7010}. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru \textit{ARM Cortex A9} s~FPGA odpovídající sérii \textit{Artix-7} \cite{zybo_man}. 
 
 Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
 
@@ -261,7 +261,28 @@ Nevýhodu této desky (především v~porovnání \textit{Raspberry Pi}) je jej�
 %bacha tady este na "As of 9/21/2017- the Zybo will be replaced by the Zybo Z7-10. We have created this guide to help you migrate your designs to the Zybo Z7. " ale nevim jestli to ma cenu resit ty desky se lisej minimalne (SoC je stejnej)
 %^^linx: https://store.digilentinc.com/zybo-z7-zynq-7000-arm-fpga-soc-development-board/
 
+\newpage
+
 \subsection{Závěr výberu platformy}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c | c | c |} 
+ \hline
+ & \textit{Raspberry Pi 3} & \textit{Zybo Zynq-7000} \\
+ \hline 
+ SoC & 6 & 8783787 \\ 
+ Procesor & 7 & 7 5415 \\
+ RAM & 545 & 7 7507 \\
+ Úložiště & SD karta & 128 MB Flash, SD karta \\
+ Síť & & \\
+ Sběrnice & 88 & 7 6344 \\
+ Cena & & \\
+ \hline
+\end{tabular}
+\caption{Srovnání platforem \textit{Raspberry Pi 3} a \textit{Zybo Zynq-7000}}
+\label{tab:plat_compare}
+\end{table}
 
 \subsection{Provoz aplikace na cloudové platformě}
 \label{sec:an_cloud}
