@@ -1,7 +1,5 @@
 nazvy protokolu - normalne
 wifi/ethernet - normalne
-nazvy software - italic
-nazvy hw/platforem - italic
 cizí slova - italic
 veci z kodu/listings - verb
 programovaci jazyky - normalne
