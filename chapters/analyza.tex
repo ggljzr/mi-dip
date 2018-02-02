@@ -256,10 +256,6 @@ Stejně jako \textit{Raspberry Pi} tato deska postrádá RTC obvod. Firma Digile
 
 Nevýhodu této desky (především v~porovnání \textit{Raspberry Pi}) je její cena. Ta se pohybuje okolo 4000 Kč. K~tomu je nutné přičíst náklady na SD kartu a RTC obvod, případně i WiFi modul. Cena celého zařízení by se tedy pohybovala v~rozmezí 4500 až 5000 Kč.
 
-%(srovnani s rpi (pomalejsi procesor atd...) nechat na dalsi kapitolu)
-
-%moznosti fpga asi taky v dalsi kapitole (zaver vyberu, srovnani)
-
 %bacha tady este na "As of 9/21/2017- the Zybo will be replaced by the Zybo Z7-10. We have created this guide to help you migrate your designs to the Zybo Z7. " ale nevim jestli to ma cenu resit ty desky se lisej minimalne (SoC je stejnej)
 %^^linx: https://store.digilentinc.com/zybo-z7-zynq-7000-arm-fpga-soc-development-board/
 
@@ -271,18 +267,19 @@ Nevýhodu této desky (především v~porovnání \textit{Raspberry Pi}) je jej�
 \centering
 \begin{tabular}{|c | c | c |} 
  \hline
- & \textit{Raspberry Pi 3} & \textit{Zybo Zynq-7000} \\
+ & \textbf{\textit{Raspberry Pi 3}} & \textbf{\textit{Zybo Zynq-7000}} \\
  \hline 
- SoC & 6 & 8783787 \\ 
- Procesor & 7 & 7 5415 \\
- RAM & 545 & 7 7507 \\
+ SoC & \textit{Broadcom BCM2837} & \textit{Xilinx Zynq Z-7010} \\ 
+ Procesor & \textit{ARM Cortex A53} & \textit{ARM Cortex A9} \\
+ & 4 jádra, 1,2 GHz & 2 jádra, 650 MHz \\
+ FPGA & -- & Ekvivalent řady \textit{Artix-7} \\
+ RAM & 1024 MB LPDDR2 & 512 MB DDR3 \\
  Úložiště & SD karta & 128 MB Flash, SD karta \\
- Síť & & \\
- Sběrnice & 88 & 7 6344 \\
- Cena & & \\
+ Síť & 100 Mb/s Ethernet, WiFi & až 1 Gb/s Ethernet \\
+ Cena & 1200 Kč & 4000 Kč \\
  \hline
 \end{tabular}
-\caption{Srovnání platforem \textit{Raspberry Pi 3} a \textit{Zybo Zynq-7000}}
+\caption[Srovnání platforem \textit{Raspberry Pi 3} a \textit{Zybo Zynq-7000}]{Srovnání platforem \textit{Raspberry Pi 3} a \textit{Zybo Zynq-7000}} \cite{rpi_benchoff} \cite{zybo_man}
 \label{tab:plat_compare}
 \end{table}
 
