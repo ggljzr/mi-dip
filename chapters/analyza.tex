@@ -67,7 +67,7 @@ Certifikát bude potřeba zajistit i v~případě, že komunikace s~klienty nebu
 
 API realizované pomocí tohoto protokolu je poměrně snadno rozšiřitelné. Pro nově implementovanou operaci stačí definovat URL a případně formát přenášených dat.
 
-Výhodou je také snadná implementace na straně klienta, tedy garážového čidla. Knihovny realizující klientskou část protokolu jsou dostupné na většině populárních platforem jako například Arduino (s~Ethernet shieldem, oficiální knihovna EthernetClient \cite{ard_web}) nebo ESP8266 (knihovna esp8266wifi \cite{esp_web}).
+Výhodou je také snadná implementace na straně klienta, tedy garážového čidla. Knihovny realizující klientskou část protokolu jsou dostupné na většině populárních platforem jako například Arduino (s~Ethernet \textit{shieldem}, oficiální knihovna EthernetClient \cite{ard_web}) nebo ESP8266 (knihovna esp8266wifi \cite{esp_web}).
 
 \subsubsection{Certifikáty pro provoz HTTPS}
 \label{sec:an_certs}
@@ -220,6 +220,8 @@ Raspberry Pi 3 bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udr
 
 S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně Raspbian, linuxový systém postavený na Debianu. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
 
+Jednou z~výhod tohoto počítače je obrovské množství podporovaných hardwarových periferií a knihoven pro ně. V~této práci pravděpodobně využiju pouze zmíněný RTC obvod, případné další rozšiřování systému (například o~vestavěný LCD displej) bude na Raspberry Pi pravděpodobně snadnější než na jiných platformách.
+
 Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523. Ten vyjde asi na 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč.
 
 \subsection{Zybo Zynq-7000}
@@ -259,8 +261,6 @@ Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. T
 %bacha tady este na "As of 9/21/2017- the Zybo will be replaced by the Zybo Z7-10. We have created this guide to help you migrate your designs to the Zybo Z7. " ale nevim jestli to ma cenu resit ty desky se lisej minimalne (SoC je stejnej)
 %^^linx: https://store.digilentinc.com/zybo-z7-zynq-7000-arm-fpga-soc-development-board/
 
-\newpage
-
 \subsection{Závěr výberu platformy}
 
 \begin{table}[h!]
@@ -272,8 +272,8 @@ Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. T
  SoC & Broadcom BCM2837 & Xilinx Zynq Z-7010 \\ 
  Procesor & ARM Cortex A53 & ARM Cortex A9 \\
  & 4 jádra, 1,2 GHz & 2 jádra, 650 MHz \\
- FPGA & -- & Ekvivalent řady Artix-7 \\
  RAM & 1024 MB LPDDR2 & 512 MB DDR3 \\
+ FPGA & -- & Ekvivalent řady Artix-7 \\
  Úložiště & SD karta & 128 MB Flash, SD karta \\
  Síť & 100 Mb/s Ethernet, WiFi & až 1 Gb/s Ethernet \\
  Cena & 1200 Kč & 4000 Kč \\
@@ -282,6 +282,12 @@ Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. T
 \caption[Srovnání platforem Raspberry Pi 3 a Zybo Zynq-7000]{Srovnání platforem Raspberry Pi 3 a Zybo Zynq-7000} \cite{rpi_benchoff} \cite{zybo_man}
 \label{tab:plat_compare}
 \end{table}
+
+Jak vyplívá z~tabulky \ref{tab:plat_compare}, Raspberry Pi 3 poskytuje znatelně výkonnější procesor a více paměti za méně než třetinu ceny desky Zybo. Hlavní přidaná hodnota této platformy tedy spočívá v~integraci s~FPGA, ta má však v~případě této práce pouze velmi omezené využití. 
+
+FPGA by bylo možné využít například k~šifrování úložiště, vzhledem k~předpokládáným objemům dat by však zrychlení oproti softwarovému šifrování neospravedlnilo vysokou cenu přípravku. Na druhou stranu vyšší výkon procesoru u~Raspberry Pi může mít pro nadřazený systém význam, například z~hlediska odezvy uživatelského rozhraní.
+
+Jako platformu pro implementaci nadřazeného systému jsem tedy zvolil Raspberry Pi 3, především kvůli příznivé ceně, výrazně lepšímu poměru cena/výkon (pro tuto práci), a také kvůli podpoře a rozšiřitelnosti.
 
 \subsection{Provoz aplikace na cloudové platformě}
 \label{sec:an_cloud}
