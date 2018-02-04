@@ -292,11 +292,15 @@ Jako platformu pro implementaci nadřazeného systému jsem tedy zvolil Raspberr
 \subsection{Provoz aplikace na cloudové platformě}
 \label{sec:an_cloud}
 
+V~této části bych chtěl popsat alternativu k~provozu systému na dedikovaném zařízení, a to možnost využít virtuální server na některé cloudové platformě. Primární cíl práce je sice vytvořit nadřazený systém jako jednoúčelové zařízení (postavené na Raspberry Pi), nicméně provoz výsledné aplikace v~cloudu může být v~určitých situacích vhodnější řešení.
+
+Jedním z~možných uplatnění této varianty je monitorování více garážových komplexů. Místo lokálního nadřazeného systému by mohly všechny podřízené systémy z~každého komplexu komunikovat s~jedním globálním systémem, provozovaným na virtuálním serveru a dostupným z~internetu, jak je naznačeno na obrázku \ref{fig:aws}.
+
+Virtuální servery nabízí například Amazon na své platformě EC2.
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/aws.pdf}
     \label{fig:aws}
-    \caption{Struktura systému při použití cloudu Amazon EC2}
+    \caption{Struktura systému provozovaného na virtuálním serveru}
 \end{figure}
-
-navrh k~servirovani
