@@ -4,3 +4,4 @@
 * sifrovani databaze (kam s klicem?)
 * jestli mam pri citovani treba toho zybo_man upresnovat treba kapitolu, pripadne kde
 * jak je zvyklej psat Mb MB atd...
+* jak citovat cenu veci
