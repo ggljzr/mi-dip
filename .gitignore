@@ -1,3 +1,4 @@
+*.log
 *.tex
 DP_Cervenka_Ondrej_2018.*
 !DP_Cervenka_Ondrej_2018.tex
