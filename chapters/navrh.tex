@@ -3,11 +3,11 @@
 
 \section{Návrhový vzor MVC}
 
-Struktura nadřazeného systému je vhodná k použití návrhového vzoru MVC, tedy \textit{model-view-controller}. \textit{Model}, tedy  uchovávaná a zpracovávaná data, v tomto případě představují garáže (podřízené systémy), nim vázané události a logika jejich vyhodnocování. 
+Struktura nadřazeného systému je vhodná k~použití návrhového vzoru MVC, tedy \textit{model-view-controller}. \textit{Model}, tedy  uchovávaná a zpracovávaná data, v~tomto případě představují garáže (podřízené systémy), nim vázané události a logika jejich vyhodnocování. 
 
 \textit{View} je zobrazení těchto dat, tedy především generované HTML stránky webového rozhraní. Jako další \textit{view} je možné považovat získávání dat (například ve formátu JSON) pomocí API nadřazeného systému, třeba při zasílání registračních klíčů podřízeným systémům.
 
-\textit{Controller} je pak část aplikace, která se stará o zpracování HTTP požadavků. Ty mohou přicházet jednak z uživateloval prohlížeče, jednak od podřízených systémů. Na základě těchto požadavků pak \textit{controller} posílá příslušné příkazy \textit{modelu}. Struktura aplikace při použití vzoru MVC je naznačena na obrázku \ref{fig:mvc}.
+\textit{Controller} je pak část aplikace, která se stará o~zpracování HTTP požadavků. Ty mohou přicházet jednak z~uživateloval prohlížeče, jednak od podřízených systémů. Na základě těchto požadavků pak \textit{controller} posílá příslušné příkazy \textit{modelu}. Struktura aplikace při použití vzoru MVC je naznačena na obrázku \ref{fig:mvc}.
 
 \begin{figure}[h!]
     \centering
@@ -16,17 +16,7 @@ Struktura nadřazeného systému je vhodná k použití návrhového vzoru MVC, 
     \label{fig:mvc}
 \end{figure}
 
-???
-
-controller -- api, zpracovavani http requestu
-
-view -- webova stranka
-
-model -- vyhodnocovani a logovani udalost, stavu garazi
-
-???
-
-viz \url{https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)}
+Hlavní motivací pro použití tohoto vzoru je snadná rozšiřitelnost. Pokud by například bylo potřeba aplikaci doplnit o~komunikaci s~podřízenými systémy pomocí MQTT, stačí pouze vytvořit vhodný \textit{controller}. Ten pak může využívat \textit{model} aplikace stejným způsobem jako HTTP \textit{controller}.
 
 \section{Model}
 
@@ -39,6 +29,8 @@ pouziti sqlalchemy -- to resit az v~implementaci
 \subsection{Událost}
 
 \subsubsection{Vyhodnocení události}
+
+\subsection{Fasáda}
 
 \section{Controller}
 
