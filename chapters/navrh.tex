@@ -1,7 +1,13 @@
 \chapter{Návrh}
 \label{sec:de}
 
-\section{Architektura MVC}
+\section{Návrhový vzor MVC}
+
+Struktura nadřazeného systému je vhodná k použití návrhového vzoru MVC, tedy \textit{model-view-controller}. \textit{Model}, tedy  uchovávaná a zpracovávaná data, v tomto případě představují garáže (podřízené systémy), nim vázané události a logika jejich vyhodnocování. 
+
+\textit{View} je zobrazení těchto dat, tedy především generované HTML stránky webového rozhraní. Jako další \textit{view} je možné považovat získávání dat (například ve formátu JSON) pomocí API nadřazeného systému, třeba při zasílání registračních klíčů podřízeným systémům.
+
+\textit{Controller} je pak část aplikace, která se stará o zpracování HTTP požadavků. Ty mohou přicházet jednak z uživateloval prohlížeče, jednak od podřízených systémů. Na základě těchto požadavků pak \textit{controller} posílá příslušné příkazy \textit{modelu}. Struktura aplikace při použití vzoru MVC je naznačena na obrázku \ref{fig:mvc}.
 
 \begin{figure}[h!]
     \centering
