@@ -1,2 +1,1 @@
-* dopsat tam zdroj ceny u tech desek a tak (do footnote)
 * v analyze popsat naky zakladni chovani systemu -- odesilani emailu, smsek atd
