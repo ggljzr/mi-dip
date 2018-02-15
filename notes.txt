@@ -1,13 +1,3 @@
-komunikace mezi podrizenejma systemama a nadrazenym systemem -- klient/server? publisher/subscriber -- mqtt?
-
-klient/server je bez problemu na https ale publisher/subscriber by byl mozna problem (jak poslat nakou zpravu ze serveru na klienta) -- viz https://en.wikipedia.org/wiki/Push_technology#HTTP_server_push
-
-mqtt tohle resi -- nadraz. sys. ma subscribnuty garaze jako publishery a garaze maj subscribnuty nadraz. sys jako publishera
-
-zalezi jestli chceme posilat zpravy ze serveru na klienta (treba prikazy zamknout/vodemknout). jestli staci sbirat data z garazi, tak staci vobyc klient/server (nebo v mqtt budou publisheri akorat garaze).
-
-v ty kapitole "implementace" proste popsat jen vytvareni ty aplikace, pak asi udelat extra kapitolu vo nasazovani na rpi (rozjeti web serveru, generovani certifikatu atd...)
-
 taky pak mozna pri prihlasovani do aplikace pouzit https://en.wikipedia.org/wiki/Digest_access_authentication, ale imho by pres https mel basic auth stacit (zeptat se cejky? viz https://alfresco.fit.cvut.cz/share/proxy/alfresco/api/node/content/workspace/SpacesStore/e1b81080-35e9-4bac-ad67-749e242af633)
 
 neco vo sifrovani na mqtt:
@@ -33,18 +23,9 @@ neco vo autentizaci pres https:
 https://zapier.com/engineering/apikey-oauth-jwt/
 otazka: hashovat ulozeny api klice v nadrazenym systemu?
 
-zvazit nejakou moznost sifrovani uloziste (sd karty) na rpi
-
 u ty autentizace by to nahravani klicu krome ty seriovy linky slo udelat treba tak, ze v tim webovym rozhrani by sel (na omezenou dobu) zapnout nakej registracni mod, kterej by povoloval nakej specialni request, kterej by vygeneroval novej klic pro zarizeni, poslal mu ho a ulozil ho do databaze. Tj uzivatel by zapnul tenhle mod, na podrizenym systemu zmack naky special tlacitko, tim by poslal tenhle request, a nadrazenej system by tomu podrizenymu poslal zpatky klic a do databaze si ulozil ze ma novy zarizeni. Po tyhle registraci by uzivatel ten reg. mod zase vypnul. <-- nevim jestli tohle popsat v analyze, nebo az pak treba v navrhu
 
 nejak formalne sepsat pozadavky na ten system (provoz v mistni siti atd...)? mozna na zacatek ty analyzi uplne
-
-databaze:
-sqlite3 -- https://www.sqlite.org/about.html
-sqlcipher -- rozsireni sqlite pro sifrovani https://www.zetetic.net/sqlcipher/
-https://github.com/rigglemania/pysqlcipher3 -- python bindings (req libsqlcipher-dev to build)
-ale to sifrovani je k hovnu asi protoze stejne neni kam ulozit ten klic (nemuzu ho mit na disku spolu s tim db souborem), 
-leda ze by se nahral na vsechny ty subsystemy (jak?) -- sekci vo sifrovani db sem zatim dal pryc
 
 implementace: podivat se na to RTC, mozna nefunguje ta synchronizace systemovejch hodin -> cas ulozenej na rtc (prectenej pomoci hwclock) je spravne, ale kdyz se to vypne a zapne tak je systemovej cas spatne (jinej nez v hwclock), a sesynchronizuje se az kdyz se to pripoji k internetu. Moznej workaround -> zavolat hwclock -s (nastaveni systemovyho casu z hwclock) pri bootu (also basic info: https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi?view=all#set-rtc-time, vo tim hwclock -s syncu https://raspberrypi.stackexchange.com/questions/28583/hwclock-s-in-rc-local-wont-work)
 
