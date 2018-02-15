@@ -32,3 +32,7 @@ implementace: podivat se na to RTC, mozna nefunguje ta synchronizace systemovejc
 mozna este vic srovnat ty frameworky django a flask, nebo se aspon podivat jestli by to django nebylo lepsi. kdyby z toho vyslo naky detailnejsi srovnani, tak asi rozdelit tu sekci programovaci jazyk na dve, s tim ze v ty druhy bude popis vyberu frameworku
 
 vo mvc ve flasku viz https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)
+
+zneplatneni api klicu:
+ smazanim garaze -> to ale vodstrani i prislusny udalosti a to treba nechceme
+ pri registraci pres api se ale dycky vytvori nova garaz. reseni: naka moznost presunout eventy z jedny garaze na druhou. nebo to proste nechat no
