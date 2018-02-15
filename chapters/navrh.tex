@@ -18,7 +18,57 @@ Struktura nadřazeného systému je vhodná k~použití návrhového vzoru MVC, 
 
 Hlavní motivací pro použití tohoto vzoru je snadná rozšiřitelnost. Pokud by například bylo potřeba aplikaci doplnit o~komunikaci s~podřízenými systémy pomocí MQTT, stačí pouze vytvořit vhodný \textit{controller}. Ten pak může využívat \textit{model} aplikace stejným způsobem jako HTTP \textit{controller}.
 
-\section{Flask Blueprints}
+Tento návrhový vzor popisuje pouze nadřazený systém spravující garáže. Kromě toho je součástí aplikace ještě autentizace uživatele při přístupu do uživatelského rozhraní. Tuto funkci jsem se rozhodl pojmout jako samostatnou komponentu, popsanou v~sekci \ref{sec:de_auth}.
+
+\section{\textit{Model}}
+
+\textit{Model} představuje jádro nadřazeného systému. Je zde implementována vnitřní reprezentace uchovávaných dat, což jsou především zaznamenané události. Každá událost má také svého původce, tedy garáž (přesněji podřízený systém v~této garáži).
+
+Kromě toho \textit{model} implementuje \textit{business logiku} sytému, tedy například vytváření nových garáží (registraci podřízených systémů) či reakce na příchozích události.
+
+Ostatní části aplikace (\textit{view} a \textit{controller}) používají \textit{model}, bez znalosti jeho vnitřní struktury, pomocí následujících operací:
+
+\begin{itemize}
+    \item \textbf{Vytvoření garáže} -- registrace nového podřízeného systému. V~případě vytváření pomocí API (tj. přímo podřízeným systémem) vyžaduje operace zapnutý registrační mód. Pokud je nová garáž vytvářena ve webovém rozhraní, registrační mód není vyžadován.
+    \item \textbf{Editace garáže} -- například změna označení.
+    \item \textbf{Smazání garáže}.
+    \item \textbf{Zapínání/vypínaní registračního módu}.
+    \item \textbf{Přístup k~uloženým datům} -- obecně operace typu získání všech garáží nebo událostí vázané ke konkrétní garáži.
+    \item \textbf{Vytvoření události} -- základní požadavek využívaný podřízenými systémy.
+\end{itemize}
+
+Vnitřně pak model na základě těchto operací autentizuje pomocí API klíčů požadavky podřízených systému, validuje zaslaná data a spravuje databázi systému.
+
+\subsection{Garáž}
+
+\subsubsection{Registrační mód}
+
+\subsubsection{Stav garáže}
+
+\subsection{Událost}
+
+\subsubsection{Vyhodnocení události}
+
+\subsection{Uživatel}
+
+\subsection{Fasáda}
+
+\section{Controller}
+
+Flask API
+
+\section{View}
+
+\section{Autentizace uživatele}
+\label{sec:de_auth}
+
+tady budou takovy ty veci jako kde je ulozeny heslo, hashovani hesel a tak
+
+plus teda to ze je to zvlast vod toho nadrazenyho systemu, tzn tady urcite bude pouzitej ten blueprint
+
+\subsection{API}
+
+\subsection{Flask Blueprints}
 
 ta sekce s~blueprintama bude asi nejlepsi tady hned z~kraje
 
@@ -49,33 +99,3 @@ Z~toho vypliva ze jadrem ty aplikace bude ten datovej model (garaze, eventy atd.
 \end{itemize}
 
 ten model by mozna nemel bejt cast zadnyho toho modulu (blueprintu) ale bejt zvlast, kdyz ho budou pouzivat dva moduly najednou. Ze by se instancioval v~tim hlavnim init.py souboru podobne jako se tam instanciuje ta databaze
-
-\section{Model}
-
-pouziti sqlalchemy -- to resit az v~implementaci
-
-\subsection{Garáž}
-
-\subsubsection{Stav garáže}
-
-\subsection{Událost}
-
-\subsubsection{Vyhodnocení události}
-
-\subsection{Fasáda}
-
-\section{Controller}
-
-Flask API
-
-\section{View}
-
-\section{Autentizace}
-
-\subsection{Autentizace uživatele}
-
-\subsection{Autentizace podřízeného systému}
-
-\subsubsection{Registrační mód}
-
-\subsection{API}
