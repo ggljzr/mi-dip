@@ -7,6 +7,39 @@ pouziti flask blueprintu (\url{http://flask.pocoo.org/docs/0.12/blueprints/}) --
 
 zakladni struktura aplikace zalozena na \url{https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)}
 
+\subsection{Flask Blueprints}
+
+v~analyze akorat napsat ze tam budou naky komponenty (konkretne hlavne ten auth modul), ty blueprinty resit az pri implementaci tj tady
+
+\url{http://flask.pocoo.org/docs/0.12/blueprints/}
+
+rekneme ze budeme mit tri blueprinty (moduly):
+
+\begin{itemize}
+    \item main modul -- tady bude definovanej ten hlavni model, tj garaze, eventy a pripadne naka fasada na tim. Controller a view pak bude zprostredkovavat uzivatelsky rozhrani (krome loginu) webovy stranky. V~timhle rozhrani pude proklikavat ty garaze a eventy, zapinat registraci mod a vytvaret/mazat garaze. To vytvareni garazi je hlavne kvuli nakejm dev options, primarne se budou garaze vytvaret skrz to api (tj tim cudlikem na podrizenym systemu). Vytvorit garaz v~uzivatelskym rozhrani nebude vyzadovat zapnutej registracni mod, tj to bude uplne jinej pozadavek na uplnej jinej controller -- ten v~main modulu a ne v~api modulu
+    \item api modul -- modul co bude zprostredkovavat api pro podrizeny systemy. tj tady se nebude generovat zadny html nebo veci pro uzivatelsky rozhrani, ale ciste jen zpracovavat pozadavky vod podrizenejch systemu. Modul bude vyuzivat tu fasadu z~main modulu pro pristup k~databazi (stejne jako main modul). Controller v~timhle modulu bude teda resit pozadavky na vytvareni novejch garazi pomoci API. To jestli je zapnutej registracni mod bude resit ten model, v~tim bude vodlisna funkce pro vytvoreni garaze pres reg. mod a pres rozhrani a prislusny controllery budou volat prislusnou funkci. Krome toho tenhle controller bude resit pozadavky na vytvoreni eventu.
+    \item auth modul -- tenhle modul bude resit ciste prihlaseni uzivatele do webovyho rozhrani
+\end{itemize}
+
+Z~toho vypliva ze jadrem ty aplikace bude ten datovej model (garaze, eventy atd...) a fasada nad nim. Ta fasada by teda mela umet nasledujici veci (za pomlckou kterej modul to bude pouzivat):
+
+\begin{itemize}
+    \item vytvorit garaz (pozadavek z~web. rozhrani) -- main
+    \item vytvorit garaz (pozadavek z~api -- tj kontrola reg. modu) -- api
+    \item vypnout/zapnout reg. mod -- main
+    \item smazat garaz -- main
+    \item vratit vsechny garaze -- main
+    \item vratit konkretni garaz -- main, (api?)
+    \item vratit vsechny eventy -- main
+    \item vratit eventy ke garazi -- main
+    \item vytvorit event vazanej ke garazi -- api
+    \item kontrola klicu pozadavku vod api -- api
+    \item vnitrni udrzovani stavu garazi a vyhodnocovani udalosti -- main, api
+\end{itemize}
+
+ten model by mozna nemel bejt cast zadnyho toho modulu (blueprintu) ale bejt zvlast, kdyz ho budou pouzivat dva moduly najednou. Ze by se instancioval v~tim hlavnim init.py souboru podobne jako se tam instanciuje ta databaze
+
+
 \begin{listing}[htbp]
 \caption{\label{code:foo} Testovací listing}
 \begin{minted}[bgcolor=codebg]{python}
