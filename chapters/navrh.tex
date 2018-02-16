@@ -2,6 +2,7 @@
 \label{sec:de}
 
 \section{Návrhový vzor MVC}
+\label{sec:de_mvc}
 
 Struktura nadřazeného systému je vhodná k~použití návrhového vzoru MVC, tedy \textit{model-view-controller}. \textit{Model} zde představují garáže (podřízené systémy), k~nim vázané události a logika jejich vyhodnocování. 
 
@@ -47,7 +48,9 @@ Entita \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv�
     \item \texttt{id} -- identifikace entity v~databázi.
     \item \texttt{tag} -- uživatelem zvolené označení garáže. To slouží pro snadnější orientaci ve webovém rozhraní (uživatel nemusí garáže rozlišovat podle nic neříkajícího \texttt{id}).
     \item \texttt{api\_key} -- klíč umožňující přístup k~API systému. Ten je také zaslán zařízení při jeho registraci.
-    \item \texttt{last\_report} -- datum posledního hlášeí.
+    \item \texttt{last\_report} -- datum a čas posledního kontrolního hlášeí.
+    \item \texttt{next\_report} -- datum a čas dalšího očekávaného hlášení.
+    \item \texttt{period} -- perioda kontrolních hlášení.
     \item \texttt{state} -- stav garáže.
     \item Seznam událostí spojených s~touto garáží.
 \end{itemize}
@@ -60,7 +63,11 @@ Druhá možnost je použít registrační mód. V~tom případě je nová gará�
 
 \subsection{Událost -- \texttt{Event}}
 
-Entita \texttt{Event} představuje událost zaznamenanou podřízeným systémem.
+Entita \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
+
+Nadřazený systém rozlišuje dva druhy událostí. Kontrolní (plánované) události slouží ke kontrole funkčnosti podřízených systémů. Tyto události jsou odesílány v~pravidelném intervalu, určeném nadřazeným systémem. Ten v~odpovědi na požadavek s~kontrolní událostí zašle očekávaný čas (počet minut) do dalšího hlášení. Kontrolní událost nezasílá žádná data, funguje pouze jako známka života podřízeného systému.
+
+Kromě kontrolních hlášení mohou podřízené systémy vytvářet mimořádné události. Mimořádná událost nastane při překročení mezních hodnot některého z~čidel (tedy detekce kouře, pohybu či otevření/zavření dveří).
 
 \subsubsection{Vyhodnocení události}
 
