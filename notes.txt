@@ -36,3 +36,5 @@ vo mvc ve flasku viz https://www.digitalocean.com/community/tutorials/how-to-str
 zneplatneni api klicu:
  smazanim garaze -> to ale vodstrani i prislusny udalosti a to treba nechceme
  pri registraci pres api se ale dycky vytvori nova garaz. reseni: naka moznost presunout eventy z jedny garaze na druhou. nebo to proste nechat no
+
+podivat se presnejc na ty csrf tokeny
