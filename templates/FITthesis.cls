@@ -1,6 +1,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{FITthesis}[2013/05/06 CTU FIT standard class for theses]
 
+%1\usepackage{pdfpages} % \includepdf
+
 % created by Ondrej Guth <ondrej.guth@fit.cvut.cz>
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
@@ -60,6 +62,8 @@
 \setlrmargins{4cm}{*}{*}\checkandfixthelayout
 
 \RequirePackage{etoolbox}
+
+\RequirePackage{pdfpages} % \includepdf
 
 \AtEndEnvironment{table}{\gdef\there@is@a@table{}}
 \AtEndDocument{\ifdefined\there@is@a@table\label{tab:was:used:in:doc}\fi}
@@ -445,7 +449,8 @@ sp\^ osobom, ktor\'y nezni\v zuje hodnotu Diela (vr\'atane komer\v cn\'eho vyu\v
 
 \AfterEndPreamble{
 	\thispagestyle{empty}
-	\if\@lang1{Sem vlo{\v z}te zad{\' a}n{\' i} Va{\v s}{\' i} pr{\' a}ce.}\else\if\@lang2{Sem vlo{\v z}te zadanie Va{\v s}ej pr{\' a}ce.}\else{Insert here your thesis' task.}\fi\fi
+	%\if\@lang1{Sem vlo{\v z}te zad{\' a}n{\' i} Va{\v s}{\' i} pr{\' a}ce.}\else\if\@lang2{Sem vlo{\v z}te zadanie Va{\v s}ej pr{\' a}ce.}\else{Insert here your thesis' task.}\fi\fi
+	\includepdf[pages={1}]{chapters/zadani.pdf}
 
 	\frontmatter
 	\pagestyle{plain}
