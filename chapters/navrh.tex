@@ -42,7 +42,7 @@ Vnitřně pak model na základě těchto operací autentizuje pomocí API klíč
 
 \subsection{Garáž -- \texttt{Garage}}
 
-Entita \texttt{Garage} reprezentuje konkrétní podřízený systém a uchovává s~ním spojená data:
+Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchovává s~ním spojená data:
 
 \begin{itemize}
     \item \texttt{id} -- identifikace entity v~databázi.
@@ -51,7 +51,7 @@ Entita \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv�
     \item \texttt{last\_report} -- datum a čas posledního kontrolního hlášeí.
     \item \texttt{next\_report} -- datum a čas dalšího očekávaného hlášení.
     \item \texttt{period} -- perioda kontrolních hlášení.
-    \item \texttt{state} -- stav garáže.
+    \item \texttt{state} -- stav garáže (otevřeno/zavřeno).
     \item Seznam událostí spojených s~touto garáží.
 \end{itemize}
 
@@ -63,11 +63,30 @@ Druhá možnost je použít registrační mód. V~tom případě je nová gará�
 
 \subsection{Událost -- \texttt{Event}}
 
-Entita \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
+Třída \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
 
 Nadřazený systém rozlišuje dva druhy událostí. Kontrolní (plánované) události slouží ke kontrole funkčnosti podřízených systémů. Tyto události jsou odesílány v~pravidelném intervalu, určeném nadřazeným systémem. Ten v~odpovědi na požadavek s~kontrolní událostí zašle očekávaný čas (počet minut) do dalšího hlášení. Kontrolní událost nezasílá žádná data, funguje pouze jako známka života podřízeného systému.
 
 Kromě kontrolních hlášení mohou podřízené systémy vytvářet mimořádné události. Mimořádná událost nastane při překročení mezních hodnot některého z~čidel (tedy detekce kouře, pohybu či otevření/zavření dveří).
+
+Základní třída \texttt{Event} a podtřídy \texttt{CheckEvent} a \texttt{SensorEvent} obsahují tyto údaje:
+
+\begin{itemize}
+    \item \texttt{id} -- identifikace entity v~databázi.
+    \item \texttt{timestamp} -- časové razítko.
+    \item Garáž, která je původcem události.
+    \item \texttt{CheckEvent} dále obsahuje:
+        \begin{itemize}
+            \item \texttt{next\_report} -- datum a čas dalšího očekávaného hlášení.
+        \end{itemize}
+    \item \texttt{SensorEvent} dále obsahuje:
+        \begin{itemize}
+            \item \texttt{type} -- typ senzoru.
+            \item \texttt{value} -- naměřená hodnota ????
+        \end{itemize}
+\end{itemize}
+
+eventuelne napsat ze ta trida \texttt{SensorEvent} bude mit podtridy podle typu senzoru, ze to bude lepsi kvuli rozsiritelnosti. To uvidim co se mi bude vic libit az to zkusim naimplementovat
 
 \subsubsection{Vyhodnocení události}
 
@@ -76,6 +95,10 @@ Kromě kontrolních hlášení mohou podřízené systémy vytvářet mimořádn
 \section{Controller}
 
 Flask API
+
+\subsection{API}
+
+dulezita je idempotence prikazu, tj. bude prikaz na udalost votevreno a na udalost zavreno ale ne toggle, aby se nerozbil stav garaze na serveru.
 
 \section{View}
 
@@ -87,5 +110,3 @@ tady budou takovy ty veci jako kde je ulozeny heslo, hashovani hesel a tak
 plus teda to ze je to zvlast vod toho nadrazenyho systemu, tzn tady urcite bude pouzitej ten blueprint
 
 este teda napsat ze vsechny ty veci spojeny s~uzivatelem nebudou ulozeny v~ty databazi ale jen v~nakym konfiguraku (veci jako heslo a pripadne ten notifikacni mail)
-
-\subsection{API}
