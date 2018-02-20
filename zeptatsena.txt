@@ -1,7 +1,1 @@
-* operacni system na zybo
-* co presne se mysli tim "Navržený systém na základě příchozích událostí vyhodnotí situaci a zareaguje vhodnou akcí" v zadani
-* jestli budeme to zadani este nak upravovat
-* sifrovani databaze (kam s klicem?)
-* jestli mam pri citovani treba toho zybo_man upresnovat treba kapitolu, pripadne kde
-* jak je zvyklej psat Mb MB atd...
-* jak citovat cenu veci
+* jestli je ok ulozit to zahashovany heslo do toho user_config

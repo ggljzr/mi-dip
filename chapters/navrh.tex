@@ -33,12 +33,13 @@ Ostatní části aplikace (\textit{view} a \textit{controller}) používají \te
     \item \textbf{Vytvoření garáže} -- registrace nového podřízeného systému. V~případě vytváření pomocí API (tj. přímo podřízeným systémem) vyžaduje operace zapnutý registrační mód. Pokud je nová garáž vytvářena ve webovém rozhraní, registrační mód není vyžadován.
     \item \textbf{Editace garáže} -- například změna označení.
     \item \textbf{Smazání garáže} -- smazáním garáže dojde k~odstranění zaznamenaných událostí a zneplatnění příslušného API klíče.
+    \item \textbf{Zneplatnění API klíče} -- odepření přístupu podřízenému systému bez nutnosti smazání garáže a s~ní spojených událostí.
     \item \textbf{Zapínání/vypínaní registračního módu}.
-    \item \textbf{Přístup k~uloženým datům} -- obecně operace typu získání všech garáží nebo událostí vázané ke konkrétní garáži.
+    \item \textbf{Přístup k~uloženým datům} -- obecně operace typu získání všech garáží nebo všech událostí vázané ke konkrétní garáži.
     \item \textbf{Vytvoření události} -- základní požadavek využívaný podřízenými systémy.
 \end{itemize}
 
-Vnitřně pak model na základě těchto operací autentizuje pomocí API klíčů požadavky podřízených systému, validuje zaslaná data a spravuje databázi systému.
+Vnitřně pak model na základě těchto operací autentizuje pomocí API klíčů požadavky podřízených systému, validuje zaslaná data a spravuje databázi nadřazeného systému.
 
 \subsection{Garáž -- \texttt{Garage}}
 
@@ -47,7 +48,7 @@ Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv
 \begin{itemize}
     \item \texttt{id} -- identifikace entity v~databázi.
     \item \texttt{tag} -- uživatelem zvolené označení garáže. To slouží pro snadnější orientaci ve webovém rozhraní (uživatel nemusí garáže rozlišovat podle nic neříkajícího \texttt{id}).
-    \item \texttt{api\_key} -- klíč umožňující přístup k~API systému. Ten je také zaslán zařízení při jeho registraci.
+    \item \texttt{api\_key} -- klíč umožňující přístup k~API systému. Ten je také zaslán zařízení při jeho registraci. Generování a správa klíčů je blíže popsána v~sekci \ref{sec:de_apikeys}.
     \item \texttt{last\_report} -- datum a čas posledního kontrolního hlášeí.
     \item \texttt{next\_report} -- datum a čas dalšího očekávaného hlášení.
     \item \texttt{period} -- perioda kontrolních hlášení.
@@ -59,7 +60,23 @@ Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv
 
 Nové garáže mohou v~systému vznikat dvěma způsoby. První možnost je vytvoření nové garáže přímo v~uživatelském rozhraní. Po vytvoření se zde zobrazí vygenerovaný API klíč, který je potřeba nahrát na příslušný podřízený systém. Způsob nahrávání by závisel na příslušném hardwaru (například sériová linka). Tato možnost je určena především pro podřízené systémy, které by nepodporovaly zaslání registračního požadavku a nevyžaduje zapnutý registrační mód.
 
-Druhá možnost je použít registrační mód. V~tom případě je nová garáž vytvořena na základě registračního požadavku podřízeného systému. Vygenerovaný API klíč je při tom zaslán jako odpověď na požadavek, a není tedy nutné ho ručně nahrávat. Registrační mód je možné aktivovat v~uživatelském rozhraní. Pokud mód není aktivovaný, nadřazený systém odmítne všechny požadavky na registraci.
+Druhá možnost je použít registrační mód. V~tom případě je nová garáž vytvořena na základě registračního požadavku podřízeného systému. Vygenerovaný API klíč je při tom zaslán jako odpověď na požadavek, a není tedy nutné ho ručně nahrávat. Registrační mód je možné aktivovat v~uživatelském rozhraní. Pokud mód není aktivovaný, nadřazený systém odmítne všechny požadavky na registraci zaslané tímto způsobem.
+
+\subsubsection{API klíče}
+\label{sec:de_apikeys}
+
+Podřízené systému se při zasílání událostí přes API prokazují klíčem. Ten slouží jednak k~zamezení příjmu událostí od neautorizovaných systému, jednak k~identifikaci původu události (zdrojové garáže) v~rámci nadřazeného systému. Podřízený systém tedy nemusí znát \texttt{id} garáže, ale jen \texttt{api\_key}.
+
+%generovani klice
+Vzhledem k~těmto požadavkům nelze použít jeden univerzální, ale je nutné pro každý registrovaný podřízený systém vygenerovat unikátní klíč. Ten je pak spolu s~dalšími záznamy o~garáži uložen v~databázi systému. K~vytváření klíčů jsem se rozhodl použít systém UUID, umožňující generování náhodných klíčů délky 128 bitů, které jsou (pro praktické účely) unikátní \cite{rfc4122}.
+
+%zneplatneni klice (smazani garaze, jen smazani klice, generovani novyho klice, este napsat ze pri vygenerovani novyho klice nepude pouzit registracni mod, ten vytvari novou garaz)
+
+Klíče je možné v~uživatelském rozhraní zneplatnit, a tím odepřít přístup zvolenému podřízenému systému. Tuto operaci lze provést dvěma způsoby. V~prvním případě lze smazat z~databáze celý záznam příslušné garáže. Tím dojde k~zneplatnění jejího klíče, ale také k~odstranění zaznamenaných událostí.
+
+Pokud si uživatel přeje data o~událostech uchovat, může pouze vygenerovat nový API klíč. Přepsáním klíče se opět zneplatní přístup podřízeného systému (který má stále starý klíč), ale uchovají se zaznamenaná data. Nově vygenerovaný klíč pak uživatel může nahrát na jiný podřízený systém, a tím například nahradit odcizené monitorovací zařízení. 
+
+V~tomto případě nelze pro nahrání klíče použít registrační mód nadřazeného systému. Ten totiž vždy počítá s~vytvořením nové garáže.
 
 \subsection{Událost -- \texttt{Event}}
 
@@ -105,8 +122,14 @@ dulezita je idempotence prikazu, tj. bude prikaz na udalost votevreno a na udalo
 \section{Autentizace uživatele}
 \label{sec:de_auth}
 
-tady budou takovy ty veci jako kde je ulozeny heslo, hashovani hesel a tak
+Do webového rozhraní aplikace je povolen pouze autorizovaný přístup, a je tedy nutné nějakým způsobem ověřit identitu uživatele. Jelikož aplikace nepočítá s~odlišnými stupni přístupu (a tedy každý uživatel s~přístupem do rozhraní má přístup ke všem jeho částem), rozhodl jsem se, že nebudu vytvářet infrastrukturu uživatelských účtů, protože by měla pouze omezené využití.
 
-plus teda to ze je to zvlast vod toho nadrazenyho systemu, tzn tady urcite bude pouzitej ten blueprint
+Přístup do rozhraní tedy nevyžaduje vytvoření účtu a zadávání uživatelského jména, ale pouze heslo. Otisk tohoto hesla (doplněného solí), vytvořený pomocí algoritmu Bcrypt, je uložen v~souboru s~uživatelským nastavením aplikace.
+
+Hashování hesla je zde použito především pro případ, že by uživatel použil stejné heslo jaké používá v~jiných aplikacích či službách. V~případě prozrazení uživatelských dat (například při odcizení systému) tedy útočník nemůže z~otisku zjistit původní použité heslo, tudíž přístup k~těmto uživatelovým účtům není kompromitován.
+
+Stejně tak někdo s~přístupem k~serveru, na kterém nadřazený systém běží, nemá automaticky přístup do webového rozhraní. Nicméně má stále přístup k~celé (nešifrované) databázi a také může heslo libovolně měnit (spočítáním nového otisku), tedy z~praktického hlediska je přístup k~serveru téměř ekvivalentní s~přístupem do webového rozhraní.
+
+este nak popsat ten prvni heslo problem, asi by stacila naka notifikace ze bacha heslo je password po prihlaseni do toho rozhrani nebo treba udelat neco prisnejsiho
 
 este teda napsat ze vsechny ty veci spojeny s~uzivatelem nebudou ulozeny v~ty databazi ale jen v~nakym konfiguraku (veci jako heslo a pripadne ten notifikacni mail)
