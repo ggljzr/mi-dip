@@ -1,13 +1,6 @@
 \chapter{Analýza}
 \label{sec:an}
 
-\begin{itemize}
-    \item ukladani dat
-    \item jazyk framework
-    \item platforma
-    \item email ??
-\end{itemize}
-
 Před samotným návrhem a implementací nadřazeného systému je potřeba přesněji definovat požadavky na jeho vlastnosti a chování. Z~hlediska chování by systém měl poskytovat následující funkce:
 
 \begin{itemize}
@@ -29,10 +22,18 @@ Dále jsou od nadřazeného systému požadovány tyto vlastnosti:
     \item \textbf{Bezpečnost} -- jak komunikace s~podřízenými systémy, tak přístup do uživatelského rozhraní by měl probíhat přes zabezpečený komunikační kanál, s~ověřením totožnosti účastníků.
     \item \textbf{Spolehlivost} -- způsob komunikace i systém jako celek by měl být dostatečně spolehlivý.
     \item \textbf{Prezistence} -- data v~systému by měla být uchovávána prezistentním způsobem.
-    \item \textbf{Nezávislost} -- Systém by neměl být příliš závislý na externích službách, alespoň v~omezené míře by měl fungovat i bez přístupu k~internetu.
+    \item \textbf{Nezávislost} -- Systém by neměl být příliš závislý na externích službách a alespoň v~omezené fungovat i bez přístupu k~internetu.
 \end{itemize}
 
 Na základě těchto požadavků je tedy potřeba zvolit vhodné nástroje pro implementaci systému. To je v~první řadě komunikační protokol použitý pro komunikaci s~podřízenými systémy. Tento protokol by měl být dostatečně robustní, rozšířený a podporovat šifrování. Také by s~jeho pomocí mělo být možné bezpečně ověřit identitu podřízených systémů. Výběrem protokolu se zabývá sekce \ref{sec:an_protocol}.
+
+Další důležitá volba je způsob uchování zachycených událostí a dalších údajů. Data je nutné uchovávát presistentně, nejlépe v~obecně používaném formátu, který umožní další zpracování i mimo nadřazený systém. Výběr úložiště je popsán v~sekci \ref{sec:an_data}.
+
+tady na tim miste bude este neco k~ty sekci vo emailu a notifikacich, kterou dopisu
+
+Nakonec zbývá zvolit programovací jazyk a případně frameworky pro tvorbu aplikace. Vhodných jazyků je dnes velké množství, jde tedy spíše o~otázku osobní preference, jak je popsáno v~sekci \ref{sec:an_lang}.
+
+Z~těchto požadavků vyplívá software potřebný k~implementaci nadřazeného systému, jehož dostupnost je hlavní požadavek při volbě hardwarové platformy v~sekci \ref{sec:an_plat}. 
 
 \section{Struktura systému}
 \label{sec:an_struct}
@@ -85,7 +86,7 @@ Pro vlastní protokol by bylo nutné vytvořit robustní server, který zvládá
 
 Další nevýhodou je nutnost implementace klientské části protokolu při vytváření nových zařízení spravovaných nadřazeným systémem. To do jisté míry omezuje jeho rozšiřitelnost.
 
-\subsection{HTTPS}
+\subsection{Protokol HTTPS}
 \label{sec:an_https}
 
 Další možnost je využít ke komunikaci protokol HTTPS. V~tomto případě by klienti komunikovali se sytémem pomocí HTTP metod jako například \verb|get| nebo \verb|post|.
@@ -139,7 +140,7 @@ Tento přístup by byl pravděpodobně uživatelsky příjemnější, přináš�
 
 Obecně vycházím z~toho, že i v~případě registrace nežádoucího zařízení nemůže toto zařízení krátkodobě způsobit výraznější škody -- do databáze nadřazeného systému může pouze zasílat nová data, která jsou navíc vázana k~jeho identitě (API klíči). Nemůže tedy získávat data od jiných podřízených systému či měnit jejich záznamy. Neautorizované zařízení se také objeví v~seznamu registrovaných API klíčů, kde může být snadno odhaleno. 
 
-\subsection{MQTT}
+\subsection{Protokol MQTT}
 \label{sec:an_mqtt}
 
 MQTT je komunikační protokol založený na modelu \textit{publisher/subscriber}, určený pro použití v~prostředí s~omezenými zdroji (malý výkon procesoru, omezená paměť atd.) \cite{mqtt_valerie}.
@@ -198,6 +199,7 @@ K~zabezpečení komunikace (včetně webového rozhraní) použiju \textit{self-
 Pokud by provozovatel plánoval mít systém přístupný z~internetu (přes registrovanou doménu), musí v~každém případě k~zabezpečení použít certifikát podepsaný důvěryhodnou certifikační autoritou. Pak stačí pouze v~konfiguračním souboru webového serveru nahradit \textit{self-signed} certifikát podepsaným certifikátem. Není tedy nutné provádět změny v~kódu aplikace.
 
 \section{Ukládání dat}
+\label{sec:an_data}
 
 Zaznamenané události bude potřeba presistentně uchovávat. Zde by šly využít jednoduché textové logy, vhodnější však bude zvolit nějaký databázový systém -- například kvůli širším možnostem zpracování naměřených údajů.
 
@@ -205,7 +207,12 @@ Z~dostupných možností mě zaujal SQLite, což není klasický databázový st
 
 Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omezenými zdroji, představují tyto vlastnosti nezanedbatelnou výhodu. Použití SQLite také zjednouší nasazení aplikace, neboť nebude nutné vytvářet a konfigurovat databázový server.
 
+\section{E-mailové notifikace}
+
+WIP
+
 \section{Programovací jazyk pro tvorbu systému}
+\label{sec:an_lang}
 
 Pro tvorbu systému jsem se rozhodl použít programovací jazyk Python. S~tímto jazykem mám nejvíce zkušeností co se týče implementace webových aplikací. Je také dostatečně rozšířený, takže výsledný systém bude možné nasadit na poměrně širokém spektru platforem bez nutnosti složitějšího portování.
 
