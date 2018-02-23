@@ -1,12 +1,18 @@
-Cílem této práce je vytvořit nadřazený systém pro monitorování garážového komplexu. Výsledná aplikace bude komunikovat pomocí WiFi či Ethernetu s~podřízenými systémy (zasílajícími údaje z~čidel v~garážích). Na základě získaných dat pak bude udržován stav jednotlivých garáží a vytvářena historii událostí.
+Tato práce se zabývá zabezpečením garážového komplexu. V~něm je potřeba jednotlivé garáže zajistit jednak proti nedovolenému vniknutí, jednak proti nebezpečí požáru. Je tedy nutné sledovat události indikující vznik těchto hrozeb (například detekce kouře či pohybu). K~tomu slouží zařízení umístěná v~garážích, která sledují stav svého okolí pomocí čidel a jsou schopna detekovat nebezpečí. 
+
+Tato zařízení nepracují samostatně, ale odesílají data o~zaznamenaných událostech centrální jednotce -- nadřazenému systému\footnote{V textu práce budu dále používat označení \uv{nadřazený systém} pro tuto centrální jednotku a \uv{podřízený systém} pro monitorovací zařízení umístěna v~jednotlivých garážích.}. Tento nadřazený systém zpracovává příchozí informace a varuje uživatele o~potencionálních hrozbách.
+
+Kromě toho také vytváří historii zachycených událostí. Ta může mít informativní hodnotu pro provozovatele komplexu (například údaje o~vytíženosti jednotlivých garáží), nebo také posloužit při policejním vyšetřování (časy otevření dveří či zacyhcení pohybu).
+
+Cílem této práce je vytvořit a otestovat tento nadřazený systém. Výsledná aplikace bude komunikovat pomocí WiFi či Ethernetu s~podřízenými systémy (monitorovacími zařízeními v~garážích). Na základě získaných dat pak bude udržován stav jednotlivých garáží a vytvářena historie událostí.
 
 Systém bude poskytovat webového rozhraní pro administraci. V~tom bude možné přidávat a odebírat podřízené systémy, zobrazovat jejich stav a zaznamenané události.
 
 Vzhledem k~povaze zadání je nutné systém navrhnout s~ohledem na zabezpečení přenášených informací před odposloucháváním či manipulací. Též je nutné autorizovat uživatele přistupjící do webového rozhraní.
 
-Dalším důležitým požadavkem je snadná rozšiřitelnost o~nové funkce. Systém by mělo být možné v~budoucnu doplnit o~možnost správy rozdílných podřízených systémů (například subsystémy pro sledování skladových zásob) či integraci s~mobilní aplikací. Bude tedy potřeba navrhnout vhodné API pro předávání informací mezi systémem a jeho klienty. 
+Dalším důležitým požadavkem je snadná rozšiřitelnost o~nové funkce. Systém by mělo být možné v~budoucnu doplnit o~možnost správy rozdílných podřízených systémů (například subsystémy pro sledování skladových zásob) či integraci s~mobilní aplikací. Bude tedy potřeba navrhnout vhodné komunikační rozhraní pro předávání informací mezi systémem a jeho klienty. 
 
-V~této práci se chci zaměřit na tvorbu aplikace na jedné konkrétní hardwarové platformě, jako například Raspberry Pi. Aplikace spolu s~touto platformou by pak měla tvořit kompletní zařízení, které bude možné po základní konfiguraci (připojení do WiFi sítě, nastavení hesla) hned nasadit.
+V~této práci se chci zaměřit na tvorbu aplikace na jedné konkrétní hardwarové platformě, jako je například jednodeskový počítač Raspberry Pi. Aplikace spolu s~touto platformou by pak měla tvořit kompletní zařízení, které bude možné po základní konfiguraci (připojení do WiFi sítě, nastavení hesla) hned nasadit.
 
 Výsledné řešení by však mělo být dostatečne nezávislé na zvolené platformě. Tudíž by neměl být problém spustit systém například na osobním počítači či virtuálním serveru.
 
