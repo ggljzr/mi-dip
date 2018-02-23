@@ -1,18 +1,38 @@
 \chapter{Analýza}
 \label{sec:an}
 
-co je potreba probrat:
-
 \begin{itemize}
-    \item zakladni struktura, chovani systemu ??
-    \item protokol, napsat co vod nej chceme
     \item ukladani dat
     \item jazyk framework
     \item platforma
     \item email ??
 \end{itemize}
 
-v~podstate teda popsat co se bude resit v~dalsich kapitolach, zacit nakym rozvinutim tech myslenek z~uvodu.
+Před samotným návrhem a implementací nadřazeného systému je potřeba přesněji definovat požadavky na jeho vlastnosti a chování. Z~hlediska chování by systém měl poskytovat následující funkce:
+
+\begin{itemize}
+    \item Systém má být schopen komunikovat s~podřízenými systémy pomocí WiFi či Ethernetu (v~rámci místní sítě). Komunikace je založena na zasílání událostí zaznamenaných podřízenými systémy.
+    \item Systém má umožňovat správu pomocí webového rozhraní, ve kterém je možné:
+        \begin{itemize}
+            \item Přidat (registrovat) či odebrat podřízený systém.
+            \item Zobrazit stav registrovaných podřízených systémů.
+            \item Zobrazit zaznamenané události.
+            \item Měnit nastavení jednotlivých podřízených systémů.
+            \item Měnit uživatelské nastavení.
+        \end{itemize}
+    \item Systém má být schopen nějakým způsobem informovat provozovatele při poplachu.
+\end{itemize}
+
+Dále jsou od nadřazeného systému požadovány tyto vlastnosti:
+
+\begin{itemize}
+    \item \textbf{Bezpečnost} -- jak komunikace s~podřízenými systémy, tak přístup do uživatelského rozhraní by měl probíhat přes zabezpečený komunikační kanál, s~ověřením totožnosti účastníků.
+    \item \textbf{Spolehlivost} -- způsob komunikace i systém jako celek by měl být dostatečně spolehlivý.
+    \item \textbf{Prezistence} -- data v~systému by měla být uchovávána prezistentním způsobem.
+    \item \textbf{Nezávislost} -- Systém by neměl být příliš závislý na externích službách, alespoň v~omezené míře by měl fungovat i bez přístupu k~internetu.
+\end{itemize}
+
+Na základě těchto požadavků je tedy potřeba zvolit vhodné nástroje pro implementaci systému. To je v~první řadě komunikační protokol použitý pro komunikaci s~podřízenými systémy. Tento protokol by měl být dostatečně robustní, rozšířený a podporovat šifrování. Také by s~jeho pomocí mělo být možné bezpečně ověřit identitu podřízených systémů. Výběrem protokolu se zabývá sekce \ref{sec:an_protocol}.
 
 \section{Struktura systému}
 \label{sec:an_struct}
