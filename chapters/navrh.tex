@@ -34,7 +34,7 @@ Ostatní části aplikace (\textit{view} a \textit{controller}) používají \te
     \item \textbf{Editace garáže} -- například změna označení.
     \item \textbf{Smazání garáže} -- smazáním garáže dojde k~odstranění zaznamenaných událostí a zneplatnění příslušného API klíče.
     \item \textbf{Zneplatnění API klíče} -- odepření přístupu podřízenému systému bez nutnosti smazání garáže a s~ní spojených událostí.
-    \item \textbf{Zapínání/vypínaní registračního módu}.
+    \item \textbf{Zapínání/vypínaní registračního módu} -- v~tomto módu je možné vytvářet nové garáže na základě požadavku od podřízeného systému. Bližší informace jsou v~sekci \ref{sec:de_add_garage}
     \item \textbf{Přístup k~uloženým datům} -- obecně operace typu získání všech garáží nebo všech událostí vázané ke konkrétní garáži.
     \item \textbf{Vytvoření události} -- základní požadavek využívaný podřízenými systémy.
 \end{itemize}
@@ -58,6 +58,7 @@ Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv
 \end{itemize}
 
 \subsubsection{Vytváření nových garáží}
+\label{sec:de_add_garage}
 
 Nové garáže mohou v~systému vznikat dvěma způsoby. První možnost je vytvoření nové garáže přímo v~uživatelském rozhraní. Po vytvoření se zde zobrazí vygenerovaný API klíč, který je potřeba nahrát na příslušný podřízený systém. Způsob nahrávání by závisel na příslušném hardwaru (například sériová linka). Tato možnost je určena především pro podřízené systémy, které by nepodporovaly zaslání registračního požadavku a nevyžaduje zapnutý registrační mód.
 
