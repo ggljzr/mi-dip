@@ -42,7 +42,7 @@ Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Pod
 
 Zaznamenané události jsou také uchovávány v~historii událostí, spolu s~dalšími metadaty jako čas přijetí nebo původce.
 
-Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu \textit{client/server}. Nadřazený systém provozuje server zvoleného protokolu (viz sekce \ref{sec:an_protocol}), ke kterému se podřízené systémy připojují. Komunikaci tedy vždy iniciuje podřízený systém. S~možností zasílání nevyžádaných zpráv podřízeným systémům v~této práci nepočítám, mohl by to však být námět pro další rozšíření.
+Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu \textit{client/server}. Nadřazený systém provozuje server zvoleného protokolu (viz sekci \ref{sec:an_protocol}), ke kterému se podřízené systémy připojují. Komunikaci tedy vždy iniciuje podřízený systém. S~možností zasílání nevyžádaných zpráv podřízeným systémům v~této práci nepočítám, mohl by to však být námět pro další rozšíření.
 
 Další, kdo přistupuje do systému, je uživatel. Přes webové rozhraní může sledovat stav garáží a historii událostí. Také zde může spravovat klíče, které slouží pro přístup ke komunikačnímu API systému. Přístup do webového rozhraní je zabezpečen heslem.
 
@@ -212,7 +212,15 @@ Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omez
 \section{Zasílání notifikací}
 \label{sec:an_notify}
 
-Nadřazený systém má být schopen zasílat uživatelům notifikace o~stavu jednotlivých garáží. Tyto notifikace mohou být vyvolány buď přímo podřízeným systémem na základě zaslané události.
+Nadřazený systém má být schopen zasílat uživatelům notifikace o~stavu jednotlivých garáží. Notifikace mohou informovat o~důležité události (například detekce kouře) nebo o~výpadku podřízeného systému (v~případě promeškání plánovaného kontrolního hlášení).
+
+Notifikace jsou zasílány pomocí e-mailu na seznam adres zvolených uživatelem. K~tomu je zapotřebí vytvořit účet, který by mohl nadřazený systém použít k~odesílání. 
+
+Zde se nabízí možnost provozovat e-mailový server s~účtem přímo na zařízení, na kterém poběží nadřazený systém. Provoz takového serveru je však velmi náročný, a to nejen kvůli složité počáteční konfiguraci, ale také z~hlediska dlouhodobé údržby \cite{email_dont}. Tento přístup by tak kladl neúměrné nároky na uživatele systému.
+
+Alternativa je použít nějakého poskytovatele e-mailových služeb, jako například Gmail od společnosti Google. Zde by si uživatel vytvořil účet určený k~odesílání notifikací, a poté autorizoval nadřazený systém k~odesílání zpráv z~tohoto účtu. 
+
+Tímto je částečně porušen požadavek na nezávislost (viz sekci \ref{sec:an}). Při zasílání notifikací je však nutný přístup k~internetu i v~případě použití vlastního e-mailového serveru a nezávislost na externí službě nevyváží komplikace spojené s~jeho provozem.
 
 \section{Programovací jazyk pro tvorbu systému}
 \label{sec:an_lang}
@@ -289,7 +297,7 @@ Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ub
     \label{fig:xilibus}
 \end{figure}
 
-Jelikož Xilinux staví na Ubuntu (konkrétně na verzi 12.04 LTS \cite{xilibus}), neměl by být problém nainstalovat software potřebný pro provoz nadřazeného systému (viz sekce \ref{sec:an_plat}). 
+Jelikož Xilinux staví na Ubuntu (konkrétně na verzi 12.04 LTS \cite{xilibus}), neměl by být problém nainstalovat software potřebný pro provoz nadřazeného systému (viz sekci \ref{sec:an_plat}). 
 
 Přípravek je možné připojiř k~síti pomocí Ethernetového portu, který podporuje rychlost až 1Gb/s \cite{zybo_man}. WiFi připojení by bylo možné realizovat pomocí USB modulu. Dále přípravek obsahuje HDMI a VGA port, audio konektory, čtyři tlačítka, čtyři přepínače a slot pro SD kartu \cite{zybo_man}.
 
