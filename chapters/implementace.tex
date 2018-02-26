@@ -19,7 +19,7 @@ co sme vsechno pouzili pri implementaci:
 
 \item zakladni struktura aplikace zalozena na \url{https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)}
 
-\item budem pouzivat asi gmail k~posilani notifikaci. tam se daj z~pythonu posilat bud pres nakyho smtp klienta (coz je mozna debilni protoze tam musi bejt nekde ulozeny heslo v~plaintextu) nebo pres to google api. Kdyz chcem jen posilat zpravy tak by mela staci autorizace pres api klice, viz \cite{email_api}.
+\item budem pouzivat asi gmail k~posilani notifikaci. tam se daj z~pythonu posilat bud pres nakyho smtp klienta (coz je mozna debilni protoze tam musi bejt nekde ulozeny heslo v~plaintextu) nebo pres to google api. Kdyz chcem jen posilat zpravy tak by mela staci autorizace pres api klice, viz \cite{email_api} a taky \url{https://developers.google.com/api-client-library/python/apis/}, primo pro python.
 
 \item napsat ze pro add garage a revoke key misto normalni routy, getu a linku pouzivame formulare a post kvuli vochrane pred csrf, viz \url{https://stackoverflow.com/questions/6812765/how-to-demonstrate-a-csrf-attack}. Timhle utokem by nekdo moh vytvaret garaze a rusit api klice, coz neni naka velka skoda ale spis na votravovani no (u~vostatnich veci (tj hlavne change password) to bylo uz driv v~pohode protoze byly pouzity ty flaskforms)
 
