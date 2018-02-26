@@ -21,15 +21,15 @@ Dále jsou od nadřazeného systému požadovány tyto vlastnosti:
 \begin{itemize}
     \item \textbf{Bezpečnost} -- jak komunikace s~podřízenými systémy, tak přístup do uživatelského rozhraní by měl probíhat přes zabezpečený komunikační kanál, s~ověřením totožnosti účastníků.
     \item \textbf{Spolehlivost} -- způsob komunikace i systém jako celek by měl být dostatečně spolehlivý.
-    \item \textbf{Prezistence} -- data v~systému by měla být uchovávána prezistentním způsobem.
-    \item \textbf{Nezávislost} -- Systém by neměl být příliš závislý na externích službách a alespoň v~omezené fungovat i bez přístupu k~internetu.
+    \item \textbf{Presistence} -- data v~systému by měla být uchovávána presistentním způsobem.
+    \item \textbf{Nezávislost} -- Systém by neměl být příliš závislý na externích službách a alespoň v~omezené míře fungovat i bez přístupu k~internetu.
 \end{itemize}
 
 Na základě těchto požadavků je tedy potřeba zvolit vhodné nástroje pro implementaci systému. To je v~první řadě komunikační protokol použitý pro komunikaci s~podřízenými systémy. Tento protokol by měl být dostatečně robustní, rozšířený a podporovat šifrování. Také by s~jeho pomocí mělo být možné bezpečně ověřit identitu podřízených systémů. Výběrem protokolu se zabývá sekce \ref{sec:an_protocol}.
 
 Další důležitá volba je způsob uchování zachycených událostí a dalších údajů. Data je nutné uchovávát presistentně, nejlépe v~obecně používaném formátu, který umožní další zpracování i mimo nadřazený systém. Výběr úložiště je popsán v~sekci \ref{sec:an_data}.
 
-%tady na tim miste bude este neco k~ty sekci vo emailu a notifikacich, kterou dopisu
+Nadřazený systém má být také schopen notifikovat uživatele v~případě hrozícího nebezpečí nebo výpadku podřízeného systému. To je možné provést mnoha způsoby, jejichž možnosti jsou shrnuty v~sekci \ref{sec:an_notify}.
 
 Nakonec zbývá zvolit programovací jazyk a případně frameworky pro tvorbu aplikace. Vhodných jazyků je dnes velké množství, jde tedy spíše o~otázku osobní preference, jak je popsáno v~sekci \ref{sec:an_lang}.
 
@@ -63,11 +63,13 @@ Podřízený systém je zařízení umístěné v~každé garáži, které sledu
     \item stav dveří.
 \end{itemize}
 
-V~případě překročení mezních hodnot se zařízení okamžitě hlásí nadřazenému systému. Kromě toho také v~pravidelných intervalech odesílá kontrolní hlášení. 
+Základní požadavek na podřízený systém je schopnost komunikace přes Ethernet či WiFi pomocí protokolu zvoleného v~sekci \ref{sec:an_protocol}. Kromě toho může být hardware prakticky libovolný.
+
+\subsection{Událost}
+
+Událost slouží jako základní komunikační jednotka mezi nadřazeným a podřízeným systémem. V~případě překročení mezních hodnot senzorů se jednotlivé podřízené systémy okamžitě hlásí nadřazenému systému. Kromě toho také v~pravidelných intervalech odesílají kontrolní hlášení. 
 
 Vyhodnocení události je provedeno nadřazeným systémem. Podřízený systém tedy hlásí každou událost (například otevření dveří), aniž by nějak zkoumal její závažnost.
-
-Základní požadavek na podřízený systém je schopnost komunikace přes Ethernet či WiFi pomocí protokolu zvoleného v~sekci \ref{sec:an_protocol}, dále pak podpora softwaru popsaného v~sekci \ref{sec:an_plat}. Kromě toho může být hardware prakticky libovolný.
 
 \section{Výběr komunikačního protokolu}
 \label{sec:an_protocol}
@@ -207,9 +209,10 @@ Z~dostupných možností mě zaujal SQLite, což není klasický databázový st
 
 Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omezenými zdroji, představují tyto vlastnosti nezanedbatelnou výhodu. Použití SQLite také zjednouší nasazení aplikace, neboť nebude nutné vytvářet a konfigurovat databázový server.
 
-\section{E-mailové notifikace}
+\section{Zasílání notifikací}
+\label{sec:an_notify}
 
-WIP
+Nadřazený systém má být schopen zasílat uživatelům notifikace o~stavu jednotlivých garáží. Tyto notifikace mohou být vyvolány buď přímo podřízeným systémem na základě zaslané události.
 
 \section{Programovací jazyk pro tvorbu systému}
 \label{sec:an_lang}
