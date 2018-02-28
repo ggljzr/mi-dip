@@ -80,6 +80,8 @@ Pokud si uživatel přeje data o~událostech uchovat, může pouze vygenerovat n
 
 V~tomto případě nelze pro nahrání klíče použít registrační mód nadřazeného systému. Ten totiž vždy počítá s~vytvořením nové garáže.
 
+%este napsat ze ty klice bysme mohli v rozhrani ukazovat jen jednou pri vytvoreni garaze a pak ukladat jejich hashe ale ze tady je to asi zbytecny
+
 \subsection{Událost -- \texttt{Event}}
 
 Třída \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
@@ -88,13 +90,13 @@ Nadřazený systém rozlišuje dva druhy událostí. Kontrolní (plánované) ud
 
 Kromě kontrolních hlášení mohou podřízené systémy vytvářet mimořádné události. Mimořádná událost nastane při překročení mezních hodnot některého z~čidel (tedy detekce kouře, pohybu či otevření/zavření dveří).
 
-Základní třída \texttt{Event} a podtřídy \texttt{CheckEvent} a \texttt{SensorEvent} obsahují tyto údaje:
+Základní třída \texttt{Event} a podtřídy \texttt{ReportEvent} a \texttt{SensorEvent} obsahují tyto údaje:
 
 \begin{itemize}
     \item \texttt{id} -- identifikace entity v~databázi.
     \item \texttt{timestamp} -- časové razítko.
     \item Garáž, která je původcem události.
-    \item \texttt{CheckEvent} dále obsahuje:
+    \item \texttt{ReportEvent} dále obsahuje:
         \begin{itemize}
             \item \texttt{next\_report} -- datum a čas dalšího očekávaného hlášení.
         \end{itemize}
