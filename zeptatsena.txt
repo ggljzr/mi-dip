@@ -1,1 +1,3 @@
-* jestli je ok ulozit to zahashovany heslo do toho user_config
+* velikost databaze, mazani udalosti...
+* kontrola propasnutejch hlaseni
+* telegram bot??
