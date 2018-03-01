@@ -157,12 +157,23 @@ Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí ce
 
 Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{green}{B} začnou odebírat \textit{topic} \uv{Teplota}. Když pak klient \textcolor{magenta}{C} pak publikuje zprávu na tuto adresu, \textcolor{blue2}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
 
-Adresy je možné hierarchicky strukturovat tímto způsobem \cite{mqtt_eclipse}: 
+\newpage
+
+Adresy je možné hierarchicky strukturovat následujícím způsobem \cite{mqtt_eclipse}: 
 
 \begin{itemize}
 
-\item Lze tedy tvořit skupiny, například \verb|/senzory/obyvak/teplota| nebo \verb|/senzory/kuchyne/vlhkost|. Zprávy je nutné publikovat na jednoznačnou adresu, při odebírání je však možné použít modifikátory \verb|+| a \verb|#| pro specifikování skupiny adres. Modifikátor \verb|+| odpovídá libovolnému jednomu stupni hierarchie, \verb|#| pak libovolnému počtu libovolných stupňů. Pro odebírání všech senzorů vlhkosti lze tedy použít adresu \verb|/senzory/+/vlhkost|. Všechna data by pak bylo možné odebírat na adrese \verb|/senzory/#|.
-
+\item Lze tvořit skupiny, například:
+    \begin{itemize}
+        \item \verb|/senzory/obyvak/teplota|.
+        \item \verb|/senzory/kuchyne/vlhkost|.
+    \end{itemize}
+\item Zprávy je nutné publikovat na jednoznačnou adresu.
+\item Při odebírání je možné použít modifikátory pro specifikování skupiny adres:
+    \begin{itemize}
+        \item Modifikátor \verb|+| -- odpovídá libovolnému jednomu stupni hierarchie. Například pro odebírání všech senzorů vlhkosti lze použít adresu \verb|/senzory/+/vlhkost|.
+        \item Modifikátor \verb|#| -- odpovídá libovolnému počtu libovolných stupňů. Adresa \verb|/senzory/#| tedy slouží k~odebírání všech dat.
+    \end{itemize}.
 \end{itemize}
 
 V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker} Mosquitto je dostupný na řadě platforem, včetně Raspberry Pi \cite{mqtt_mosquitto_wiki}).
