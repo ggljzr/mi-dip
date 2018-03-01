@@ -49,7 +49,7 @@ Další, kdo přistupuje do systému, je \textcolor{magenta}{uživatel}. Přes w
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/basic_struct.pdf}
+    \includegraphics[width=\textwidth]{images/basic_struct.pdf}
     \caption{Základní struktura systému}
     \label{fig:basic_struct}
 \end{figure}
@@ -150,14 +150,12 @@ Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí ce
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/basic_mqtt.pdf}
+    \includegraphics[width=\textwidth]{images/basic_mqtt.pdf}
     \caption[Příklad struktury protokolu MQTT]{Příklad struktury protokolu MQTT \cite{mqtt_eclipse}}
     \label{fig:basic_mqtt}
 \end{figure}
 
 Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{green}{B} začnou odebírat \textit{topic} \uv{Teplota}. Když pak klient \textcolor{magenta}{C} pak publikuje zprávu na tuto adresu, \textcolor{blue2}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
-
-\newpage
 
 Adresy je možné hierarchicky strukturovat následujícím způsobem \cite{mqtt_eclipse}: 
 
@@ -173,7 +171,7 @@ Adresy je možné hierarchicky strukturovat následujícím způsobem \cite{mqtt
     \begin{itemize}
         \item Modifikátor \verb|+| -- odpovídá libovolnému jednomu stupni hierarchie. Například pro odebírání všech senzorů vlhkosti lze použít adresu \verb|/senzory/+/vlhkost|.
         \item Modifikátor \verb|#| -- odpovídá libovolnému počtu libovolných stupňů. Adresa \verb|/senzory/#| tedy slouží k~odebírání všech dat.
-    \end{itemize}.
+    \end{itemize}
 \end{itemize}
 
 V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker} Mosquitto je dostupný na řadě platforem, včetně Raspberry Pi \cite{mqtt_mosquitto_wiki}).
@@ -312,7 +310,7 @@ Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ub
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/xilibus.pdf}
+    \includegraphics[width=\textwidth]{images/xilibus.pdf}
     \caption[Blokové schéma využití IP jádra Xilibus]{Blokové schéma využití IP jádra Xilibus \cite{xilibus}}
     \label{fig:xilibus}
 \end{figure}
@@ -375,7 +373,7 @@ Další problém může představovat hlavní výhoda tohoto řešení, a to př
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/aws.pdf}
+    \includegraphics[width=\textwidth]{images/aws.pdf}
     \label{fig:aws}
     \caption{Struktura systému provozovaného na virtuálním serveru}
 \end{figure}
