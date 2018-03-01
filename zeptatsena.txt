@@ -1,3 +1,2 @@
-* velikost databaze, mazani udalosti...
 * kontrola propasnutejch hlaseni
 * telegram bot??
