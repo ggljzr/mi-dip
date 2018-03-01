@@ -5,7 +5,8 @@ Před samotným návrhem a implementací nadřazeného systému je potřeba pře
 
 \begin{itemize}
     \item Systém má být schopen komunikovat s~podřízenými systémy pomocí WiFi či Ethernetu (v~rámci místní sítě). Komunikace je založena na zasílání událostí zaznamenaných podřízenými systémy.
-    \item Systém má umožňovat správu pomocí webového rozhraní, ve kterém je možné:
+    \item Systém má uchovávat zaznamenané události, včetně data a času přijetí a podřízeného systému, který událost vytvořil.
+    \item Systém má umožňovat správu pomocí webového rozhraní, které by mělo umožňovat následující funkce:
         \begin{itemize}
             \item Přidat (registrovat) či odebrat podřízený systém.
             \item Zobrazit stav registrovaných podřízených systémů.
@@ -13,7 +14,7 @@ Před samotným návrhem a implementací nadřazeného systému je potřeba pře
             \item Měnit nastavení jednotlivých podřízených systémů.
             \item Měnit uživatelské nastavení.
         \end{itemize}
-    \item Systém má být schopen nějakým způsobem informovat provozovatele při poplachu.
+    \item Systém má být schopen informovat provozovatele při poplachu či poruše.
 \end{itemize}
 
 Dále jsou od nadřazeného systému požadovány tyto vlastnosti:
@@ -29,18 +30,18 @@ Na základě těchto požadavků je tedy potřeba zvolit vhodné nástroje pro i
 
 Další důležitá volba je způsob uchování zachycených událostí a dalších údajů. Data je nutné uchovávát presistentně, nejlépe v~obecně používaném formátu, který umožní další zpracování i mimo nadřazený systém. Výběr úložiště je popsán v~sekci \ref{sec:an_data}.
 
-Nadřazený systém má být také schopen notifikovat uživatele v~případě hrozícího nebezpečí nebo výpadku podřízeného systému. To je možné provést mnoha způsoby, jejichž možnosti jsou shrnuty v~sekci \ref{sec:an_notify}.
+Nadřazený systém má být také schopen upozornit uživatele v~případě hrozícího nebezpečí nebo výpadku podřízeného systému. To je možné provést mnoha způsoby, jejichž možnosti jsou shrnuty v~sekci \ref{sec:an_notify}.
 
 Nakonec zbývá zvolit programovací jazyk a případně frameworky pro tvorbu aplikace. Vhodných jazyků je dnes velké množství, jde tedy spíše o~otázku osobní preference, jak je popsáno v~sekci \ref{sec:an_lang}.
 
-Z~těchto požadavků vyplívá software potřebný k~implementaci nadřazeného systému, jehož dostupnost je hlavní požadavek při volbě hardwarové platformy v~sekci \ref{sec:an_plat}. 
+Z~těchto požadavků vyplývá software potřebný k~implementaci nadřazeného systému, jehož dostupnost je hlavní požadavek při volbě hardwarové platformy v~sekci \ref{sec:an_plat}. 
 
 \section{Struktura systému}
 \label{sec:an_struct}
 
 Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Podřízené systémy komunikují s~nadřazeným na základě událostí. Nadřazený systém tyto události zpracovává a upravuje podle nich stav garáží v~evidenci. 
 
-Zaznamenané události jsou také uchovávány v~historii událostí, spolu s~dalšími metadaty jako čas přijetí nebo původce.
+Zaznamenané události jsou také uchovávány v~historii událostí, spolu s~dalšími metadaty jako čas přijetí nebo podřízeného systému, který událost vytvořil.
 
 Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu \textit{client/server}. Nadřazený systém provozuje server zvoleného protokolu (viz sekci \ref{sec:an_protocol}), ke kterému se podřízené systémy připojují. Komunikaci tedy vždy iniciuje podřízený systém. S~možností zasílání nevyžádaných zpráv podřízeným systémům v~této práci nepočítám, mohl by to však být námět pro další rozšíření.
 
@@ -63,7 +64,7 @@ Podřízený systém je zařízení umístěné v~každé garáži, které sledu
     \item stav dveří.
 \end{itemize}
 
-Základní požadavek na podřízený systém je schopnost komunikace přes Ethernet či WiFi pomocí protokolu zvoleného v~sekci \ref{sec:an_protocol}. Kromě toho může být hardware prakticky libovolný.
+Základní požadavek na podřízený systém je schopnost komunikace přes Ethernet či WiFi pomocí protokolu zvoleného v~sekci \ref{sec:an_protocol}. Jinak může být hardware prakticky libovolný.
 
 \subsection{Událost}
 
@@ -78,8 +79,6 @@ Nejdřív je nutné určit způsob komunikace, který bude systém používat. D
 
 Nadřazený systém bude se svými klienty (monitorovací zařízení v~jednotlivých garážích) komunikovat přes WiFi nebo Ethernet. Základem komunikace bude TCP/IP protokol, je však potřeba zvolit vhodný protokol z~aplikační vrstvy OSI modelu, který na něm bude stavět.
 
-Při výběru protokolu jsem vycházel z~předpokaldu, že systém bude provozován v~uzavřené síti a bez přístupu k~internetu. 
-
 \subsection{Vlastní protokol}
 
 Jedna z~možností je implementovat vlastní protokol pomocí TCP/IP socketů. Toto řešení se mi však nezdá příliš vhodné, neboť nepřináší žádné významné výhody, naopak se s~ním pojí řada komplikací.
@@ -93,31 +92,31 @@ Další nevýhodou je nutnost implementace klientské části protokolu při vyt
 
 Další možnost je využít ke komunikaci protokol HTTPS. V~tomto případě by klienti komunikovali se sytémem pomocí HTTP metod jako například \verb|get| nebo \verb|post|.
 
-Jelikož součástí požadavků na systém je i webové uživatelské rozhraní, bude v~každém případě nutné použít webový server pro jeho provoz. Ten by pak bylo možné využít i k~poskytnutí API pro komunikaci systému s~garážovými čidly.
+Jelikož součástí požadavků na systém je i webové uživatelské rozhraní, bude v~každém případě nutné použít webový server pro jeho provoz. Ten by pak bylo možné využít i k~poskytnutí API pro komunikaci systému s~podřízenými systémy.
 
-Vhodný webový server (jako například Apache) zajistí vícevláknovou obsluhu všech klientů. Protokol se také postará o~kryptografické zabezpeční přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru (viz sekci \ref{sec:an_certs}).
+Vhodný webový server (jako například Apache) zajistí vícevláknovou obsluhu všech klientů. Protokol se také postará o~šifrování přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru (viz sekci \ref{sec:an_certs}).
 
-Certifikát bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření identity uživatele. Nutnost pořízení certifikátu tedy nepředstavuje nevýhodu oproti jiným protokolům. 
+Certifikát bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření totožnosti uživatele při přihlašování. Nutnost pořízení certifikátu tedy nepředstavuje nevýhodu oproti jiným protokolům. 
 
 API realizované pomocí tohoto protokolu je poměrně snadno rozšiřitelné. Pro nově implementovanou operaci stačí definovat URL a případně formát přenášených dat.
 
-Výhodou je také snadná implementace na straně klienta, tedy garážového čidla. Knihovny realizující klientskou část protokolu jsou dostupné na většině populárních platforem jako například Arduino (s~Ethernet \textit{shieldem}, oficiální knihovna EthernetClient \cite{ard_web}) nebo ESP8266 (knihovna esp8266wifi \cite{esp_web}).
+Výhodou je také snadná implementace na straně klienta, tedy podřízeného systému. Knihovny realizující klientskou část protokolu jsou dostupné na většině populárních platforem jako například Arduino (s~Ethernet \textit{shieldem}, oficiální knihovna EthernetClient \cite{ard_web}) nebo ESP8266 (knihovna esp8266wifi \cite{esp_web}).
 
 \subsubsection{Certifikáty pro provoz HTTPS}
 \label{sec:an_certs}
 
-Pro provoz HTTPS serveru lze použít například certifikáty certifikační autority Let's Encrypt, které jsou poskytovány  zdarma. Kromě toho dodává Let's Encrypt také automatizačního klienta Certbot \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů. Bohužel certifikáty jsou vydávány pouze na doménu \cite{lets_encrypt_faq}, což komplikuje použití v~místní síti.
+Pro provoz HTTPS serveru lze použít například certifikáty certifikační autority Let's Encrypt, které jsou poskytovány  zdarma \cite{lets_encrypt_faq}. Kromě toho dodává Let's Encrypt také automatizačního klienta Certbot \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů. Bohužel certifikáty jsou vydávány pouze na doménu \cite{lets_encrypt_faq}, což komplikuje použití v~místní síti.
 
-Jiná možnost je použití \textit{self-signed} certifikátu. Tento certifikát není podepsaný žádnou certifikační autoritou, ale pouze vlastníkem certifikátu. Může tedy sloužit k~šifrování komunikace (poskytuje veřejný klíč), ale je zranitelný vůči \textit{man-in-the-middle} útoku \cite{cert_wallen}.
+Jiná možnost je použití \textit{self-signed} certifikátu \cite{cert_wallen}. Tento certifikát není podepsaný žádnou certifikační autoritou, ale pouze vlastníkem certifikátu. Může tedy sloužit k~šifrování komunikace (poskytuje veřejný klíč), ale je zranitelný vůči \textit{man-in-the-middle} útoku \cite{cert_wallen}.
 
 \textit{Self-signed} certifiát však lze použít k~šifrování komunikace na uzavřené lokální síti, za předpokladu, že je server s~certifikátem (přesněji s~jeho soukromým klíčem) dostatečně zabezpečen \cite{cert_wallen}. 
 
 Nevýhodou tohoto řešení je nedůvěra webových klientů (certifikát není podepsán certifikační autoritou a nelze tedy ověřit jeho pravost), což by ovlivnilo přístup k~uživatelskému rozhraní a API systému. V~případě webového rozhraní by prohlížeč zobrazil varování o~neznámém certifikátu. To by však mohl uživatel ignorovat. 
 
-Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout například v~knihovně Requests pro Python je naznačeno v~ukázce \ref{lst:req_selfsigned}.
+Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout například v~knihovně Requests (umožňující vytváření HTTP požadavků \cite{requests}) pro jazyk Python je naznačeno v~ukázce \ref{lst:req_selfsigned}. Tento jazyk a knihovna byly zvoleny z~důvodů kompaktnosti ukázkového kódu, v~jiných jazicích lze tuto verifikaci obejít obdobným způsobem.
 
 \begin{listing}[htbp]
-\caption{\label{lst:req_selfsigned} Vytvoření HTTPS požadavku v~knihovně Requests, bez verifikace serveru}
+\caption{\label{lst:req_selfsigned} Vytvoření HTTPS požadavku v~knihovně Requests, bez ověření totožnosti serveru}
 \begin{minted}[bgcolor=codebg]{python}
 >>> import requests
 >>> r = requests.get('https://test.local/hello', verify=False)
@@ -132,9 +131,9 @@ Přístup k~API nadřazeného systému by měl být povolen pouze ověřeným kl
 
 Jednoduchou autentizaci přes HTTPS lze realizovat například pomocí generování API klíčů. Pro každý podřízený systém bude vygenerován klíč, kterým se při zasílání požadavku systém prokáže. Seznam platných klíčů by byl udržován v~databázi nadřazeného systému. Klíče by uživatel mohl přidávat nebo odebírat (například v~případě odcizení podřízeného systému) pomocí webového rozhraní.
 
-Tyto klíče by také bylo nutné nahrát a uchovávat na podřízených systémech. Detaily tohoto procesu by záležely na platformě těchto systémů. Například u~Arduina by šlo klíč nahrát z~uživatelova počítače pomocí sériové linky (s~USB převodníkem) a udržovat ho v~EEPROM.
+Tyto klíče by také bylo nutné nahrát a uchovávat na podřízených systémech. Detaily tohoto procesu by záležely na platformě těchto systémů. Například u~Arduina by šlo klíč nahrát z~uživatelova počítače pomocí sériové linky (s~USB převodníkem) a udržovat ho v~paměti EEPROM, která je uchována i po odpojení napájení \cite{ard_eeprom}.
 
-Také by bylo možné implementovat v~nadřazeném systému \uv{registrační mód}, který by bylo možné dočasně povolit ve webovém rozhraní. V~tomto módu by systém po přijetí speciálního API požadavku vygeneroval nový klíč. Ten by si uložil do své databáze platných klíčů, a také ho v~odpovědi zaslal žádajícímu zařízení. Pokud by mód povolen nebyl, odpovědel by systém chybovým kódem, například 403 -- \textit{Forbidden}. Zaslání požadavku z~podřízeného systému mohlo být provedeno stisknutím tlačítka.
+Také by bylo možné implementovat v~nadřazeném systému \uv{registrační mód}, který by bylo možné dočasně povolit ve webovém rozhraní. V~tomto módu by systém po přijetí speciálního API požadavku vygeneroval nový klíč. Ten by si uložil do své databáze platných klíčů, a také ho v~odpovědi zaslal žádajícímu zařízení. Pokud by mód povolen nebyl, odpovědel by systém chybovým kódem, například 403 -- \textit{Forbidden}. Zaslání požadavku z~podřízeného systému by mohlo být provedeno stisknutím tlačítka.
 
 Tento přístup by byl pravděpodobně uživatelsky příjemnější, přináší však potencionální bezpečnostní rizika. Například pokud by uživatel zapomněl mód vypnout, systém by byl otevřený k~registraci nežádoucích zařízení. Takový problém by se však dal řešit například automatickou deaktivací módu po uplynutí časového limitu.
 
@@ -158,7 +157,13 @@ Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí ce
 
 Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{green}{B} začnou odebírat \textit{topic} \uv{Teplota}. Když pak klient \textcolor{magenta}{C} pak publikuje zprávu na tuto adresu, \textcolor{blue2}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
 
-Adresy je možné hierarchicky strukturovat. Lze tedy tvořit skupiny, například \verb|/senzory/obyvak/teplota| nebo \verb|/senzory/kuchyne/vlhkost|. Zprávy je nutné publikovat na jednoznačnou adresu, při odebírání je však možné použít modifikátory \verb|+| a \verb|#| pro specifikování skupiny adres. Modifikátor \verb|+| odpovídá libovolnému jednomu stupni hierarchie, \verb|#| pak libovolnému počtu libovolných stupňů. Pro odebírání všech senzorů vlhkosti lze tedy použít adresu \verb|/senzory/+/vlhkost|. Všechna data by pak bylo možné odebírat na adrese \verb|/senzory/#|. \cite{mqtt_eclipse}
+Adresy je možné hierarchicky strukturovat tímto způsobem \cite{mqtt_eclipse}: 
+
+\begin{itemize}
+
+\item Lze tedy tvořit skupiny, například \verb|/senzory/obyvak/teplota| nebo \verb|/senzory/kuchyne/vlhkost|. Zprávy je nutné publikovat na jednoznačnou adresu, při odebírání je však možné použít modifikátory \verb|+| a \verb|#| pro specifikování skupiny adres. Modifikátor \verb|+| odpovídá libovolnému jednomu stupni hierarchie, \verb|#| pak libovolnému počtu libovolných stupňů. Pro odebírání všech senzorů vlhkosti lze tedy použít adresu \verb|/senzory/+/vlhkost|. Všechna data by pak bylo možné odebírat na adrese \verb|/senzory/#|.
+
+\end{itemize}
 
 V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker} Mosquitto je dostupný na řadě platforem, včetně Raspberry Pi \cite{mqtt_mosquitto_wiki}).
 
