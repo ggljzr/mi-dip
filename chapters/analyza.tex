@@ -39,13 +39,13 @@ Z~těchto požadavků vyplývá software potřebný k~implementaci nadřazeného
 \section{Struktura systému}
 \label{sec:an_struct}
 
-Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. Podřízené systémy komunikují s~nadřazeným na základě událostí. Nadřazený systém tyto události zpracovává a upravuje podle nich stav garáží v~evidenci. 
+Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. \textcolor{blue2}{Podřízené systémy} komunikují s~\textcolor{green}{nadřazeným} na základě událostí. Nadřazený systém tyto události zpracovává a upravuje podle nich stav garáží v~evidenci. 
 
 Zaznamenané události jsou také uchovávány v~historii událostí, spolu s~dalšími metadaty jako čas přijetí nebo podřízeného systému, který událost vytvořil.
 
 Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu \textit{client/server}. Nadřazený systém provozuje server zvoleného protokolu (viz sekci \ref{sec:an_protocol}), ke kterému se podřízené systémy připojují. Komunikaci tedy vždy iniciuje podřízený systém. S~možností zasílání nevyžádaných zpráv podřízeným systémům v~této práci nepočítám, mohl by to však být námět pro další rozšíření.
 
-Další, kdo přistupuje do systému, je uživatel. Přes webové rozhraní může sledovat stav garáží a historii událostí. Také zde může spravovat klíče, které slouží pro přístup ke komunikačnímu API systému. Přístup do webového rozhraní je zabezpečen heslem.
+Další, kdo přistupuje do systému, je \textcolor{magenta}{uživatel}. Přes webové rozhraní může sledovat stav garáží a historii událostí. Také zde může spravovat klíče, které slouží pro přístup ke komunikačnímu API systému. Přístup do webového rozhraní je zabezpečen heslem.
 
 \begin{figure}[h!]
     \centering
@@ -308,7 +308,7 @@ Tento přípravek od společnosti Digilent je postavený na SoC Xilinx Zynq Z-70
 Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
 
 %dostupne operacni systemy -- petalinux, xilinux
-Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ubuntu. Kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje Xilinux také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá IP jádro Xilibus, které funguje jako adaptér mezi procesorem a FPGA modulem (viz obrázek \ref{fig:xilibus}). Ten pak ke komunikaci může využívat standardni FIFO fronty a nemusí se zabývat AXI sběrnicí \cite{xilibus}.
+Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ubuntu. Kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje Xilinux také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá \textcolor{magenta}{IP jádro Xilibus}, které funguje jako adaptér mezi \textcolor{green}{procesorem} a FPGA modulem (viz obrázek \ref{fig:xilibus}). Ten pak ke komunikaci může využívat standardni \textcolor{blue2}{FIFO} fronty a nemusí se zabývat AXI sběrnicí \cite{xilibus}.
 
 \begin{figure}[h!]
     \centering
@@ -363,7 +363,7 @@ Jako platformu pro implementaci nadřazeného systému jsem tedy zvolil Raspberr
 
 V~této části bych chtěl popsat alternativu k~provozu systému na dedikovaném zařízení, a to možnost využít virtuální server na některé cloudové platformě. Primární cíl práce je sice vytvořit nadřazený systém jako jednoúčelové zařízení (postavené na Raspberry Pi), nicméně provoz výsledné aplikace v~cloudu může být v~určitých situacích vhodnější řešení.
 
-Jedním z~možných uplatnění této varianty je monitorování více garážových komplexů. Místo lokálního nadřazeného systému by mohly všechny podřízené systémy z~každého komplexu komunikovat s~jedním globálním systémem, provozovaným na virtuálním serveru a dostupným z~internetu, jak je naznačeno na obrázku \ref{fig:aws}. Při tomto provozu je však nutnost mít registrovanou doménu a zabezpečit spojení podepsaným certifikátem.
+Jedním z~možných uplatnění této varianty je monitorování více garážových komplexů. Místo lokálního nadřazeného systému by mohly všechny \textcolor{blue2}{podřízené systémy} z~každého komplexu komunikovat s~jedním \textcolor{magenta}{globálním systémem}, provozovaným na virtuálním serveru a dostupným z~internetu, jak je naznačeno na obrázku \ref{fig:aws}. Při tomto provozu je však nutnost mít registrovanou doménu a zabezpečit spojení podepsaným certifikátem.
 
 Virtuální servery nabízí například firma DigitalOcean. Cena serveru závisí na počtu výpočetních jader, dostupně RAM a velikosti úložiště. Nejlevnější konfigurace přijde na 5 dolarů měsíčně a nabízí jednojádrový procesor, 1 GB RAM a 25 GB SSD \cite{digi_pricing}. Předpokládám, že tento výkon by stačil pro základní provoz systému, v~případě vyššího počtu podřízených systémů je však možnost zvyšovat dostupnou RAM a jádra CPU. 
 
