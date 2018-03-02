@@ -50,7 +50,7 @@ Další, kdo přistupuje do systému, je \textcolor{magenta}{uživatel}. Přes w
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/basic_struct.pdf}
-    \caption{Základní struktura systému}
+    \caption[Základní struktura systému]{Základní struktura systému. Podřízené systémy využívají komunikační API k~zasílání událostí. Nadřazený systém tyto události zaznamenává a upravuje podle nich stav garáží. Uživatel nadřazený systém ovládá pomocí webového rozhraní }
     \label{fig:basic_struct}
 \end{figure}
 
@@ -151,7 +151,7 @@ Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí ce
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/basic_mqtt.pdf}
-    \caption[Příklad struktury protokolu MQTT]{Příklad struktury protokolu MQTT \cite{mqtt_eclipse}}
+    \caption[Příklad struktury protokolu MQTT]{Příklad struktury protokolu MQTT \cite{mqtt_eclipse}. Klienti A~a B jsou \textit{subscribery} \textit{topicu} \uv{Teplota}. Když klient C na tuto adresu publikuje novou zprávu, \textit{broker} se postará o~její doručení všem \textit{subscriberům}}
     \label{fig:basic_mqtt}
 \end{figure}
 
@@ -311,7 +311,7 @@ Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ub
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/xilibus.pdf}
-    \caption[Blokové schéma využití IP jádra Xilibus]{Blokové schéma využití IP jádra Xilibus \cite{xilibus}}
+    \caption[Blokové schéma využití IP jádra Xilibus]{Blokové schéma využití IP jádra Xilibus \cite{xilibus}. Procesor přípravku komunikuje pomocí AXI sběrnice s~jádrem Xilibus. To požadovaná data zapíše či přečte z~FIFO fronty příslušného modulu}
     \label{fig:xilibus}
 \end{figure}
 
@@ -369,11 +369,13 @@ S~těmito virtuálními servery lze použít řadu běžných linuxových opera�
 
 Hlavní nevýhodou tohoto přístupu je poněkud složitější nasazení a spuštění systému. Registrace domény, získání certifikátu a základní konfigurace webového serveru se dá sice částečně automatizovat, pro většinu uživatelů bude však pravděpodobně snazší použít již připravené Raspberry Pi.
 
+Také je složitější distribuovat adresu serveru s~nadřazeným systémem podřízeným systémům. V~místní síti může podřízený systém sám nalézt nadřazený systém testováním odpovědi zařízení v~síti na registrační požadavek. Pokud by však byl nadřazený systém dostupný pouze na internetové doméně, bylo by nutné ji ručně zadat každému podřízenému systému.
+
 Další problém může představovat hlavní výhoda tohoto řešení, a to přístupnost serveru z~internetu. Ta významně zvyšuje \textit{attack surface} celého nadřazeného systému, zvlášt oproti alternativě využívající k~propojení systémů pouze Ethernet u~kterého má (na rozdíl od WiFi) provozovatel fyzický přehled o~připojených zařízeních.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/aws.pdf}
     \label{fig:aws}
-    \caption{Struktura systému provozovaného na virtuálním serveru}
+    \caption[Struktura systému provozovaného na virtuálním serveru]{Struktura systému provozovaného na virtuálním serveru. Podřízené systémy nezasílají požadavky lokálnímu nadřazenému systému v~místní síti, ale globálnímu nadřazenému systému, který je veřejně přístupný na internetu}
 \end{figure}
