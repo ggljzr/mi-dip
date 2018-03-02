@@ -82,6 +82,10 @@ V~tomto případě nelze pro nahrání klíče použít registrační mód nadř
 
 %este napsat ze ty klice bysme mohli v rozhrani ukazovat jen jednou pri vytvoreni garaze a pak ukladat jejich hashe ale ze tady je to asi zbytecny
 
+%melo by vyznam kdyby ten uzivatel (majitel/ spravce garazi) nebyl zaroven provozovatel toho systemu. Tj kdyby ten system byl as a service provozovanej jeden nakou centralni agenturou treba (majitele garazi by meli zvlast zakaznicky ucty), tak ty jeji zamestananci by nemeli mit pristup k ten api klicu a davalo by smysl je hashovat.
+
+%ale takhle majitel garaze == provozovatel systemu == pristup do webovyho rozhrani == pristup k serveru (databazi) kde system bezi => hashovani klicu neni uplne nutny, tuhle definici uzivatele napsat do ty teorie
+
 \subsection{Událost -- \texttt{Event}}
 
 Třída \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
