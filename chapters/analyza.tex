@@ -236,14 +236,17 @@ Při odhadu jsem vycházel z~předpokladu, že největší objem dat v~databázi
 Událost kontrolního hlášení by měla obsahovat tyto údaje:
 
 \begin{itemize}
+    \item Identifikátor události v~databázi.
     \item Identifikátor garáže, ke které událost patří.
     \item Datum a čas zaznamenání události.
     \item Datum a čas dalšího plánovaného hlášení.
 \end{itemize}
 
-Jako identifikátor pravděpodobně bude stačit 32bitový \textit{integer}. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, reálné číslo, či 32bitový \textit{integer} -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplívá, že jedno kontrolní hlášení bude mít velikost alespoň $3 * 32 = 96$ bitů.
+Jako identifikátory pravděpodobně budou stačit 32bitové \textit{integery}. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, reálné číslo, či 32bitový \textit{integer} -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplívá, že jedno kontrolní hlášení bude mít velikost alespoň $4 * 32 = 128$ bitů.
 
-Pokud nadřazený systém monitoruje 30 garáží, kde každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 * 24 * 96 = 69120$ bitů, tedy asi 69 Kb. Dá se tedy předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
+Pokud nadřazený systém monitoruje 30 garáží, kde každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 * 24 * 96 = 98304$ bitů, tedy asi 98 Kb. Dá se tedy předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
+
+Tento výpočet představuje pouze odhad předpokládané velikosti. Skutečná velikost bude záležet na zvolené implementaci, neměla by se však výrazně lišit od tohoto odhadu.
 
 \section{Zasílání notifikací}
 \label{sec:an_notify}
