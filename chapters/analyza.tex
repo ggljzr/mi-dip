@@ -324,7 +324,7 @@ Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední ve
 
 Tento přípravek od společnosti Digilent je postavený na SoC Xilinx Zynq Z-7010. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru ARM Cortex A9 s~FPGA odpovídající sérii Artix-7 \cite{zybo_man}. 
 
-Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign}.
+Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign} \cite{hw_code}.
 
 %dostupne operacni systemy -- petalinux, xilinux
 Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ubuntu. Kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje Xilinux také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá \textcolor{magenta}{IP jádro Xilibus}, které funguje jako adaptér mezi \textcolor{green}{procesorem} a FPGA modulem (viz obrázek \ref{fig:xilibus}). Ten pak ke komunikaci může využívat standardni \textcolor{blue2}{FIFO} fronty a nemusí se zabývat AXI sběrnicí \cite{xilibus}.
