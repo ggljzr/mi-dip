@@ -72,15 +72,15 @@ Podřízené systému se při zasílání událostí přes API prokazují klíč
 %generovani klice
 Vzhledem k~těmto požadavkům nelze použít jeden univerzální, ale je nutné pro každý registrovaný podřízený systém vygenerovat unikátní klíč. Ten je pak spolu s~dalšími záznamy o~garáži uložen v~databázi systému. K~vytváření klíčů jsem se rozhodl použít systém UUID, umožňující generování náhodných klíčů délky 128 bitů, které jsou (pro praktické účely) unikátní \cite{rfc4122}.
 
-%zneplatneni klice (smazani garaze, jen smazani klice, generovani novyho klice, este napsat ze pri vygenerovani novyho klice nepude pouzit registracni mod, ten vytvari novou garaz)
-
 Klíče je možné v~uživatelském rozhraní zneplatnit, a tím odepřít přístup zvolenému podřízenému systému. Tuto operaci lze provést dvěma způsoby. V~prvním případě lze smazat z~databáze celý záznam příslušné garáže. Tím dojde k~zneplatnění jejího klíče, ale také k~odstranění zaznamenaných událostí.
 
-Pokud si uživatel přeje data o~událostech uchovat, může pouze vygenerovat nový API klíč. Přepsáním klíče se opět zneplatní přístup podřízeného systému (který má stále starý klíč), ale uchovají se zaznamenaná data. Nově vygenerovaný klíč pak uživatel může nahrát na jiný podřízený systém, a tím například nahradit odcizené monitorovací zařízení. 
+Pokud si uživatel přeje data o~událostech uchovat, může pouze vygenerovat nový API klíč. Přepsáním klíče se opět zneplatní přístup podřízeného systému (který má stále starý klíč), ale uchovají se zaznamenaná data. 
 
-V~tomto případě nelze pro nahrání klíče použít registrační mód nadřazeného systému. Ten totiž vždy počítá s~vytvořením nové garáže.
+Nově vygenerovaný klíč pak uživatel může nahrát na jiný podřízený systém, a tím například nahradit odcizené monitorovací zařízení. V~tomto případě nelze pro nahrání klíče použít registrační mód nadřazeného systému. Ten totiž vždy počítá s~vytvořením nové garáže.
 
-%este napsat ze ty klice bysme mohli v rozhrani ukazovat jen jednou pri vytvoreni garaze a pak ukladat jejich hashe ale ze tady je to asi zbytecny
+Vygenerované klíče jsou v~databázi uloženy v~čitelné podobě. Klíče by bylo možné před uložením \textit{hashovat}, čímž by při úniku databáze nedošlo k~jejich prozrazení. V~tom případě by byl klíč v~čitelné podobě v~uživatelském rozhraní zobrazen pouze jednou, při vytvoření nové garáže. Dále už by byl uchováván jeho \textit{hash}.
+
+Pro ukládání klíčů v~čitelné podobě jsem se rozhodl především z~důvodů snadného ladění při implementaci nadřazeného a podřízených systémů. Funkci \textit{hashování} klíčů by v~případě potřeby neměl být problém doplnit.
 
 %melo by vyznam kdyby ten uzivatel (majitel/ spravce garazi) nebyl zaroven provozovatel toho systemu. Tj kdyby ten system byl as a service provozovanej jeden nakou centralni agenturou treba (majitele garazi by meli zvlast zakaznicky ucty), tak ty jeji zamestananci by nemeli mit pristup k ten api klicu a davalo by smysl je hashovat.
 
@@ -136,12 +136,16 @@ dulezita je idempotence prikazu, tj. bude prikaz na udalost votevreno a na udalo
 
 Do webového rozhraní aplikace je povolen pouze autorizovaný přístup, a je tedy nutné nějakým způsobem ověřit identitu uživatele. Jelikož aplikace nepočítá s~odlišnými stupni přístupu (a tedy každý uživatel s~přístupem do rozhraní má přístup ke všem jeho částem), rozhodl jsem se, že nebudu vytvářet infrastrukturu uživatelských účtů, protože by měla pouze omezené využití.
 
-Přístup do rozhraní tedy nevyžaduje vytvoření účtu a zadávání uživatelského jména, ale pouze heslo. Otisk tohoto hesla (doplněného solí), vytvořený pomocí algoritmu Bcrypt, je uložen v~souboru s~uživatelským nastavením aplikace.
+Přístup do rozhraní tedy nevyžaduje vytvoření účtu a zadávání uživatelského jména, ale pouze heslo. \textit{Hash} tohoto hesla (doplněného solí), vytvořený pomocí algoritmu Bcrypt, je uložen v~souboru s~uživatelským nastavením aplikace.
 
-Hashování hesla je zde použito především pro případ, že by uživatel použil stejné heslo jaké používá v~jiných aplikacích či službách. V~případě prozrazení uživatelských dat (například při odcizení systému) tedy útočník nemůže z~otisku zjistit původní použité heslo, tudíž přístup k~těmto uživatelovým účtům není kompromitován.
+\textit{Hashování} hesla je zde použito především pro případ, že by uživatel použil stejné heslo jaké používá v~jiných aplikacích či službách. V~případě prozrazení uživatelských dat (například při odcizení systému) tedy útočník nemůže z~otisku zjistit původní použité heslo, tudíž přístup k~těmto uživatelovým účtům není kompromitován.
 
 Stejně tak někdo s~přístupem k~serveru, na kterém nadřazený systém běží, nemá automaticky přístup do webového rozhraní. Nicméně má stále přístup k~celé (nešifrované) databázi a také může heslo libovolně měnit (spočítáním nového otisku), tedy z~praktického hlediska je přístup k~serveru téměř ekvivalentní s~přístupem do webového rozhraní.
 
-este nak popsat ten prvni heslo problem, asi by stacila naka notifikace ze bacha heslo je password po prihlaseni do toho rozhrani nebo treba udelat neco prisnejsiho
+\subsection{První přihlášení}
+
+Při prvním startu nadřazeného systému je zvoleno jednoduché implicitní heslo (\textit{password}), kterým se uživatel může přihlásit do webového rozhraní. Pokud nadřazený systém detekuje použití tohoto hesla, po přihášení uživatele ihned přesměruje na stránku umožňující změnu hesla a zobrazí varování o~použití implicitního hesla.
+
+\section{Uživatelské nastavení}
 
 este teda napsat ze vsechny ty veci spojeny s~uzivatelem nebudou ulozeny v~ty databazi ale jen v~nakym konfiguraku (veci jako heslo a pripadne ten notifikacni mail)
