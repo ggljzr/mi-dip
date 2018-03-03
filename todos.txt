@@ -1,1 +1,0 @@
-* v analyze popsat naky zakladni chovani systemu -- odesilani emailu, smsek atd
