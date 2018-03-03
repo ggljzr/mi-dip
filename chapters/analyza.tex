@@ -56,6 +56,8 @@ Další, kdo přistupuje do systému, je \textcolor{magenta}{uživatel}. Přes w
 
 \subsection{Podřízený systém}
 
+%zminit toho manika co je dela
+
 Podřízený systém je zařízení umístěné v~každé garáži, které sleduje stav okolí pomocí těchto senzorových vstupů:
 
 \begin{itemize}
@@ -223,9 +225,25 @@ Z~dostupných možností mě zaujal SQLite, což není klasický databázový st
 
 Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omezenými zdroji, představují tyto vlastnosti nezanedbatelnou výhodu. Použití SQLite také zjednouší nasazení aplikace, neboť nebude nutné vytvářet a konfigurovat databázový server.
 
-%tady zjistit naky benchmarky k sqlite, idealne i na rpi, a poresit jak moc velkou databazi budem moc mit ve smyslu kolik udalosti pro kazdou garaz si budem moct drzet
+\subsection{Velikost databáze}
 
-%este zminit ze tohle delame taky kvuli spolehlivosti systemu => velka db by mohla vycerpat pamet a shodit zarizeni
+Vzhledem k~požadavku na spolehlivost systému je vhodné odhadnout předpokládaný růst velikosti databázového souboru. Přiliš velká databáze by mohla vyčerpat pamět zařízení, a způsobit tak jeho pád. Také by mohla negativně ovlivnit dobu odezvy nadřazeného systému.
+
+Pokud by se ukázalo, že při dlouhodobém provozu začíná být databáze neúnosně velká, bylo by nutné omezit množství uchovávaných dat, například pomocí front zaznamenaných událostí.
+
+Při odhadu jsem vycházel z~předpokladu, že největší objem dat v~databázi budou představovat zaznamenaná kontrolní hlášení podřízených systému. Pokud se budou podřízené systémy hlásit každou hodinu, představuje 24 záznamů denně na každou garáž, což by mělo být řádově více než u~jiných událostí. Například u~pravděpodobně druhé nejčastější události, tedy otevření/zavření dveří, předpokládám nejvýše jednotky denně.
+
+Událost kontrolního hlášení by měla obsahovat tyto údaje:
+
+\begin{itemize}
+    \item Identifikátor garáže, ke které událost patří.
+    \item Datum a čas zaznamenání události.
+    \item Datum a čas dalšího plánovaného hlášení.
+\end{itemize}
+
+Jako identifikátor pravděpodobně bude stačit 32bitový \textit{integer}. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, reálné číslo, či 32bitový \textit{integer} -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplívá, že jedno kontrolní hlášení bude mít velikost alespoň $3 * 32 = 96$ bitů.
+
+Pokud nadřazený systém monitoruje 30 garáží, kde každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 * 24 * 96 = 69120$ bitů, tedy asi 69 Kb. Dá se tedy předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
 
 \section{Zasílání notifikací}
 \label{sec:an_notify}
