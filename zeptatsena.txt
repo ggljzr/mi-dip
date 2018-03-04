@@ -1,3 +1,4 @@
 * kontrola propasnutejch hlaseni
 * telegram bot??
 * tecky v popiscich??
+* api uz je definovany ve zkratkach, psat ho znova do ty teorie?
