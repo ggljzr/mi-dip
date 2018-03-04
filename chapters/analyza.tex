@@ -32,7 +32,7 @@ Další důležitá volba je způsob uchování zachycených událostí a dalš�
 
 Nadřazený systém má být také schopen upozornit uživatele v~případě hrozícího nebezpečí nebo výpadku podřízeného systému. To je možné provést mnoha způsoby, jejichž možnosti jsou shrnuty v~sekci \ref{sec:an_notify}.
 
-Nakonec zbývá zvolit programovací jazyk a případně frameworky pro tvorbu aplikace. Vhodných jazyků je dnes velké množství, jde tedy spíše o~otázku osobní preference, jak je popsáno v~sekci \ref{sec:an_lang}.
+Nakonec zbývá zvolit programovací jazyk a případně frameworky pro tvorbu aplikace. Vhodných jazyků je dnes velké množství, jde tedy spíše o~otázku osobní preference. Volbou programovacího jazyka se zabývá sekce \ref{sec:an_lang}.
 
 Z~těchto požadavků vyplývá software potřebný k~implementaci nadřazeného systému, jehož dostupnost je hlavní požadavek při volbě hardwarové platformy v~sekci \ref{sec:an_plat}. 
 
@@ -96,7 +96,7 @@ Další možnost je využít ke komunikaci protokol HTTPS. V~tomto případě by
 
 Jelikož součástí požadavků na systém je i webové uživatelské rozhraní, bude v~každém případě nutné použít webový server pro jeho provoz. Ten by pak bylo možné využít i k~poskytnutí API pro komunikaci systému s~podřízenými systémy.
 
-Vhodný webový server (jako například Apache) zajistí vícevláknovou obsluhu všech klientů. Protokol se také postará o~šifrování přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru (viz sekci \ref{sec:an_certs}).
+Vhodný webový server (jako například Apache \cite{apache_faq}) zajistí vícevláknovou obsluhu všech klientů. Protokol se také postará o~šifrování přenášených dat, je však nutné získat certifikát k~ověření pravosti serveru (viz sekci \ref{sec:an_certs}).
 
 Certifikát bude potřeba zajistit i v~případě, že komunikace s~klienty nebude postavena na tomto protokolu. Je totiž nutné také zabezpečit webové rozhraní, například kvůli ověření totožnosti uživatele při přihlašování. Nutnost pořízení certifikátu tedy nepředstavuje nevýhodu oproti jiným protokolům. 
 
@@ -115,7 +115,9 @@ Jiná možnost je použití \textit{self-signed} certifikátu \cite{cert_wallen}
 
 Nevýhodou tohoto řešení je nedůvěra webových klientů (certifikát není podepsán certifikační autoritou a nelze tedy ověřit jeho pravost), což by ovlivnilo přístup k~uživatelskému rozhraní a API systému. V~případě webového rozhraní by prohlížeč zobrazil varování o~neznámém certifikátu. To by však mohl uživatel ignorovat. 
 
-Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout například v~knihovně Requests (umožňující vytváření HTTP požadavků \cite{requests}) pro jazyk Python je naznačeno v~ukázce \ref{lst:req_selfsigned}. Tento jazyk a knihovna byly zvoleny z~důvodů kompaktnosti ukázkového kódu, v~jiných jazicích lze tuto verifikaci obejít obdobným způsobem.
+Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout například v~knihovně Requests (umožňující vytváření HTTP požadavků \cite{requests}) pro jazyk Python \cite{python_tutorial} je naznačeno v~ukázce \ref{lst:req_selfsigned}. 
+
+Tento jazyk a knihovna byly zvoleny z~důvodů kompaktnosti ukázkového kódu, v~jiných jazicích lze tuto verifikaci obejít obdobným způsobem.
 
 \begin{listing}[htbp]
 \caption{\label{lst:req_selfsigned} Vytvoření HTTPS požadavku v~knihovně Requests, bez ověření totožnosti serveru}
@@ -264,9 +266,9 @@ Tímto je částečně porušen požadavek na nezávislost (viz sekci \ref{sec:a
 \section{Programovací jazyk pro tvorbu systému}
 \label{sec:an_lang}
 
-Pro tvorbu systému jsem se rozhodl použít programovací jazyk Python. S~tímto jazykem mám nejvíce zkušeností co se týče implementace webových aplikací. Je také dostatečně rozšířený, takže výsledný systém bude možné nasadit na poměrně širokém spektru platforem bez nutnosti složitějšího portování.
+Pro tvorbu systému jsem se rozhodl použít programovací jazyk Python \cite{python_tutorial}. S~tímto jazykem mám nejvíce zkušeností co se týče implementace webových aplikací. Je také dostatečně rozšířený, takže výsledný systém bude možné nasadit na poměrně širokém spektru platforem bez nutnosti složitějšího portování.
 
-K~vytvoření webového rozhraní i API pro podřízené systémy jsem zvolil framework Flask. Hlavní důvod jsou opět předchozí zkušenosti s~tímto frameworkem. Flask také dává více volnosti při návrhu aplikace než například také velmi rozšířený framework Django.
+K~vytvoření webového rozhraní i API pro podřízené systémy jsem zvolil framework Flask \cite{flask_about}. Hlavní důvod jsou opět předchozí zkušenosti s~tímto frameworkem. Flask také dává více volnosti při návrhu aplikace než například také velmi rozšířený framework Django \cite{django_about}.
 
 \section{Výběr platformy}
 \label{sec:an_plat}
@@ -302,15 +304,15 @@ Raspberry Pi je velmi rozšířený jednodeskový počítač. Jeho poslední ver
 
 Dále nová verze přináší vlastní WiFi modul \cite{rpi_benchoff}, není tedy nutné se spoléhat na externí moduly. Kromě toho je možné počítač připojit k~síti pomocí Ethernetového portu. Ten je omezený na 100 Mb/s \cite{rpi_benchoff}, to by však vzhledem k~objemu dat přenášených mezi nadřazeným a podřízenými systémy nemělo představovat problém.
 
-Deska také obsahuje čtyři USB a jeden HDMI port. Ty nejsou pro implementovaný systém zásadní, nicméně při počáteční konfiguraci zařízení (například nastavení WiFi hesla) může být připojení monitoru a klávesnice pro některé uživatele pohodlnější než použití SSH či sériové linky. Připojený monitor se také hodí při řešení problémů se startem operačního systému.
+Deska také obsahuje čtyři USB a jeden HDMI port \cite{rpi_benchoff}. Ty nejsou pro implementovaný systém zásadní, nicméně při počáteční konfiguraci zařízení (například nastavení WiFi hesla) může být připojení monitoru a klávesnice pro některé uživatele pohodlnější než použití SSH či sériové linky. Připojený monitor se také hodí při řešení problémů se startem operačního systému.
 
-Raspberry Pi 3 bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udržování času využívá NTP \cite{rpi_rtc_ada}. K~tomu je však zapotřebí internetové připojení. Jelikož by zařízení mělo být možné používat i v~síti bez přístupu k~internetu, je nutné připojit externí RTC obvod, napřílad pomocí I2C sběrnice. Poté je možné systémové hodiny synchronizovat offline pomocí tohoto obvodu (místo NTP).
+Raspberry Pi 3 bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udržování času využívá protokol NTP \cite{rpi_rtc_ada}. K~tomu je však zapotřebí internetové připojení. Jelikož by zařízení mělo být možné používat i v~síti bez přístupu k~internetu, je nutné připojit externí RTC obvod, napřílad pomocí I2C sběrnice \cite{rpi_rtc_ada}. Poté je možné systémové hodiny synchronizovat bez internetového připojení pomocí tohoto obvodu.
 
-S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně Raspbian, linuxový systém postavený na Debianu. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě.
+S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně Raspbian, linuxový systém postavený na Debianu \cite{raspbian_faq}. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě \cite{rpi_benchoff}.
 
 Jednou z~výhod tohoto počítače je obrovské množství podporovaných hardwarových periferií a knihoven pro ně. V~této práci pravděpodobně využiju pouze zmíněný RTC obvod, případné další rozšiřování systému (například o~vestavěný LCD displej) bude na Raspberry Pi pravděpodobně snadnější než na jiných platformách.
 
-Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523. Ten vyjde asi na 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč\footnote{Ceny převzaté z~obchodů Alza (\url{https://alza.cz}) a SnailShop(\url{www.snailshop.cz}), v~únoru 2018.}.
+Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523 (pro bližší informace o~modulu viz \cite{rpi_rtc_ada}). Ten vyjde asi na 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč\footnote{Ceny převzaté z~obchodů Alza (\url{https://alza.cz}) a SnailShop(\url{www.snailshop.cz}), v~únoru 2018.}.
 
 \subsection{Zybo Zynq-7000}
 \label{sec:an_zyb}
@@ -342,9 +344,9 @@ Přípravek je možné připojiř k~síti pomocí Ethernetového portu, který p
 
 Na přípravku je také k~dispozici 128 MB flash paměti \cite{zybo_man}, k~provozu tedy teoreticky není potřeba SD karta. Tato paměť by však pravděpodobně nestačila k~instalaci vhodného operačního systému a potřebného softwaru. I~zde by tedy bylo nutné použít SD kartu.
 
-Stejně jako Raspberry Pi tato deska postrádá RTC obvod. Firma Digilent však dodává externí bateriově zálohované hodiny, které lze připojit pomocí Pmod rozhraní \cite{pmod_rtc_man}. 
+Stejně jako Raspberry Pi tato deska postrádá RTC obvod. Firma Digilent však dodává externí obvod, který lze připojit pomocí Pmod rozhraní \cite{pmod_rtc_man}. 
 
-Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. Ta se pohybuje okolo 4000 Kč\footnote{Cena podle produktové stránky \url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html}.}. K~tomu je nutné přičíst náklady na SD kartu a RTC obvod, případně i WiFi modul. Cena celého zařízení by se tedy pohybovala v~rozmezí 4500 až 5000 Kč.
+Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. Ta se pohybuje okolo 4000 Kč\footnote{Cena podle produktové stránky \url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html}, v~únoru 2018.}. K~tomu je nutné přičíst náklady na SD kartu a RTC obvod, případně i WiFi modul. Cena celého zařízení by se tedy pohybovala v~rozmezí 4500 až 5000 Kč.
 
 %bacha tady este na "As of 9/21/2017- the Zybo will be replaced by the Zybo Z7-10. We have created this guide to help you migrate your designs to the Zybo Z7. " ale nevim jestli to ma cenu resit ty desky se lisej minimalne (SoC je stejnej)
 %^^linx: https://store.digilentinc.com/zybo-z7-zynq-7000-arm-fpga-soc-development-board/
@@ -388,7 +390,7 @@ Virtuální servery nabízí například firma DigitalOcean. Cena serveru závis
 
 S~těmito virtuálními servery lze použít řadu běžných linuxových operačních systémů jako Ubuntu, Debian či Fedora \cite{digi_droplets}, dostupnost softwaru potřebného pro spuštění aplikace tedy není problém.
 
-Hlavní nevýhodou tohoto přístupu je poněkud složitější nasazení a spuštění systému. Registrace domény, získání certifikátu a základní konfigurace webového serveru se dá sice částečně automatizovat, pro většinu uživatelů bude však pravděpodobně snazší použít již připravené Raspberry Pi.
+Hlavní nevýhodou tohoto přístupu je poněkud složitější nasazení a spuštění systému. Registrace domény, získání certifikátu a základní konfigurace webového serveru se dá sice částečně automatizovat (viz zmiňovaný Certbot \cite{certbot}), pro většinu uživatelů bude však pravděpodobně snazší použít již připravené Raspberry Pi.
 
 Také je složitější distribuovat adresu serveru s~nadřazeným systémem podřízeným systémům. V~místní síti může podřízený systém sám nalézt nadřazený systém testováním odpovědi zařízení v~síti na registrační požadavek. Pokud by však byl nadřazený systém dostupný pouze na internetové doméně, bylo by nutné ji ručně zadat každému podřízenému systému.
 
