@@ -20,10 +20,10 @@ Před samotným návrhem a implementací nadřazeného systému je potřeba pře
 Dále jsou od nadřazeného systému požadovány tyto vlastnosti:
 
 \begin{itemize}
-    \item \textbf{Bezpečnost} -- jak komunikace s~podřízenými systémy, tak přístup do uživatelského rozhraní by měl probíhat přes zabezpečený komunikační kanál, s~ověřením totožnosti účastníků.
+    \item \textbf{Bezpečnost} -- jak komunikace s~podřízenými systémy, tak přístup do uživatelského rozhraní by měl probíhat přes zabezpečený komunikační kanál.
     \item \textbf{Spolehlivost} -- způsob komunikace i systém jako celek by měl být dostatečně spolehlivý.
     \item \textbf{Presistence} -- data v~systému by měla být uchovávána presistentním způsobem.
-    \item \textbf{Nezávislost} -- Systém by neměl být příliš závislý na externích službách a alespoň v~omezené míře fungovat i bez přístupu k~internetu.
+    \item \textbf{Nezávislost} -- systém by neměl být příliš závislý na externích službách a alespoň v~omezené míře fungovat i bez přístupu k~internetu.
 \end{itemize}
 
 Na základě těchto požadavků je tedy potřeba zvolit vhodné nástroje pro implementaci systému. To je v~první řadě komunikační protokol použitý pro komunikaci s~podřízenými systémy. Tento protokol by měl být dostatečně robustní, rozšířený a podporovat šifrování. Také by s~jeho pomocí mělo být možné bezpečně ověřit identitu podřízených systémů. Výběrem protokolu se zabývá sekce \ref{sec:an_protocol}.
@@ -56,8 +56,6 @@ Další, kdo přistupuje do systému, je \textcolor{magenta}{uživatel}. Přes w
 
 \subsection{Podřízený systém}
 
-%zminit toho manika co je dela
-
 Podřízený systém je zařízení umístěné v~každé garáži, které sleduje stav okolí pomocí těchto senzorových vstupů:
 
 \begin{itemize}
@@ -68,7 +66,7 @@ Podřízený systém je zařízení umístěné v~každé garáži, které sledu
 
 Základní požadavek na podřízený systém je schopnost komunikace přes Ethernet či WiFi pomocí protokolu zvoleného v~sekci \ref{sec:an_protocol}. Jinak může být hardware prakticky libovolný.
 
-Návrh a implementace podřízeného systému není součástí této práce. Jeho vývojem se zabývá Miroslav Váňa ve své bakalářské práci na Katedře číslicového návrhu Fakulty informačních technologií na ČVUT.
+Návrh a implementace podřízeného systému není součástí této práce. Jeho vývojem se zabývá Miroslav Váňa ve své bakalářské práci na Katedře číslicového návrhu Fakulty informačních technologií ČVUT.
 
 \subsection{Událost}
 
@@ -180,7 +178,9 @@ Adresy je možné hierarchicky strukturovat následujícím způsobem \cite{mqtt
     \end{itemize}
 \end{itemize}
 
-V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker} Mosquitto je dostupný na řadě platforem, včetně Raspberry Pi \cite{mqtt_mosquitto_wiki}).
+V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Tím by vznikla obdoba \textit{client/server} modelu, zmíněného v~sekci \ref{sec:an_struct}. 
+
+Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker} Mosquitto je dostupný na řadě platforem, včetně Raspberry Pi \cite{mqtt_mosquitto_wiki}).
 
 Protokol podporuje tři možnosti QoS \cite{mqtt_valerie}:
 
@@ -246,7 +246,7 @@ Událost kontrolního hlášení by měla obsahovat tyto údaje:
     \item Datum a čas dalšího plánovaného hlášení.
 \end{itemize}
 
-Jako identifikátory pravděpodobně budou stačit 32bitová celá čísla. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, reálné číslo, či 32bitové cele číslo -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplívá, že jedno kontrolní hlášení bude mít velikost alespoň $4 * 32 = 128$ bitů.
+Jako identifikátory pravděpodobně budou stačit 32bitová celá čísla. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, reálné číslo, či 32bitové cele číslo -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplývá, že jedno kontrolní hlášení bude mít velikost alespoň $4 * 32 = 128$ bitů.
 
 Pokud nadřazený systém monitoruje 30 garáží, kde každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 * 24 * 96 = 98304$ bitů, tedy asi 98 Kb. Dá se tedy předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
 
@@ -384,7 +384,7 @@ Jako platformu pro implementaci nadřazeného systému jsem tedy zvolil Raspberr
 \subsection{Provoz aplikace na cloudové platformě}
 \label{sec:an_cloud}
 
-V~této části bych chtěl popsat alternativu k~provozu systému na dedikovaném zařízení, a to možnost využít virtuální server na některé cloudové platformě. Primární cíl práce je sice vytvořit nadřazený systém jako jednoúčelové zařízení (postavené na Raspberry Pi), nicméně provoz výsledné aplikace v~cloudu může být v~určitých situacích vhodnější řešení.
+V~této části bych chtěl popsat alternativu k~provozu systému na dedikovaném zařízení, a to možnost využít virtuální server na některé \textit{cloudové} platformě. Primární cíl práce je sice vytvořit nadřazený systém jako jednoúčelové zařízení (postavené na Raspberry Pi), nicméně provoz výsledné aplikace v~\textit{cloudu} může být v~určitých situacích vhodnější řešení.
 
 Jedním z~možných uplatnění této varianty je monitorování více garážových komplexů. Místo lokálního nadřazeného systému by mohly všechny \textcolor{blue2}{podřízené systémy} z~každého komplexu komunikovat s~jedním \textcolor{magenta}{globálním systémem}, provozovaným na virtuálním serveru a dostupným z~internetu, jak je naznačeno na obrázku \ref{fig:aws}. Při tomto provozu je však nutnost mít registrovanou doménu a zabezpečit spojení podepsaným certifikátem.
 
