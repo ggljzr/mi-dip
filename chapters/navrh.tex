@@ -53,7 +53,8 @@ Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv
     \item \texttt{last\_report} -- datum a čas posledního kontrolního hlášeí.
     \item \texttt{next\_report} -- datum a čas dalšího očekávaného hlášení.
     \item \texttt{period} -- perioda kontrolních hlášení.
-    \item \texttt{state} -- stav garáže (otevřeno/zavřeno).
+    \item \texttt{doors} -- stav dveří garáže (otevřeno/zavřeno).
+    \item \texttt{state} -- celkový stav garáže (v~pořádku, nehlásí se atd.).
     \item Seznam událostí spojených s~touto garáží.
 \end{itemize}
 
@@ -82,44 +83,27 @@ Vygenerované klíče jsou v~databázi uloženy v~čitelné podobě. Klíče by 
 
 Pro ukládání klíčů v~čitelné podobě jsem se rozhodl především z~důvodů snadného ladění při implementaci nadřazeného a podřízených systémů. Funkci \textit{hashování} klíčů by v~případě potřeby neměl být problém doplnit.
 
-%melo by vyznam kdyby ten uzivatel (majitel/ spravce garazi) nebyl zaroven provozovatel toho systemu. Tj kdyby ten system byl as a service provozovanej jeden nakou centralni agenturou treba (majitele garazi by meli zvlast zakaznicky ucty), tak ty jeji zamestananci by nemeli mit pristup k ten api klicu a davalo by smysl je hashovat.
-
-%ale takhle majitel garaze == provozovatel systemu == pristup do webovyho rozhrani == pristup k serveru (databazi) kde system bezi => hashovani klicu neni uplne nutny, tuhle definici uzivatele napsat do ty teorie
-
 \subsection{Událost -- \texttt{Event}}
 
 Třída \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
 
-Nadřazený systém rozlišuje dva druhy událostí. Kontrolní (plánované) události slouží ke kontrole funkčnosti podřízených systémů. Tyto události jsou odesílány v~pravidelném intervalu, určeném nadřazeným systémem. Ten v~odpovědi na požadavek s~kontrolní událostí zašle očekávaný čas (počet minut) do dalšího hlášení. Kontrolní událost nezasílá žádná data, funguje pouze jako známka života podřízeného systému.
+Nadřazený systém rozlišuje dva základní druhy událostí. Kontrolní (plánované) události slouží ke kontrole funkčnosti podřízených systémů. Tyto události jsou odesílány v~pravidelném intervalu, určeném nadřazeným systémem. Ten v~odpovědi na požadavek s~kontrolní událostí zašle očekávaný čas (počet minut) do dalšího hlášení. Kontrolní událost funguje pouze jako známka života podřízeného systému.
 
 Kromě kontrolních hlášení mohou podřízené systémy vytvářet mimořádné události. Mimořádná událost nastane při překročení mezních hodnot některého z~čidel (tedy detekce kouře, pohybu či otevření/zavření dveří).
 
-Základní třída \texttt{Event} a podtřídy \texttt{ReportEvent} a \texttt{SensorEvent} obsahují tyto údaje:
+Třída \texttt{Event} obsahuje tyto údaje:
 
 \begin{itemize}
     \item \texttt{id} -- identifikace entity v~databázi.
     \item \texttt{timestamp} -- časové razítko.
+    \item \texttt{type} -- typ zaznamenané události (kontrolní hlášení, detekce kouře atd.)
     \item Garáž, která je původcem události.
-    \item \texttt{ReportEvent} dále obsahuje:
-        \begin{itemize}
-            \item \texttt{next\_report} -- datum a čas dalšího očekávaného hlášení.
-        \end{itemize}
-    \item \texttt{SensorEvent} dále obsahuje:
-        \begin{itemize}
-            \item \texttt{type} -- typ senzoru.
-            \item \texttt{value} -- naměřená hodnota ????
-        \end{itemize}
 \end{itemize}
-
-tady asi fakt pouzijem ty podtridy typu \texttt{OpenDoorEvent} atp.
 
 \subsubsection{Vyhodnocení události}
 
 notifikace atd..., mozna tuhle sekci nak premenovat.
 
-\subsection{Fasáda}
-
-na tu fasádu asi fakt dojde, protoze budu potrebovat neco co zakreje ten pristup k~modelu, registracnimu modu a konfiguraku (\texttt{user\_config.ini}), co se bude volat z~toho main a api kontroleru
 
 \section{Controller}
 
@@ -130,6 +114,8 @@ Flask API
 dulezita je idempotence prikazu, tj. bude prikaz na udalost votevreno a na udalost zavreno ale ne toggle, aby se nerozbil stav garaze na serveru.
 
 \section{View}
+
+tady nakreslit i treba naky wireframy ty webovy appky
 
 \section{Autentizace uživatele}
 \label{sec:de_auth}
