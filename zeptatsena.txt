@@ -4,4 +4,4 @@
 * api uz je definovany ve zkratkach, psat ho znova do ty teorie?
 * jestli sou ty citace ok vysazeny
 * jak zpracovavat udalosti s detekci pohybu? vzdycky poplach je asi blbost
-* zmena stavu garaze? detekce koure zmeni stav na naky varovani -> kdy by se mel zmenit zpatkz na ok? (tlacitko zrusit varovani co zmeni stav na ok)
+* zmena stavu garaze? detekce koure zmeni stav na naky varovani -> kdy by se mel zmenit zpatkz na ok? (tlacitko zrusit varovani co zmeni stav na ok), stavovej automat

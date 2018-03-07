@@ -104,6 +104,7 @@ Třída \texttt{Event} obsahuje tyto údaje:
 
 notifikace atd..., mozna tuhle sekci nak premenovat.
 
+nakreslit stavovej automat, podle kteryho budou ty prichozi udalosti (a \texttt{check\_report}) menit stav ty garaze. Tj garaz bude ok a prijde ze hori, tak se to zmeni na hori, pak bude check report tak jestli to zas zmeni a tak. Tenhle stavovej automat pak bude implementovanej pomoci tech \texttt{proc\_} metod. plus teda to tlacitko na reset stavu, plus napsat ze votvirani a zavirani dveri je teda zvlast
 
 \section{Controller}
 
@@ -112,6 +113,8 @@ Flask API
 \subsection{API}
 
 dulezita je idempotence prikazu, tj. bude prikaz na udalost votevreno a na udalost zavreno ale ne toggle, aby se nerozbil stav garaze na serveru.
+
+https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
 
 \section{View}
 
