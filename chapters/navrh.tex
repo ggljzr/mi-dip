@@ -106,7 +106,7 @@ notifikace atd..., mozna tuhle sekci nak premenovat.
 
 nakreslit stavovej automat, podle kteryho budou ty prichozi udalosti (a \texttt{check\_report}) menit stav ty garaze. Tj garaz bude ok a prijde ze hori, tak se to zmeni na hori, pak bude check report tak jestli to zas zmeni a tak. Tenhle stavovej automat pak bude implementovanej pomoci tech \texttt{proc\_} metod. plus teda to tlacitko na reset stavu, plus napsat ze votvirani a zavirani dveri je teda zvlast
 
-\section{Controller}
+\section{\textit{Controller}}
 
 Flask API
 
@@ -116,9 +116,30 @@ dulezita je idempotence prikazu, tj. bude prikaz na udalost votevreno a na udalo
 
 https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
 
-\section{View}
+\section{\textit{View}}
 
-tady nakreslit i treba naky wireframy ty webovy appky
+\subsection{Uživatelské rozhraní}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{images/use_case_top.pdf}
+    \caption[Vrchní úroveň případů užití webového rozhraní]{Vrchní úroveň případů užití webového rozhraní. Uživatel do aplikace přistupuje buď za účelem změny uživatelského nastavení, správy jednotlivý podřízených systémů, případně kvůli kontrole zaznamenaných událostí}
+    \label{fig:use_case_top}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{images/use_case_user.pdf}
+    \caption[Případy užití uživatelského nastavení]{Případy užití uživatelského nastavení}
+    \label{fig:use_case_user}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{images/use_case_garage.pdf}
+    \caption[Případy užití správy garáží]{Případy užití správy garáží}
+    \label{fig:use_case_garage}
+\end{figure}
 
 \section{Autentizace uživatele}
 \label{sec:de_auth}
