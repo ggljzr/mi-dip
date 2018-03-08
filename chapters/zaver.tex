@@ -1,0 +1,27 @@
+co sem udelal
+
+\begin{itemize}
+    \item analyza
+    \begin{itemize}
+    \item definice nadrazeneho systemu, definice pozadavku na nej (specifikace), popis podrizeneho systemu, definicie udalosti jako zakladni komunikacni jednotky, bezpecnost a spolehlivost systemu
+    \item vyber kom. protokolu, vyhody a nevyody https, mqtt, volba certifikatu (delame prototyp), dalsi moznosti provozu (cloud), komunikacni modely client/server, publisher/subscriber
+    \item autentizace podrizenejch systemu, api klice
+    \item vyber dalsiho softwaru, programovaciho jazyku, frameworku (pochvalit framework flask, pohodova implementace)
+    \item vyber uloziste (db vs logy, presistence), resil sem: systemove naroky, rust velikosti
+    \item notifikace, vyber zpusobu zasilani (email), nevhodnost provozu vlastniho serveru, vyber sluzby pro email
+    \item vyber platformy, podporovany sw, rpi vs zybo, zybo zajimay ale moc drahy, zminit rtc
+    \end{itemize}
+    \item navrh
+    \begin{itemize}
+        \item navrh systemu, pouziti mvc, moznosti dalsich controlleru (mqtt) -- rozsiritelnost
+        \item stav garazi, fsm, prechody stavu, notifikace pri zmene stavu -- co to resi za problemy (casty maily), jak resit prechod zpet do stavu OK napr po pozaru
+        \item api systemu, pridavani udalosti, registracni mod
+        \item uzivatelsky rozhrani, prihlasovani, use casy, prvni prihlaseni (defaultni heslo), uzivatelsky nastaveni
+    \end{itemize}
+    \item implementace
+    \begin{itemize}
+        \item spousta pouzitejch technologii/frameworku
+        \item z tech zajimavejch flask, jinja, apscheduler
+    \end{itemize}
+    \item sepsani uzivatelsky prirucky
+\end{itemize}
