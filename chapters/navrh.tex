@@ -84,6 +84,7 @@ Vygenerované klíče jsou v~databázi uloženy v~čitelné podobě. Klíče by 
 Pro ukládání klíčů v~čitelné podobě jsem se rozhodl především z~důvodů snadného ladění při implementaci nadřazeného a podřízených systémů. Funkci \textit{hashování} klíčů by v~případě potřeby neměl být problém doplnit.
 
 \subsection{Událost -- \texttt{Event}}
+\label{sec:de_event}
 
 Třída \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
 
@@ -122,7 +123,7 @@ https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/use_case_top.pdf}
+    \includegraphics[width=0.9\textwidth]{images/use_case_top.pdf}
     \caption[Vrchní úroveň případů užití webového rozhraní]{Vrchní úroveň případů užití webového rozhraní. Uživatel do aplikace přistupuje buď za účelem změny uživatelského nastavení, správy jednotlivý podřízených systémů, případně kvůli kontrole zaznamenaných událostí}
     \label{fig:use_case_top}
 \end{figure}
@@ -130,21 +131,21 @@ https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_user.pdf}
-    \caption[Případy užití uživatelského nastavení]{Případy užití uživatelského nastavení}
+    \caption[Případy užití uživatelského nastavení]{Případy užití uživatelského nastavení. Uživatel ve webovém rozhraní provádí změnu hesla, změnu notifikačního e-mailu, případně zákaz/povolení notifikací}
     \label{fig:use_case_user}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_garage.pdf}
-    \caption[Případy užití správy garáží]{Případy užití správy garáží}
+    \caption[Případy užití správy garáží]{Případy užití správy garáží. Zde uživatel zobrazuje stav garáží a jednotlivé garáže spravuje pomocí uvedených operací}
     \label{fig:use_case_garage}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_events.pdf}
-    \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí}
+    \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje událostí spojené s~konkrétní garáží. Událostí filtruje podle jejich typu (viz \ref{sec:de_event})}
     \label{fig:use_case_events}
 \end{figure}
 
