@@ -1,16 +1,29 @@
 \chapter{Uživatelská příručka}
 \label{sec:guide}
 
-\section{První přihlášení}
+Tato uživatelská příručka se zabývá webovým rozhraním nadřazeného systému. Sekce příručky odpovídají stránkám jednotlivým stránkám rozhraní. V každé sekci jsou popsány možnosti, které má uživatel na dané stránce.
 
-\subsection{Změna hesla}
+Přihlášení do webového rozhraní je prováděno pomocí hesla. Přihlašovací formulář je zobrazen na obrázku \ref{fig:login}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/pwd_change.png}
-    \caption[Výzva ke změně hesla]{Výzva ke změně hesla}
-    \label{fig:mvc}
+    \includegraphics[width=0.5\textwidth]{images/login.png}
+    \caption[Přihlašovací formulář webového rozhraní]{Přihlašovací formulář webového rozhraní}
+    \label{fig:login}
 \end{figure}
+
+\section{První přihlášení}
+
+Pro první přihlášení je možné použít implicitní heslo \textit{password}. Poté je uživatel přesměrován na formulář se změnou hesla a vyzván ke změně z implicitní hodnoty (viz obrázek \ref{fig:password_change}).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/pwd_change.png}
+    \caption[Výzva ke změně hesla]{Výzva ke změně hesla}
+    \label{fig:password_change}
+\end{figure}
+
+\newpage
 
 \section{Hlavní stránka}
 
@@ -21,11 +34,11 @@
     \label{fig:mainpage}
 \end{figure}
 
-Na obrázku \ref{fig:mainpage} je zobrazena hlavní stránka aplikace. Zde má uživatel k dispozici následující možnosti (viz čísla na obrázku):
+Po úspěšném přihlášení ze zobrazí hlavní stránka webového rozhraní. Zde má uživatel k dispozici následující možnosti (viz čísla na obrázku \ref{fig:mainpage}):
 
 \begin{enumerate}
     \item \textbf{Nová garáž} -- vytvoření nové garáže pomocí uživatelského rozhraní. Nová garáž je přidána do seznamu garáží na této stránce.
-    \item \textbf{Registrační mód} -- indikátor stavu registračního módu. Regstrační mód povoluje podřízeným systémům vytvářet nové garáže registračním požadavkem. Při registraci pomocí tohoto módu je podřízenému systému automaticky zaslán API klíč, a není nutné ho ručně nahrávat.
+    \item \textbf{Registrační mód} -- indikátor stavu registračního módu. Regstrační mód povoluje podřízeným systémům vytvářet nové garáže registračním požadavkem. Při registraci pomocí tohoto módu je podřízenému systému automaticky zaslán API klíč, a není nutné ho ručně nahrávat. Po zapnutní je registrační mód aktivní po dobu tří minut, poté se sám automaticky vypne.
     \item \textbf{Nastavení} -- uživatelské nastavení aplikace:
     \begin{itemize}
         \item \textbf{Změna hesla} -- možnost změny přístupového hesla do webového rozhraní.
@@ -43,6 +56,8 @@ Na obrázku \ref{fig:mainpage} je zobrazena hlavní stránka aplikace. Zde má u
     \end{itemize}
     \item Záznam garáže.
 \end{enumerate}
+
+\newpage
 
 \section{Stránka garáže}
 \label{sec:guide_garage_page}
