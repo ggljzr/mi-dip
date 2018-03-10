@@ -107,19 +107,14 @@ notifikace atd..., mozna tuhle sekci nak premenovat.
 
 nakreslit stavovej automat, podle kteryho budou ty prichozi udalosti (a \texttt{check\_report}) menit stav ty garaze. Tj garaz bude ok a prijde ze hori, tak se to zmeni na hori, pak bude check report tak jestli to zas zmeni a tak. Tenhle stavovej automat pak bude implementovanej pomoci tech \texttt{proc\_} metod. plus teda to tlacitko na reset stavu, plus napsat ze votvirani a zavirani dveri je teda zvlast
 
-\section{\textit{Controller}}
-
-Flask API
-
-\subsection{API}
-
-dulezita je idempotence prikazu, tj. bude prikaz na udalost votevreno a na udalost zavreno ale ne toggle, aby se nerozbil stav garaze na serveru.
-
-https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
-
 \section{\textit{View}}
 
-\subsection{Uživatelské rozhraní}
+Hlavním \textit{view} nadřazeného systému je webové uživatelské rozhraní. Zde se zobrazuje celkový stav systému, jednotlivých garáží, a také zachycené události. Návrhem tohoto rozhraní se zabývá následující sekce \ref{sec:de_web}.
+
+Další \textit{view} aplikace představují odpovědi (například vygenerované API klíče) nadřazeného systému podřízeným systému při zpracování jejich požadavků. Tento \textit{view} je popsán společně s~API systému v~sekci \ref{sec:de_api}.
+
+\subsection{Webové rozhraní}
+\label{sec:de_web}
 
 \begin{figure}[h!]
     \centering
@@ -148,6 +143,17 @@ https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
     \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje událostí spojené s~konkrétní garáží. Událostí filtruje podle jejich typu (viz \ref{sec:de_event})}
     \label{fig:use_case_events}
 \end{figure}
+
+\section{\textit{Controller}}
+
+Flask API
+
+\subsection{API}
+\label{sec:de_api}
+
+dulezita je idempotence prikazu, tj. bude prikaz na udalost votevreno a na udalost zavreno ale ne toggle, aby se nerozbil stav garaze na serveru.
+
+https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
 
 \section{Autentizace uživatele}
 \label{sec:de_auth}
