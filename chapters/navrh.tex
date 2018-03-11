@@ -25,12 +25,12 @@ Tento návrhový vzor popisuje pouze nadřazený systém spravující garáže. 
 
 \textit{Model} představuje jádro nadřazeného systému. Je zde implementována vnitřní reprezentace uchovávaných dat, což jsou především zaznamenané události. Každá událost má také svého původce, tedy garáž (přesněji podřízený systém v~této garáži).
 
-Kromě toho \textit{model} implementuje \textit{business logiku} sytému, tedy například vytváření nových garáží (registraci podřízených systémů) či reakce na příchozích události.
+Kromě toho \textit{model} implementuje \textit{business logiku} sytému, jako je například vytváření nových garáží (registraci podřízených systémů) či reakce na příchozích události.
 
 Ostatní části aplikace (\textit{view} a \textit{controller}) používají \textit{model}, bez znalosti jeho vnitřní struktury, pomocí následujících operací:
 
 \begin{itemize}
-    \item \textbf{Vytvoření garáže} -- registrace nového podřízeného systému. V~případě vytváření pomocí API (tj. přímo podřízeným systémem) vyžaduje operace zapnutý registrační mód. Pokud je nová garáž vytvářena ve webovém rozhraní, registrační mód není vyžadován.
+    \item \textbf{Vytvoření garáže} -- registrace nového podřízeného systému. V~případě vytváření pomocí API (tj. přímo podřízeným systémem) vyžaduje operace zapnutý registrační mód. Pokud je nová garáž vytvářena ve webovém rozhraní, zapnutý registrační mód není vyžadován.
     \item \textbf{Editace garáže} -- například změna označení.
     \item \textbf{Smazání garáže} -- smazáním garáže dojde k~odstranění zaznamenaných událostí a zneplatnění příslušného API klíče.
     \item \textbf{Zneplatnění API klíče} -- odepření přístupu podřízenému systému bez nutnosti smazání garáže a s~ní spojených událostí.
@@ -39,7 +39,7 @@ Ostatní části aplikace (\textit{view} a \textit{controller}) používají \te
     \item \textbf{Vytvoření události} -- základní požadavek využívaný podřízenými systémy.
 \end{itemize}
 
-Vnitřně pak model na základě těchto operací autentizuje pomocí API klíčů požadavky podřízených systému, validuje zaslaná data a spravuje databázi nadřazeného systému.
+Vnitřně pak model na základě těchto operací autentizuje pomocí API klíčů požadavky podřízených systému, validuje zaslaná data, spravuje databázi nadřazeného systému nebo obstarává zasílání notifikačních e-mailů.
 
 \subsection{Garáž -- \texttt{Garage}}
 
@@ -63,7 +63,7 @@ Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv
 
 Nové garáže mohou v~systému vznikat dvěma způsoby. První možnost je vytvoření nové garáže přímo v~uživatelském rozhraní. Po vytvoření se zde zobrazí vygenerovaný API klíč, který je potřeba nahrát na příslušný podřízený systém. Způsob nahrávání by závisel na příslušném hardwaru (například sériová linka). Tato možnost je určena především pro podřízené systémy, které by nepodporovaly zaslání registračního požadavku a nevyžaduje zapnutý registrační mód.
 
-Druhá možnost je použít registrační mód. V~tom případě je nová garáž vytvořena na základě registračního požadavku podřízeného systému. Vygenerovaný API klíč je při tom zaslán jako odpověď na požadavek, a není tedy nutné ho ručně nahrávat. Registrační mód je možné aktivovat v~uživatelském rozhraní. Pokud mód není aktivovaný, nadřazený systém odmítne všechny požadavky na registraci zaslané tímto způsobem.
+Druhá možnost je použít registrační mód. V~tom případě je nová garáž vytvořena na základě registračního požadavku podřízeného systému (pro bližší informace o~tomto požadavku viz sekci \ref{sec:de_api}). Vygenerovaný API klíč je při tom zaslán jako odpověď na požadavek, a není tedy nutné ho ručně nahrávat. Registrační mód je možné aktivovat v~uživatelském rozhraní. Pokud mód není aktivovaný, nadřazený systém odmítne všechny požadavky na registraci zaslané tímto způsobem.
 
 \subsubsection{API klíče}
 \label{sec:de_apikeys}
@@ -88,7 +88,7 @@ Pro ukládání klíčů v~čitelné podobě jsem se rozhodl především z~dův
 
 Třída \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
 
-Nadřazený systém rozlišuje dva základní druhy událostí. Kontrolní (plánované) události slouží ke kontrole funkčnosti podřízených systémů. Tyto události jsou odesílány v~pravidelném intervalu, určeném nadřazeným systémem. Ten v~odpovědi na požadavek s~kontrolní událostí zašle očekávaný čas (počet minut) do dalšího hlášení. Kontrolní událost funguje pouze jako známka života podřízeného systému.
+Nadřazený systém rozlišuje dva základní druhy událostí. Kontrolní (plánované) události slouží ke kontrole funkčnosti podřízených systémů. Tyto události jsou odesílány v~pravidelném intervalu, určeném nadřazeným systémem. Ten v~odpovědi na požadavek s~kontrolní událostí zašle očekávaný čas (počet minut) do dalšího hlášení.
 
 Kromě kontrolních hlášení mohou podřízené systémy vytvářet mimořádné události. Mimořádná událost nastane při překročení mezních hodnot některého z~čidel (tedy detekce kouře, pohybu či otevření/zavření dveří).
 
@@ -106,11 +106,21 @@ Třída \texttt{Event} obsahuje tyto údaje:
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/garage_state.pdf}
-    \caption[Stavový automat vyhodnocování stavu garáže]{Stavový automat vyhodnocování stavu garáže}
+    \caption[Diagram vyhodnocování stavu garáže]{Diagram vyhodnocování stavu garáže. Nadřazený systém reaguje na příchozí události odpovídající změnou stavu garáže. Změna stavu může být také vyvolána při pravidelné kontrole propásnutých hlášení (přechod do stavu \uv{Nehlásí se})}
     \label{fig:garage_state}
 \end{figure}
 
+Příchozí události a stav garáže jsou nadřazeným systémem vyhodnocovány na základě diagramu na obrázku \ref{fig:garage_state}. Změna stavu nastává buď v~reakci na příchozí událost (například detekci kouře) nebo při pravidelné kontrole zaslaných hlášení. 
+
+Pokud při této kontrole nadřazený systém zjistí, že neobdržel očekávané kontrolní hlášení, změní stav garáže na \textcolor{magenta}{\uv{Nehlásí se}}. Tato změna nastane vždy, bez ohledu na předchozí stav. Ze stavu \textcolor{magenta}{\uv{Nehlásí se}} se lze dostat pouze zasláním kontrolního hlášení.
+
+Kontrolní hlášení funguje jako potvrzení, že jakákoliv nenadálá situace v~garáži byla vyřešena. Pokud například podřízený systém detekuje kouř, odešle příslušnou událost a pozdrží další kontrolní hlášení až do doby, kdy bude zdroj kouře odstraněn. Poté může zasláním kontrolního hlášení změnit stav garáže zpět na \textcolor{green}{\uv{OK}}.
+
+Kromě událostí měnících stav garáže nadřazený systém ještě rozeznává události otevření a zavření dveří garáže. Tyto události nemění stav garáže, pouze aktualizují stav dveří. Nejsou tedy součástí tohoto vyhodnocování.
+
 \subsubsection{Zasílání upozornění}
+
+Na základě příchozích událostí odesílá nadřazený systém notifikační e-maily na adresu zvolenou uživatelem. E-mail s~příslušnou událostí je odeslán vždy při změně stavu garáže (mimo změny do stavu \uv{OK}). Tím je zamezeno zbytečnému zasílání duplicitních e-mailů.
 
 \section{\textit{View}}
 
