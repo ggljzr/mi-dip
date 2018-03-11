@@ -97,7 +97,14 @@ Třída \texttt{Event} obsahuje tyto údaje:
 \begin{itemize}
     \item \texttt{id} -- identifikace entity v~databázi.
     \item \texttt{timestamp} -- časové razítko.
-    \item \texttt{type} -- typ zaznamenané události (kontrolní hlášení, detekce kouře atd.)
+    \item \texttt{type} -- typ zaznamenané události. Nadřazený systém rozeznává následující typy:
+    \begin{itemize}
+        \item \texttt{report} -- kontrolní hlášení.
+        \item \texttt{door\_open} -- otevření dveří.
+        \item \texttt{door\_close} -- zavření dveří.
+        \item \texttt{movement} -- detekce pohybu.
+        \item \texttt{smoke} -- detekce kouře.
+    \end{itemize}
     \item Garáž, která je původcem události.
 \end{itemize}
 
@@ -122,6 +129,8 @@ Kromě událostí měnících stav garáže nadřazený systém ještě rozezná
 
 Na základě příchozích událostí odesílá nadřazený systém notifikační e-maily na adresu zvolenou uživatelem. E-mail s~příslušnou událostí je odeslán vždy při změně stavu garáže (mimo změny do stavu \uv{OK}). Tím je zamezeno zbytečnému zasílání duplicitních e-mailů.
 
+%tady pak asi bude i jak to bude celkove s tema mailama
+
 \section{\textit{View}}
 
 Hlavním \textit{view} nadřazeného systému je webové uživatelské rozhraní. Zde se zobrazuje celkový stav systému, jednotlivých garáží, a také zachycené události. Návrhem tohoto rozhraní se zabývá následující sekce \ref{sec:de_web}.
@@ -131,6 +140,8 @@ Další \textit{view} aplikace představují odpovědi (například vygenerovan�
 \subsection{Webové rozhraní}
 \label{sec:de_web}
 
+Webové rozhraní představuje prostředí umožňující uživatel správu celého nadřazeného systému. Případy užití toho rozhraní se dají shrnout do tří kategorií, popsaných na obrázku \ref{fig:use_case_top}.
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/use_case_top.pdf}
@@ -138,12 +149,7 @@ Další \textit{view} aplikace představují odpovědi (například vygenerovan�
     \label{fig:use_case_top}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\textwidth]{images/use_case_user.pdf}
-    \caption[Případy užití uživatelského nastavení]{Případy užití uživatelského nastavení. Uživatel ve webovém rozhraní provádí změnu hesla, změnu notifikačního e-mailu, případně zákaz/povolení notifikací}
-    \label{fig:use_case_user}
-\end{figure}
+\subsubsection{Správa garáží}
 
 \begin{figure}[h!]
     \centering
@@ -152,12 +158,27 @@ Další \textit{view} aplikace představují odpovědi (například vygenerovan�
     \label{fig:use_case_garage}
 \end{figure}
 
+\subsubsection{Zobrazení událostí}
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_events.pdf}
     \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje událostí spojené s~konkrétní garáží. Událostí filtruje podle jejich typu (viz \ref{sec:de_event})}
     \label{fig:use_case_events}
 \end{figure}
+
+\subsubsection{Uživatelské nastavení}
+\label{sec:de_user_settings}
+
+% este teda napsat ze vsechny ty veci spojeny s~uzivatelem nebudou ulozeny v~ty databazi ale jen v~nakym konfiguraku (veci jako heslo a pripadne ten notifikacni mail)
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{images/use_case_user.pdf}
+    \caption[Případy užití uživatelského nastavení]{Případy užití uživatelského nastavení. Uživatel ve webovém rozhraní provádí změnu hesla, změnu notifikačního e-mailu, případně zákaz/povolení notifikací}
+    \label{fig:use_case_user}
+\end{figure}
+
 
 \section{\textit{Controller}}
 
@@ -186,7 +207,3 @@ Stejně tak někdo s~přístupem k~serveru, na kterém nadřazený systém běž
 Při prvním startu nadřazeného systému je zvoleno jednoduché implicitní heslo (\textit{password}), kterým se uživatel může přihlásit do webového rozhraní. 
 
 Pokud nadřazený systém detekuje použití tohoto hesla, po přihášení uživatele ihned přesměruje na stránku umožňující změnu hesla a zobrazí příslušné varování.
-
-\section{Uživatelské nastavení}
-
-este teda napsat ze vsechny ty veci spojeny s~uzivatelem nebudou ulozeny v~ty databazi ale jen v~nakym konfiguraku (veci jako heslo a pripadne ten notifikacni mail)
