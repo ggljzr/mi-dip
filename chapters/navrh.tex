@@ -34,7 +34,7 @@ Ostatní části aplikace (\textit{view} a \textit{controller}) používají \te
     \item \textbf{Editace garáže} -- například změna označení.
     \item \textbf{Smazání garáže} -- smazáním garáže dojde k~odstranění zaznamenaných událostí a zneplatnění příslušného API klíče.
     \item \textbf{Zneplatnění API klíče} -- odepření přístupu podřízenému systému bez nutnosti smazání garáže a s~ní spojených událostí.
-    \item \textbf{Zapínání/vypínaní registračního módu} -- v~tomto módu je možné vytvářet nové garáže na základě požadavku od podřízeného systému. Bližší informace jsou v~sekci \ref{sec:de_add_garage}.
+    \item \textbf{Zapínání registračního módu} -- v~tomto módu je možné vytvářet nové garáže na základě požadavku od podřízeného systému. Bližší informace jsou v~sekci \ref{sec:de_add_garage}. Registrační mód se po uplynutí časového limitu sám vypne.
     \item \textbf{Přístup k~uloženým datům} -- obecně operace typu získání všech garáží nebo všech událostí vázané ke konkrétní garáži.
     \item \textbf{Vytvoření události} -- základní požadavek využívaný podřízenými systémy.
 \end{itemize}
@@ -144,7 +144,9 @@ Další \textit{view} aplikace představují odpovědi (například vygenerovan�
 \subsection{Webové rozhraní}
 \label{sec:de_web}
 
-Webové rozhraní představuje prostředí umožňující uživatel správu celého nadřazeného systému. Případy užití toho rozhraní se dají shrnout do tří kategorií, popsaných na obrázku \ref{fig:use_case_top}.
+Webové rozhraní představuje prostředí umožňující uživatel správu celého nadřazeného systému. Rozhraní tvoří hlavní stránka, stránky jednotlivých garáží a stránky uživatelského nastavení (změna hesla a nastavení notifikací).
+
+Případy užití rozhraní se dají shrnout do tří kategorií, popsaných na obrázku \ref{fig:use_case_top}.
 
 \begin{figure}[h!]
     \centering
@@ -155,9 +157,9 @@ Webové rozhraní představuje prostředí umožňující uživatel správu cel�
 
 \subsubsection{Správa garáží}
 
-Správu garáží tvoří případy užití popsané na obrázku \ref{fig:use_case_garage}. Operace vytvoření garáže, zapnutí registračního módu a zobrazení seznamu garáží nejsou vázané k~žádné konkrétní garáži, a jsou tedy k~dispozici na hlavní stránce webového rozhraní ihned po přihlášení.
+Správu garáží tvoří případy užití popsané na obrázku \ref{fig:use_case_garage}. Operace vytvoření garáže a zapnutí registračního módu nejsou vázané k~žádné konkrétní garáži, a jsou tedy k~dispozici na hlavní stránce webového rozhraní ihned po přihlášení. 
 
-Zbylé možnosti se již vztahují ke konkrétní garáží a zobrazí se po zvolení garáže ze seznamu na hlavní stránce.
+Na hlavní stránce je také zobrazen seznam všech sledovaných garáží včetně jejich stavu, posledního hlášení, dalšího plánovaného hlášení a odkazu na stránku garáže, která obsahuje zbylé možnosti, vázané ke konkrétní garáži.
 
 \begin{figure}[h!]
     \centering
@@ -168,19 +170,21 @@ Zbylé možnosti se již vztahují ke konkrétní garáží a zobrazí se po zvo
 
 \subsubsection{Zobrazení událostí}
 
+Případy užití z~kategorie zobrazení událostí popisuje obrázek \ref{fig:use_case_events}. Na stránce garáže může uživatel zobrazit s~ní spojené události. Seznam událostí pak může filtrovat podle typu (viz sekci \ref{sec:de_event}).
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_events.pdf}
-    \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje událostí spojené s~konkrétní garáží. Událostí filtruje podle jejich typu (viz \ref{sec:de_event})}
+    \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje události spojené s~konkrétní garáží. Zobrazené událostí filtruje podle jejich typu}
     \label{fig:use_case_events}
 \end{figure}
 
 \subsubsection{Uživatelské nastavení}
 \label{sec:de_user_settings}
 
-% este teda napsat ze vsechny ty veci spojeny s~uzivatelem nebudou ulozeny v~ty databazi ale jen v~nakym konfiguraku (veci jako heslo a pripadne ten notifikacni mail)
+%tady este neco bude ofc
 
-% tj uzivatelsky nastaveni neni primo soucasti toho modelu
+Uživatelské nastavení není uloženo přímo v~databázi, ale zvlášť v~konfiguračním souboru \texttt{user\_settings.ini}. Díky tomu je snazší toto nastavení v~případě potřeby změnit i bez nutnosti otvírat webové rozhraní.
 
 \begin{figure}[h!]
     \centering
