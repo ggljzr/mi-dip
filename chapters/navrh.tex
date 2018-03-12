@@ -132,6 +132,9 @@ Na základě příchozích událostí odesílá nadřazený systém notifikačn�
 %tady pak asi bude i jak to bude celkove s tema mailama
 
 %taky popsat jaky sou moznosti autorizace na tim gmailu (proste smtp meno heslo a pak ty oauth veci) a ze nic z toho neni pro nas uplne idealni
+
+%vidim to bud teda ze tam bude proste smtp klient a holt meno (pak ta emailova schranka muze bejt vicemene jakakoliv, to je taky trochu vyhoda -- tj si uzivatel zalozi stranku treba na seznamu, vyplni meno a heslo a ma to hotovy) a heslo a nebo pouzit nakou sluzbu na posilani mailu. Ten google ma tu oauth autorizaci hrozne slozitou, by asi bylo lepsi neco jako https://github.com/sendgrid/sendgrid-python (https://sendgrid.com/), tam staci proste api klic 
+
 \section{\textit{View}}
 
 Hlavním \textit{view} nadřazeného systému je webové uživatelské rozhraní. Zde se zobrazuje celkový stav systému, jednotlivých garáží, a také zachycené události. Návrhem tohoto rozhraní se zabývá následující sekce \ref{sec:de_web}.
@@ -154,7 +157,7 @@ Webové rozhraní představuje prostředí umožňující uživatel správu cel�
 
 Správu garáží tvoří případy užití popsané na obrázku \ref{fig:use_case_garage}. Operace vytvoření garáže, zapnutí registračního módu a zobrazení seznamu garáží nejsou vázané k~žádné konkrétní garáži, a jsou tedy k~dispozici na hlavní stránce webového rozhraní ihned po přihlášení.
 
-Zbylé možnosti se již vztahují ke konkrétní garáží a zpřístupní se po zvolení garáže ze seznamu na hlavní stránce.
+Zbylé možnosti se již vztahují ke konkrétní garáží a zobrazí se po zvolení garáže ze seznamu na hlavní stránce.
 
 \begin{figure}[h!]
     \centering
