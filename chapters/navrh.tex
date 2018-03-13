@@ -208,9 +208,71 @@ Druhá část zpracovává požadavky podřízených systémů. Zde definovaná 
 
 %https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
 
+API nadřazeného systému slouží ke komunikaci s~podřízenými systémy. S~jeho pomocí se podřízený systém může registrovat a začít nadřazenému systému posílat zaznamenané události.
+
+Odpovědi nadřazeného systému na příchozí požadavky jsou ve formátu JSON. Každá odpověď obsahuje návratový kód a případně další data, která je nutné zaslat podřízenému systému.
+
 \subsubsection{Registrační požadavek}
 
+Registrační požadavek slouží k~zaregistrování nového podřízeného systému a vytvoření záznamu s~ním spojené garáže. Hlavním účelem tohoto požadavku je snadná distribuce API klíče na podřízené systémy -- klíč není nutné nahrávat ručně, ale je odeslán v~odpovědi na tento požadavek (pro bližší informace o~klíčích viz sekci \ref{sec:de_apikeys}).
+
+Kvůli bezpečnosti je tento požadavek povolen pouze pokud je v~uživatelském rozhraní zapnutný registrační mód. Pokud není mód povolen, odpovídá nadřazený systém na všechny registrační požadavky chybovým kódem \textit{403 -- Forbidden}. Tím je částečně zabráněno registraci nežádoucích podřízených systémů.
+
+Registrační požadavek má následující formát (zaslání registračního požadavku v~jazycke Python je popsáno v~ukázce \ref{lst:api_reg}):
+
+\begin{itemize}
+    \item URL -- \texttt{/api/garages}.
+    \item HTTP metoda -- POST.
+    \item Návratová hodnota -- JSON:
+    \begin{itemize}
+        \item \texttt{status} -- návratový kód (201 při vytvoření garáže, 403 při vypnutém reg. módu).
+        \item \texttt{api\_key} -- unikátní klíč k~API nadřazeného systému (pouze v~případě úspěchu, tedy vytvoření garáže).
+    \end{itemize}
+\end{itemize}
+
+\begin{listing}[htbp]
+\caption{\label{lst:api_reg} Zaslání registračního požadavku nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}}
+\begin{minted}[bgcolor=codebg]{python}
+import requests
+# server nadrazeneho systemu je pristupny
+# na adrese raspberrypi.local
+url = 'https://raspberrypi.local/api/garages'
+
+# pozadavek s~metodou 'post', bez 
+# overeni self-signed certifikatu
+r = requests.post(url, verify=False)
+
+if r.status == 201:
+    api_key = r.json()['api_key']
+\end{minted}
+\end{listing}
+
 \subsubsection{Kontrolní hlášení}
+
+Kontrolní hlášení slouží k~ověření činnosti podřízeného systému. Jeho zasláním podřízený systém také potvrzuje, že stav sledované garáže je v~pořádku.
+
+\begin{listing}[htbp]
+\caption{\label{lst:api_report} Zaslání kontrolního hlášení nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}}
+\begin{minted}[bgcolor=codebg]{python}
+import requests
+# server nadrazeneho systemu je pristupny
+# na adrese raspberrypi.local
+url = 'https://raspberrypi.local/api/report_event'
+
+# api klic (ziskany napriklad reg. pozadavkem)
+# je zasilan v~hlavicce pozadavku
+headers = {'api_key' : api_key}
+
+# pozadavek s~metodou 'post', bez 
+# overeni self-signed certifikatu
+r = requests.post(url, headers=headers,verify=False)
+
+if r.status == 201:
+    #odpoved s~ocekavanym casem do dalsiho hlaseni
+    period = r.json()['period']
+
+\end{minted}
+\end{listing}
 
 \subsubsection{Ostatní události}
 
