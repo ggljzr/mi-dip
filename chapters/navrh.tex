@@ -216,7 +216,7 @@ Odpovědi nadřazeného systému na příchozí požadavky jsou ve formátu JSON
 
 Registrační požadavek slouží k~zaregistrování nového podřízeného systému a vytvoření záznamu s~ním spojené garáže. Hlavním účelem tohoto požadavku je snadná distribuce API klíče na podřízené systémy -- klíč není nutné nahrávat ručně, ale je odeslán v~odpovědi na tento požadavek (pro bližší informace o~klíčích viz sekci \ref{sec:de_apikeys}).
 
-Kvůli bezpečnosti je tento požadavek povolen pouze pokud je v~uživatelském rozhraní zapnutný registrační mód. Pokud není mód povolen, odpovídá nadřazený systém na všechny registrační požadavky chybovým kódem \textit{403 -- Forbidden}. Tím je částečně zabráněno registraci nežádoucích podřízených systémů.
+Kvůli bezpečnosti je tento požadavek povolen pouze pokud je v~uživatelském rozhraní zapnutný registrační mód. Pokud je mód vypnutý, odpovídá nadřazený systém na všechny registrační požadavky chybovým kódem \textit{403 -- Forbidden}. Tím je částečně zabráněno registraci nežádoucích podřízených systémů.
 
 Registrační požadavek má následující formát (zaslání registračního požadavku v~jazycke Python je popsáno v~ukázce \ref{lst:api_reg}):
 
