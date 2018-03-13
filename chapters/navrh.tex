@@ -22,6 +22,7 @@ Hlavní motivací pro použití tohoto vzoru je snadná rozšiřitelnost. Pokud 
 Tento návrhový vzor popisuje pouze nadřazený systém spravující garáže. Kromě toho je součástí aplikace ještě autentizace uživatele při přístupu do uživatelského rozhraní. Tuto funkci jsem se rozhodl pojmout jako samostatnou komponentu, popsanou v~sekci \ref{sec:de_auth}.
 
 \section{\textit{Model}}
+\label{sec:de_model}
 
 \textit{Model} představuje jádro nadřazeného systému. Je zde implementována vnitřní reprezentace uchovávaných dat, což jsou především zaznamenané události. Každá událost má také svého původce, tedy garáž (přesněji podřízený systém v~této garáži).
 
@@ -137,7 +138,7 @@ Na základě příchozích událostí odesílá nadřazený systém notifikačn�
 
 \section{\textit{View}}
 
-Hlavním \textit{view} nadřazeného systému je webové uživatelské rozhraní. Zde se zobrazuje celkový stav systému, jednotlivých garáží, a také zachycené události. Návrhem tohoto rozhraní se zabývá následující sekce \ref{sec:de_web}.
+Hlavním \textit{view} nadřazeného systému je webové uživatelské rozhraní. Zde se zobrazuje celkový stav systému, jednotlivých garáží, a zachycené události. Také jsou ze přístupné ovládací prvky pro správu systému. Návrhem tohoto rozhraní se zabývá následující sekce \ref{sec:de_web}.
 
 Další \textit{view} aplikace představují odpovědi (například vygenerované API klíče) nadřazeného systému podřízeným systému při zpracování jejich požadavků. Tento \textit{view} je popsán společně s~API systému v~sekci \ref{sec:de_api}.
 
@@ -196,12 +197,22 @@ Uživatelské nastavení není uloženo přímo v~databázi, ale zvlášť v~kon
 
 \section{\textit{Controller}}
 
-Flask API
+\textit{Controller} slouží ke zpracování požadavků uživatele a podřízených systémů. Jelikož jde o~HTTP požadavky, definuje \textit{controller} URL, přiřazuje k~nim akce, které se mají provést (kontrola přihlášení, přesměrování atd.) a vrací příslušné odpovědi (například vygenerované stránky).
+
+\textit{Controller} aplikace se dá rozdělit na dvě části. První část zpracovává požadavky zaslané uživatelem z~webového rozhraní. Propojuje tedy případy užití popsané v~sekci \ref{sec:de_web} s~operacemi na modelu ze sekce \ref{sec:de_model}. URL definovaná v~této části jsou využívána pouze uvnitř aplikace, a nejsou součástí API nadřazeného systému.
+
+Druhá část zpracovává požadavky podřízených systémů. Zde definovaná URL tvouří API nadřazeného systému, pomocí kterého se mohou podřízené systémy registrovat a nahrávat nové události. Popisem API, včetně formátu požadavků a návratových hodnot, se zabývá sekce \ref{sec:de_api}.
 
 \subsection{API}
 \label{sec:de_api}
 
-https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
+%https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design
+
+\subsubsection{Registrační požadavek}
+
+\subsubsection{Kontrolní hlášení}
+
+\subsubsection{Ostatní události}
 
 \section{Autentizace uživatele}
 \label{sec:de_auth}
