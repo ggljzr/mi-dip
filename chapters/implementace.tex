@@ -1,72 +1,50 @@
 \chapter{Implementace}
 \label{sec:im}
 
-co sme vsechno pouzili pri implementaci:
+\section{Struktura aplikace}
 
-\begin{itemize}
-
-\item dekoratory -- viz \url{http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/}
-
-\item bcrypt na hashovani hesel
-
-\item wtforms, (csrf je proste soucati toho FlaskFormu, nak to popsat jak je to pouzity)
-
-\item jinja -- generovani html, pouzivani maker a tak
-
-\item pouziti sqlalchemy (\url{http://flask-sqlalchemy.pocoo.org/2.3/quickstart/#a-minimal-application})
-
-\item pouziti flask blueprintu (\url{http://flask.pocoo.org/docs/0.12/blueprints/}) -- tohle mozna probrat uz v~narvrhu -- jaky budem mit moduly a tak
-
-\item zakladni struktura aplikace zalozena na \url{https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)}
-
-\item budem pouzivat asi gmail k~posilani notifikaci. tam se daj z~pythonu posilat bud pres nakyho smtp klienta (coz je mozna debilni protoze tam musi bejt nekde ulozeny heslo v~plaintextu) nebo pres to google api. Kdyz chcem jen posilat zpravy tak by mela staci autorizace pres api klice, viz \cite{email_api} a taky \url{https://developers.google.com/api-client-library/python/apis/}, primo pro python.
-
-\item napsat ze pro add garage a revoke key misto normalni routy, getu a linku pouzivame formulare a post kvuli vochrane pred csrf, viz \url{https://stackoverflow.com/questions/6812765/how-to-demonstrate-a-csrf-attack}. Timhle utokem by nekdo moh vytvaret garaze a rusit api klice, coz neni naka velka skoda ale spis na votravovani no (u~vostatnich veci (tj hlavne change password) to bylo uz driv v~pohode protoze byly pouzity ty flaskforms)
-
-\item v~testovani je mozny tenhle utok demonstrovat a ukazat jak pekne nam to funguje (voproti ty prvni verzi kde byl na add garage normalne get). Ted se pri tim pokusu vo utok normalne zvobrazi invalid csrf token nebo tak neco. Pro porovnani zmen puvodni a vopraveny verze viz commit e52a54b2caa8eead85e8df28c738356a7541a1c4 (password redirect, to je posledni verze s~timhle bugem)
-
-\item este teda napsat ze na api se tohle vubec nevstahuje, tohle vyuziva ty browserovy session, viz \url{https://stackoverflow.com/questions/5207160/what-is-a-csrf-token-what-is-its-importance-and-how-does-it-work}
-
-\item v~sqlalchemy pouzivame pro dedicnost (trida event) joined table \url{http://docs.sqlalchemy.org/en/latest/orm/inheritance.html}
-
-\item pouzivame apscheduler (\url{http://apscheduler.readthedocs.io/en/v3.5.1/index.html}) pro planovani udalost (checky db kvuli reportum, vypinani reg modu)
-
-\item jquery na filtrovani udalosti v~rozhrani
-
-\end{itemize}
+%zaklad zakladni struktura aplikace zalozena na \url{https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)}
 
 \subsection{Flask Blueprints}
 
-v~analyze akorat napsat ze tam budou naky komponenty (konkretne hlavne ten auth modul), ty blueprinty resit az pri implementaci tj tady
+\section{Implementace \textit{modelu}}
 
-\url{http://flask.pocoo.org/docs/0.12/blueprints/}
+%sqlalchemy
 
-rekneme ze budeme mit tri blueprinty (moduly):
+%scheduler http://apscheduler.readthedocs.io/en/v3.5.1/index.html,
+%k cemu vsemu slouzi, ze je vicevlaknovej, proc je tam pouzitej
 
-\begin{itemize}
-    \item main modul -- tady bude definovanej ten hlavni model, tj garaze, eventy a pripadne naka fasada na tim. Controller a view pak bude zprostredkovavat uzivatelsky rozhrani (krome loginu) webovy stranky. V~timhle rozhrani pude proklikavat ty garaze a eventy, zapinat registraci mod a vytvaret/mazat garaze. To vytvareni garazi je hlavne kvuli nakejm dev options, primarne se budou garaze vytvaret skrz to api (tj tim cudlikem na podrizenym systemu). Vytvorit garaz v~uzivatelskym rozhrani nebude vyzadovat zapnutej registracni mod, tj to bude uplne jinej pozadavek na uplnej jinej controller -- ten v~main modulu a ne v~api modulu
-    \item api modul -- modul co bude zprostredkovavat api pro podrizeny systemy. tj tady se nebude generovat zadny html nebo veci pro uzivatelsky rozhrani, ale ciste jen zpracovavat pozadavky vod podrizenejch systemu. Modul bude vyuzivat tu fasadu z~main modulu pro pristup k~databazi (stejne jako main modul). Controller v~timhle modulu bude teda resit pozadavky na vytvareni novejch garazi pomoci API. To jestli je zapnutej registracni mod bude resit ten model, v~tim bude vodlisna funkce pro vytvoreni garaze pres reg. mod a pres rozhrani a prislusny controllery budou volat prislusnou funkci. Krome toho tenhle controller bude resit pozadavky na vytvoreni eventu.
-    \item auth modul -- tenhle modul bude resit ciste prihlaseni uzivatele do webovyho rozhrani
-\end{itemize}
+%posilani mailu pomoci toho eventu zmeny v sqlalchemy
 
-Z~toho vypliva ze jadrem ty aplikace bude ten datovej model (garaze, eventy atd...) a fasada nad nim. Ta fasada by teda mela umet nasledujici veci (za pomlckou kterej modul to bude pouzivat):
+%posilani mailu obecne jak je implementovany
 
-\begin{itemize}
-    \item vytvorit garaz (pozadavek z~web. rozhrani) -- main
-    \item vytvorit garaz (pozadavek z~api -- tj kontrola reg. modu) -- api
-    \item vypnout/zapnout reg. mod -- main
-    \item smazat garaz -- main
-    \item vratit vsechny garaze -- main
-    \item vratit konkretni garaz -- main, (api?)
-    \item vratit vsechny eventy -- main
-    \item vratit eventy ke garazi -- main
-    \item vytvorit event vazanej ke garazi -- api
-    \item kontrola klicu pozadavku vod api -- api
-    \item vnitrni udrzovani stavu garazi a vyhodnocovani udalosti -- main, api
-\end{itemize}
+\section{Implementace \textit{view}}
 
-ten model by mozna nemel bejt cast zadnyho toho modulu (blueprintu) ale bejt zvlast, kdyz ho budou pouzivat dva moduly najednou. Ze by se instancioval v~tim hlavnim init.py souboru podobne jako se tam instanciuje ta databaze
+%jinja, makra
 
+%wtforms
+
+%jquery na filtry
+
+\section{Implementace \textit{controlleru}}
+
+%csrf, viz  napsat ze pro add garage a revoke key misto normalni routy, getu a linku pouzivame formulare a post kvuli vochrane pred csrf, viz \url{https://stackoverflow.com/questions/6812765/how-to-demonstrate-a-csrf-attack}. Timhle utokem by nekdo moh vytvaret garaze a rusit api klice, coz neni naka velka skoda ale spis na votravovani no (u~vostatnich veci (tj hlavne change password) to bylo uz driv v~pohode protoze byly pouzity ty flaskforms)
+
+\subsection{API \textit{controller}}
+
+%vyjimka z csrf (neni potreba login, prokazuje se klicem)
+
+\section{Autentizace uživatele}
+
+%asi hlavne bcrypt popsat
+
+%login_required decorator \url{http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/}
+
+%session
+
+%mozna csrf tady, napsat jak je tam zapnuty, ze default je soucasti toho flask_formu ale my ho chceme pro vsechny ty post routy a pak vyjimku pro api modul -- tady napsat jak se nam siknou ty blueprinty
+
+%v~testovani je mozny tenhle utok demonstrovat a ukazat jak pekne nam to funguje (voproti ty prvni verzi kde byl na add garage normalne get). Ted se pri tim pokusu vo utok normalne zvobrazi invalid csrf token nebo tak neco. Pro porovnani zmen puvodni a vopraveny verze viz commit e52a54b2caa8eead85e8df28c738356a7541a1c4 (password redirect, to je posledni verze s~timhle bugem)
 
 \begin{listing}[htbp]
 \caption{\label{code:foo} Testovací listing}
