@@ -5,7 +5,15 @@
 
 %zaklad zakladni struktura aplikace zalozena na \url{https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)}
 
-\subsection{Flask Blueprints}
+Aplikace nadřazeného systému je rozdělena do tří modulů:
+
+\begin{itemize}
+    \item \texttt{mod\_main} -- hlavní modul aplikace. V~tomto modulu je implementován \textit{model} systému popsaný v~sekci \ref{sec:de_model}. \textit{Model} je využíván i ostatními moduly (konkrétně modulem \texttt{mod\_api}). Dále tento modul implementuje webové rozhraní správy nadřazeného systému.
+    \item \texttt{mod\_api} -- modul implementující API systému. Zde je implementován \textit{controller} ze sekce \ref{sec:de_api}, definující URL, pomocí kterých mohou podřízené systémy komunikovat s~nadřazeným systémem.
+    \item \texttt{mod\_auth} -- modul implementující autentizaci uživatele při přihlašování do webového rozhraní.
+\end{itemize}
+
+Pro rozdělení aplikace na jednotlivé moduly jsem použíl nástroj frameworku Flask nazvaný \textit{blueprints} \cite{flask_blueprints}.
 
 \section{Implementace \textit{modelu}}
 
@@ -13,6 +21,9 @@
 
 %scheduler http://apscheduler.readthedocs.io/en/v3.5.1/index.html,
 %k cemu vsemu slouzi, ze je vicevlaknovej, proc je tam pouzitej
+
+
+\subsection{Zasíláním upozornění}
 
 %posilani mailu pomoci toho eventu zmeny v sqlalchemy
 
