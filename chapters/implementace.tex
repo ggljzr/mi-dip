@@ -1,6 +1,8 @@
 \chapter{Implementace}
 \label{sec:im}
 
+V~této kapitole je popsána implementace nadřazeného systému podle návrhu z~kapitoly \ref{sec:de}.
+
 \section{Struktura aplikace}
 
 %zaklad zakladni struktura aplikace zalozena na \url{https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)}
@@ -13,7 +15,9 @@ Aplikace nadřazeného systému je rozdělena do tří modulů:
     \item \texttt{mod\_auth} -- modul implementující autentizaci uživatele při přihlašování do webového rozhraní.
 \end{itemize}
 
-Pro rozdělení aplikace na jednotlivé moduly jsem použíl nástroj frameworku Flask nazvaný \textit{blueprints} \cite{flask_blueprints}.
+K~rozdělení aplikace na jednotlivé moduly je použit nástroj frameworku Flask nazvaný \textit{blueprints} \cite{flask_blueprints}.  Hlavní důvod k~využití modulů je oddělení částí aplikace podle jejich funkce.
+
+Při strukturování aplikace jsem vycházel z~článku \textit{How To Structure Large Flask Applications} \cite{flask_large}.
 
 \section{Implementace \textit{modelu}}
 
