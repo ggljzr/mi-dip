@@ -1,11 +1,9 @@
 \chapter{Implementace}
 \label{sec:im}
 
-V~této kapitole je popsána implementace nadřazeného systému podle návrhu z~kapitoly \ref{sec:de}.
+V~této kapitole je popsána implementace nadřazeného systému podle návrhu z~kapitoly \ref{sec:de}. Jednotlivé sekce tedy popisují implementační detaily dílčích částí návrhového vzoru MVC. Poslední sekce \ref{sec:im_auth} se zabývá implementací autentizace uživatele.
 
 \section{Struktura aplikace}
-
-%zaklad zakladni struktura aplikace zalozena na \url{https://www.digitalocean.com/community/tutorials/how-to-structure-large-flask-applications#working-with-modules-and-blueprints-(components)}
 
 Aplikace nadřazeného systému je rozdělena do tří modulů:
 
@@ -21,7 +19,38 @@ Při strukturování aplikace jsem vycházel z~článku \textit{How To Structure
 
 \section{Implementace \textit{modelu}}
 
-%sqlalchemy
+Jak je zmíněno v~sekci \ref{sec:de_model}, \textit{model} aplikace je tvořen třídami \texttt{Garage} a \texttt{Event}. Tyto třídy přímo využívají databázi nadřazeného systému, k~jejich implementaci je proto použit framework SQLAlchemy \cite{sqlalchemy}, který výrazně usnadní práci s~databází.
+
+Tento framework poskytuje přístup k~SQL databázím přímo z~jazyka Python, takže není nutné psát prakticky žádný SQL kód. Tabulku v~databázi je možné definovat jako Python třídu s~přísušnými atributy a SQLAlchemy vytvoří odpovídající databázové schéma. 
+
+SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{modelu} nadřazeného systému se vyskytuje pouze vztah $1:N$ mezi třídami \texttt{Garage} a \texttt{Event} (jedna garáž má mnoho událostí, každá událost má právě jednu garáž). Tento vztah je možno pomocí SQLAlchemy definovat tímto způsobem:
+
+\begin{listing}[htbp]
+\caption{\label{lst:db_relationship} Vytvoření vztahu $1:N$ mezi třídami \texttt{Garage} a \texttt{Event}}
+\begin{minted}[bgcolor=codebg]{python}
+from sqlalchemy import Column, ForeignKey, Integer
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+
+Base = declarative_base()
+
+# tridy Event a Garage
+# dedi SQLAlchemy metody
+# tridy Base
+class Event(Base):
+    ...
+    # odkaz na prislusnou garaz
+    garage_id = Column(Integer, ForeignKey(
+        'Garage.id'), nullable=False)
+
+class Garage(Base): 
+    ...
+    # definice 1:n vztahu mezi garazi a udalosti
+    events = relationship('Event', backref='Garage')
+\end{minted}
+\end{listing}
+
+
 
 %scheduler http://apscheduler.readthedocs.io/en/v3.5.1/index.html,
 %k cemu vsemu slouzi, ze je vicevlaknovej, proc je tam pouzitej
@@ -50,6 +79,7 @@ Při strukturování aplikace jsem vycházel z~článku \textit{How To Structure
 %vyjimka z csrf (neni potreba login, prokazuje se klicem)
 
 \section{Autentizace uživatele}
+\label{sec:im_auth}
 
 %asi hlavne bcrypt popsat
 
