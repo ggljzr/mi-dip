@@ -23,7 +23,7 @@ Jak je zmíněno v~sekci \ref{sec:de_model}, \textit{model} aplikace je tvořen 
 
 Tento framework poskytuje přístup k~SQL databázím přímo z~jazyka Python, takže není nutné psát prakticky žádný SQL kód. Tabulku v~databázi je možné definovat jako Python třídu s~přísušnými atributy a SQLAlchemy vytvoří odpovídající databázové schéma. 
 
-SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{modelu} nadřazeného systému se vyskytuje pouze vztah $1:N$ mezi třídami \texttt{Garage} a \texttt{Event} (jedna garáž má mnoho událostí, každá událost má právě jednu garáž). Tento vztah je možno pomocí SQLAlchemy definovat tímto způsobem:
+SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{modelu} nadřazeného systému se vyskytuje pouze vztah $1:N$ mezi třídami \texttt{Garage} a \texttt{Event} (jedna garáž má mnoho událostí, každá událost má právě jednu garáž). Tento vztah je možno pomocí SQLAlchemy definovat následujícím způsobem:
 
 \begin{listing}[htbp]
 \caption{\label{lst:db_relationship} Vytvoření vztahu $1:N$ mezi třídami \texttt{Garage} a \texttt{Event}}
@@ -34,27 +34,53 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
-# tridy Event a Garage
+# třídy Event a Garage
 # dedi SQLAlchemy metody
-# tridy Base
+# třídy Base
 class Event(Base):
     ...
-    # odkaz na prislusnou garaz
+    # odkaz na příslušnou garáž
     garage_id = Column(Integer, ForeignKey(
         'Garage.id'), nullable=False)
 
 class Garage(Base): 
     ...
-    # definice 1:n vztahu mezi garazi a udalosti
+    # definice 1:N vztahu mezi garáží a událostí
     events = relationship('Event', backref='Garage')
 \end{minted}
 \end{listing}
 
+\subsection{Kontrola zmeškaných hlášení}
 
+V~databázi nadřazeného systému je potřeba pravidelně provádět kontrolu, zda podřízené systémy zaslaly v~očekávaný čas kontrolní hlášení. Pokud bylo plánované hlášení promeškáno, je nutné změnit stav příslušné garáže na \uv{Nehlásí se}.
 
-%scheduler http://apscheduler.readthedocs.io/en/v3.5.1/index.html,
-%k cemu vsemu slouzi, ze je vicevlaknovej, proc je tam pouzitej
+Aplikace nadřazeného systému nemá v~zásadě možnost, jak tuto kontrolu sama iniciovat, neboť pouze reaguje na příchozí požadavky (od uživatele či podřízeného systému). Provedení kontroly může být důsledkem takového požadavku, například pokud uživatel otevře hlavní stránku webového rozhraní. 
 
+Provádět kontrolu hlášení pouze v~reakci na vnější podnět však není dostatečné. Pokud by nadřazený systém musel pro provedení kontroly hlášení čekat interakci s~webovým rozhraním (nebo například s~podřízeným systémem), nemuselo by vůbec dojít ke změně stavu garáže a tedy ani k~odeslání notifikačního e-mailu. Je tedy nutné zajistit pravidelné provádění kontrol na základě vnitřního podnětu.
+
+Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apscheduler}. APScheduler funguje jako knihovna do Pythonu, a umožňuje plánovat provádění zvolených funkcí. Nejde tedy o~externí program, plánovač je přímo součástí kódu nadřazeného systému \cite{apscheduler}. Vytvoření pravidelné kontroly hlášení podřízených systémů lze implementovat tímto způsobem:
+
+\begin{listing}[htbp]
+\caption{\label{lst:scheduler_check} Pravidelná kontrola hlášení podřízených systémů každých 5 minut pomocí knihovny APScheduler}
+\begin{minted}[bgcolor=codebg]{python}
+
+from apscheduler.schedulers.background import \
+    BackgroundScheduler
+
+# BackgroundScheduler běží v~samostatném vlákně,
+# neblokuje tedy webovou aplikaci
+scheduler = BackgroundScheduler()
+
+# přidání pravidelného úkolu do plánovače
+# Garage.check_reports je statická metoda
+# třídy Garage, která provede kontrolu hlášení
+# u~všech garáží v~databázi (a případně upraví jejich stav)
+scheduler.add_job(Garage.check_reports, 'interval', minutes=5)
+scheduler.start()
+\end{minted}
+\end{listing}
+
+Plánovač se kromě kontroly hlášení hodí také při vypínání registračního módu. Ten z~bezpečnostních důvodů po aktivaci běží po dobu tří minut. Jeho vypnutí je naplánováno obdobně jako kontrola hlášení, jediný rozdíl je, že úkol není spouštěn v~pravidelném intervalu, ale pouze jednou.
 
 \subsection{Zasíláním upozornění}
 
