@@ -61,7 +61,7 @@ Provádět kontrolu hlášení pouze v~reakci na vnější podnět však není d
 Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apscheduler}. APScheduler funguje jako knihovna do Pythonu, a umožňuje plánovat provádění zvolených funkcí. Nejde tedy o~externí program, plánovač je přímo součástí kódu nadřazeného systému \cite{apscheduler}. Vytvoření pravidelné kontroly hlášení podřízených systémů lze implementovat tímto způsobem:
 
 \begin{listing}[htbp]
-\caption{\label{lst:scheduler_check} Pravidelná kontrola hlášení podřízených systémů každých 5 minut pomocí knihovny APScheduler}
+\caption{\label{lst:scheduler_check} Pravidelná kontrola hlášení podřízených systémů pomocí knihovny APScheduler. Po startu plánovače je každých 5 minut volána metoda \texttt{Garage.check\_reports()}}
 \begin{minted}[bgcolor=codebg]{python}
 
 from apscheduler.schedulers.background import \
@@ -90,13 +90,38 @@ Plánovač se kromě kontroly hlášení hodí také při vypínání registrač
 
 \section{Implementace \textit{view}}
 
-%jinja, makra
+Tato část se věnuje implementaci stránek webového rozhraní nadřazenéh systému. Jednotlivé HTML stránky rozhraní jsou generovány pomocí šablonovacího systému Jinja \cite{jinja}, který je součástí frameworku Flask \cite{flask_templates}. 
 
-%wtforms
+Jinja umožňuje dynamické generování HTML stránek z~předem vytvořených šablon a dalších vstupnů, v~tomto případě především dat z~\textit{modelu} aplikace. Tato data jsou šabloně předána \textit{controllerem} (viz sekci \ref{sec:im_controller}). V~šablonách Jinja používá syntaxi založenou na Pythonu \cite{jinja}. Například HTML šablona pro tabulku se zaznamenanými událostmi může vypadat následovně:
 
-%jquery na filtry
+\begin{listing}[htbp]
+\caption{\label{lst:jinja_table} HTML šablona tabulky zaznamenaných událostí, využívající šablonovací systém Jinja. Proměnná \texttt{garage} je šabloně předána \textit{controllerem} aplikace}
+\begin{minted}[bgcolor=codebg]{html}
+<table class=basic_table>
+    <tr>
+    <th>Seznam událostí</th>
+    </tr>
+    <!-- použítí cyklu v~systému Jinja -->
+    {% for event in garage.events %}
+        <tr>
+            <!-- přístup k~proměnné pomocí bloku {{ }} -->
+            <td class=event_type_{{event.type}}>
+                {{ event | event_filter }}
+            </td>
+        </tr>
+    {% endfor %} <!--konec bloku cyklu -->
+</table>
+\end{minted}
+\end{listing}
+
+Jinja také ďovoluje definici filtrů, sloužících ke zpracování zobrazovaných dat \cite{jinja}. V~ukázce \ref{lst:jinja_table} je použit filtr \texttt{event\_filter}. Ten dostane jako vstup třídu \texttt{event} a vytvoří její textovou reprezentaci s~údaji o~typu a času události. Tím je oddělena implementace této třídy v~\textit{modelu} a její zobrazení ve \textit{view}.
+
+\subsection{Formuláře}
+
+\subsection{Filtrování událostí}
 
 \section{Implementace \textit{controlleru}}
+\label{sec:im_controller}
 
 %csrf, viz  napsat ze pro add garage a revoke key misto normalni routy, getu a linku pouzivame formulare a post kvuli vochrane pred csrf, viz \url{https://stackoverflow.com/questions/6812765/how-to-demonstrate-a-csrf-attack}. Timhle utokem by nekdo moh vytvaret garaze a rusit api klice, coz neni naka velka skoda ale spis na votravovani no (u~vostatnich veci (tj hlavne change password) to bylo uz driv v~pohode protoze byly pouzity ty flaskforms)
 
