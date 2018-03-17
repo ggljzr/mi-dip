@@ -240,12 +240,12 @@ Registrační požadavek má následující formát (zaslání registračního p
 \caption{\label{lst:api_reg} Zaslání registračního požadavku nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}}
 \begin{minted}[bgcolor=codebg]{python}
 import requests
-# server nadrazeneho systemu je pristupny
+# server nadřazeného systemu je přístupný
 # na adrese raspberrypi.local
 url = 'https://raspberrypi.local/api/garages'
 
-# pozadavek 'post', bez overeni
-# self-signed certifikatu
+# požadavek 'post', bez ověření
+# self-signed certifikátu
 r = requests.post(url, verify=False)
 
 if r.status == 201:
@@ -277,20 +277,20 @@ Požadavek zasílající kontrolní hlášení má tento formát:
 \caption{\label{lst:api_report} Zaslání kontrolního hlášení nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}}
 \begin{minted}[bgcolor=codebg]{python}
 import requests
-# server nadrazeneho systemu je pristupny
+# server nadřazeného systému je přístupný
 # na adrese raspberrypi.local
 url = 'https://raspberrypi.local/api/report_event'
 
-# api klic (ziskany napriklad reg. pozadavkem)
-# je zasilan v~hlavicce pozadavku
+# API klíč (získaný například reg. požadavkem)
+# je zasílán v~hlavičce požadavku
 headers = {'api_key' : api_key}
 
-# pozadavek 'post', bez overeni
-# self-signed certifikatu
+# požadavek 'post', bez ověření
+# self-signed certifikátu
 r = requests.post(url, headers=headers, verify=False)
 
 if r.status == 201:
-    #odpoved -- cas do dalsiho hlaseni
+    #odpověď -- čas do dalšího hlášení
     period = r.json()['period']
 
 \end{minted}
@@ -324,15 +324,15 @@ Vytváření dalších událostí je stejné jako vytváření kontrolního hlá
 \begin{minted}[bgcolor=codebg]{python}
 import requests
 
-# stejne jako pri zasilani kontrolniho hlaseni
-# lisi se pouze url
+# stejné jako při zasílání kontrolního hlášení
+# liší se pouze url
 url = 'https://raspberrypi.local/api/smoke_event'
 headers = {'api_key' : api_key}
 
 r = requests.post(url, headers=headers, verify=False)
 
 if r.status == 201:
-    #odpoved neobsahuje zadna data
+    #odpověď neobsahuje žádná data
     ...
 
 \end{minted}
