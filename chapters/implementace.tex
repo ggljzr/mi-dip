@@ -118,11 +118,13 @@ Jinja také ďovoluje definici filtrů, sloužících ke zpracování zobrazovan
 
 \subsection{Formuláře}
 
-Webové rozhraní obsahuje několik formulářů, sloužící k~editaci garáže či změně hesla. Tyto formuláře jsou implementovány pomocí frameworku WTForms, který je opět integrován ve Flasku \cite{flask_wtf}.
+Webové rozhraní obsahuje několik formulářů, které slouží například k~editaci garáže či změně hesla. Tyto formuláře jsou implementovány pomocí frameworku WTForms, který je opět integrován ve Flasku \cite{flask_wtf}.
 
-Framework poskytuje třídu \texttt{FlaskForm}, pomocí které je možné vytvořit podtřídy popisující jednotlivé formuláře. V~těchto podtřídách lze pak definovat jednotlivá pole formuláře.
+Framework poskytuje třídu \texttt{FlaskForm}, pomocí které je možné vytvořit podtřídy popisující jednotlivé formuláře \cite{flask_wtf}. V~těchto podtřídách jsou pak definovány pole formuláře. 
 
-Využití tohoto frameworku při implementaci formuláře pro editaci údajů garáže popisuje ukázka \ref{lst:wtform}. Vygenerování HTML kódu formuláře, vče
+U~některých polí je potřeba provádět kontrolu zadávaných hodnot (například dodržení minimální délky hesla). To je provedeno pomocí další součásti WTForms, nazvané validátory \cite{flask_wtf}. Pomocí těchto předdefinovaných validátorů lze na vstupní data aplikovat nejrůznější omezení (délka řetězce, rozsah číselných hodnot atd.) a určit chybovou zprávu zobrazenou při jejich porušení \cite{flask_wtf}.
+
+Využití tohoto frameworku při implementaci formuláře pro editaci údajů garáže popisuje ukázka \ref{lst:wtform}. Vygenerování HTML kódu formuláře, včetně zobrazení chybových zpráv po odeslání neplatného formuláře, je provedeno pomocí systému Jinja.
 
 \begin{listing}[htbp]
 \caption{\label{lst:wtform} Implementace formuláře pro editaci údajů garáže pomocí frameworku WTForms. Při kontrole vstupu je ověřen rozsah zadávané periody}
@@ -130,7 +132,6 @@ Využití tohoto frameworku při implementaci formuláře pro editaci údajů ga
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, TextAreaField
 from wtforms.validators import NumberRange
-
 
 class GarageForm(FlaskForm):
     tag = StringField('Označení')
