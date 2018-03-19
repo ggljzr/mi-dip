@@ -23,7 +23,7 @@ Jak je zmíněno v~sekci \ref{sec:de_model}, \textit{model} aplikace je tvořen 
 
 Tento framework poskytuje přístup k~SQL databázím přímo z~jazyka Python, takže není nutné psát prakticky žádný SQL kód. Tabulku v~databázi je možné definovat jako Python třídu s~přísušnými atributy a SQLAlchemy vytvoří odpovídající databázové schéma. 
 
-SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{modelu} nadřazeného systému se vyskytuje pouze vztah $1:N$ mezi třídami \texttt{Garage} a \texttt{Event} (jedna garáž má mnoho událostí, každá událost má právě jednu garáž). Tento vztah je možno pomocí SQLAlchemy definovat následujícím způsobem:
+SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{modelu} nadřazeného systému se vyskytuje pouze vztah $1:N$ mezi třídami \texttt{Garage} a \texttt{Event} (jedna garáž má mnoho událostí, každá událost má právě jednu garáž). Tento vztah je pomocí SQLAlchemy definován následujícím způsobem:
 
 \begin{listing}[htbp]
 \caption{\label{lst:db_relationship} Vytvoření vztahu $1:N$ mezi třídami \texttt{Garage} a \texttt{Event}}
@@ -58,7 +58,7 @@ Aplikace nadřazeného systému nemá v~zásadě možnost, jak tuto kontrolu sam
 
 Provádět kontrolu hlášení pouze v~reakci na vnější podnět však není dostatečné. Pokud by nadřazený systém musel pro provedení kontroly hlášení čekat interakci s~webovým rozhraním (nebo například s~podřízeným systémem), nemuselo by vůbec dojít ke změně stavu garáže a tedy ani k~odeslání notifikačního e-mailu. Je tedy nutné zajistit pravidelné provádění kontrol na základě vnitřního podnětu.
 
-Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apscheduler}. APScheduler funguje jako knihovna do Pythonu, a umožňuje plánovat provádění zvolených funkcí. Nejde tedy o~externí program, plánovač je přímo součástí kódu nadřazeného systému \cite{apscheduler}. Vytvoření pravidelné kontroly hlášení podřízených systémů lze implementovat tímto způsobem:
+Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apscheduler}. APScheduler funguje jako knihovna do Pythonu, a umožňuje plánovat provádění zvolených funkcí. Nejde tedy o~externí program, plánovač je přímo součástí kódu nadřazeného systému \cite{apscheduler}. Vytvoření pravidelné kontroly hlášení podřízených systémů je implementováno tímto způsobem:
 
 \begin{listing}[htbp]
 \caption{\label{lst:scheduler_check} Pravidelná kontrola hlášení podřízených systémů pomocí knihovny APScheduler. Po startu plánovače je každých 5 minut volána metoda \texttt{Garage.check\_reports()}}
@@ -92,7 +92,7 @@ Plánovač se kromě kontroly hlášení hodí také při vypínání registrač
 
 Tato část se věnuje implementaci stránek webového rozhraní nadřazenéh systému. Jednotlivé HTML stránky rozhraní jsou generovány pomocí šablonovacího systému Jinja \cite{jinja}, který je součástí frameworku Flask \cite{flask_templates}. 
 
-Jinja umožňuje dynamické generování HTML stránek z~předem vytvořených šablon a dalších vstupnů, v~tomto případě především dat z~\textit{modelu} aplikace. Tato data jsou šabloně předána \textit{controllerem} (viz sekci \ref{sec:im_controller}). V~šablonách Jinja používá syntaxi založenou na Pythonu \cite{jinja}. Například HTML šablona pro tabulku se zaznamenanými událostmi může vypadat následovně:
+Jinja umožňuje dynamické generování HTML stránek z~předem vytvořených šablon a dalších vstupnů, v~tomto případě především dat z~\textit{modelu} aplikace. Tato data jsou šabloně předána \textit{controllerem} (viz sekci \ref{sec:im_controller}). V~šablonách Jinja používá syntaxi založenou na Pythonu \cite{jinja}. Například HTML šablona pro tabulku se zaznamenanými událostmi vypadá následovně:
 
 \begin{listing}[htbp]
 \caption{\label{lst:jinja_table} HTML šablona tabulky zaznamenaných událostí, využívající šablonovací systém Jinja. Proměnná \texttt{garage} je šabloně předána \textit{controllerem} aplikace}
@@ -117,6 +117,31 @@ Jinja umožňuje dynamické generování HTML stránek z~předem vytvořených �
 Jinja také ďovoluje definici filtrů, sloužících ke zpracování zobrazovaných dat \cite{jinja}. V~ukázce \ref{lst:jinja_table} je použit filtr \texttt{event\_filter}. Ten dostane jako vstup instanci třídy \texttt{event} a vytvoří její textovou reprezentaci s~údaji o~typu a času události. Tím je oddělena implementace této třídy v~\textit{modelu} a její zobrazení ve \textit{view}.
 
 \subsection{Formuláře}
+
+Webové rozhraní obsahuje několik formulářů, sloužící k~editaci garáže či změně hesla. Tyto formuláře jsou implementovány pomocí frameworku WTForms, který je opět integrován ve Flasku \cite{flask_wtf}.
+
+Framework poskytuje třídu \texttt{FlaskForm}, pomocí které je možné vytvořit podtřídy popisující jednotlivé formuláře. V~těchto podtřídách lze pak definovat jednotlivá pole formuláře.
+
+Využití tohoto frameworku při implementaci formuláře pro editaci údajů garáže popisuje ukázka \ref{lst:wtform}. Vygenerování HTML kódu formuláře, vče
+
+\begin{listing}[htbp]
+\caption{\label{lst:wtform} Implementace formuláře pro editaci údajů garáže pomocí frameworku WTForms. Při kontrole vstupu je ověřen rozsah zadávané periody}
+\begin{minted}[bgcolor=codebg]{python}
+from flask_wtf import FlaskForm
+from wtforms import StringField, IntegerField, TextAreaField
+from wtforms.validators import NumberRange
+
+
+class GarageForm(FlaskForm):
+    tag = StringField('Označení')
+    period = IntegerField('Perioda hlášení (minuty)', 
+        validators=[
+        NumberRange(1, 999, 
+            message='Perioda musí být mezi 1 a 999')
+        ])
+    note = TextAreaField('Poznámka')
+\end{minted}
+\end{listing}
 
 \subsection{Filtrování událostí}
 
