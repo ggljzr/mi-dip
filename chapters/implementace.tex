@@ -9,7 +9,7 @@ Aplikace nadřazeného systému je rozdělena do tří modulů:
 
 \begin{itemize}
     \item \texttt{mod\_main} -- hlavní modul aplikace. V~tomto modulu je implementován \textit{model} systému popsaný v~sekci \ref{sec:de_model}. \textit{Model} je využíván i ostatními moduly (konkrétně modulem \texttt{mod\_api}). Dále tento modul implementuje webové rozhraní správy nadřazeného systému.
-    \item \texttt{mod\_api} -- modul implementující API systému. Zde je implementován \textit{controller} ze sekce \ref{sec:de_api}, definující URL, pomocí kterých mohou podřízené systémy komunikovat s~nadřazeným systémem.
+    \item \texttt{mod\_api} -- modul implementující API systému. Zde je implementována část \textit{controlleru} ze sekce \ref{sec:de_api}, definující URL, pomocí kterých mohou podřízené systémy komunikovat s~nadřazeným systémem.
     \item \texttt{mod\_auth} -- modul implementující autentizaci uživatele při přihlašování do webového rozhraní.
 \end{itemize}
 
@@ -146,10 +146,43 @@ class GarageForm(FlaskForm):
 
 \subsection{Filtrování událostí}
 
-Při zobrazení seznamu událostí konkrétní garáže je možné tyto události filtrovat podle jejich typu. Filtrování je prováděno na straně klienta (v~prohlížeči) pomocí javascriptové knihovny jQuery \cite{jquery_about}.
+Při zobrazení seznamu událostí konkrétní garáže je možné tyto události filtrovat podle jejich typu. Filtrování je prováděno na straně klienta (v~prohlížeči) pomocí Javascriptu a knihovny jQuery \cite{jquery_about}.
 
 \section{Implementace \textit{controlleru}}
 \label{sec:im_controller}
+
+\textit{Controller} aplikace je implementován spárováním URL a funkce, která se má provést při příchozím požadavku na toto URL. Jako odpověď na požadavek je pak klientovi zaslána návratová hodnota funkce. Tento princip (demonstrovaný v~ukázce \ref{lst:route}) představuje základní stavební kámen při tvorbě \textit{controlleru} ve frameworku Flask.
+
+Pro spárování funkce a URL je použit dekorátor \texttt{route}. Dekorátor je konstrukt jazyka Python, který umožňuje rozšířit danou funkci či metodu o~další funkcionalitu \cite{python_decorators}. Pomocí dekorátoru \texttt{route} je definováno URL a případně i povolené HTTP metody, které může klient při požadavku použít. Implicitně je povolena pouze metoda \texttt{get} \cite{flask_api}. 
+
+\begin{listing}[htbp]
+\caption{\label{lst:route} Přiřazení funkce k~URL. Funkce \texttt{index} bude zavolána při každém příchozím požadavku s~metodou \texttt{get} na kořenové URL \texttt{/}. Tato funkce vrací vygenerovanou HTML stránku, která bude zaslána klientovi}
+\begin{minted}[bgcolor=codebg]{python}
+from flask import Blueprint, render_template
+
+from .models.garage import Garage 
+
+# deklarace blueprintu mod_main
+mod_main = Blueprint('main', __name__)
+
+# URL a příslušná akce jsou definovány
+# vzhledem k~blueprintu
+@mod_main.route('/')
+@login_required # kontrola přihlášení uživatele
+def index():
+    # získání údajů o~všech garážích
+    garages = Garage.query.all()
+
+    # vygenerování stránky pomocí Jinja
+    # zobrazovaná data jsou předána jako
+    # parametry funkce render_template()
+    return render_template('main/index.html', 
+                            garages=garages, 
+                            reg_mode=Garage.reg_mode)
+\end{minted}
+\end{listing}
+
+Pokud funkce zpracovávající požadavek mění obsah databáze (například vytváří novou garáž), je vyžadována metoda \texttt{post}.
 
 %csrf, viz  napsat ze pro add garage a revoke key misto normalni routy, getu a linku pouzivame formulare a post kvuli vochrane pred csrf, viz \url{https://stackoverflow.com/questions/6812765/how-to-demonstrate-a-csrf-attack}. Timhle utokem by nekdo moh vytvaret garaze a rusit api klice, coz neni naka velka skoda ale spis na votravovani no (u~vostatnich veci (tj hlavne change password) to bylo uz driv v~pohode protoze byly pouzity ty flaskforms)
 
@@ -165,6 +198,8 @@ Při zobrazení seznamu událostí konkrétní garáže je možné tyto událost
 %login_required decorator \url{http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/}
 
 %session
+
+%pouziti metody post pri posilani login udaju
 
 %mozna csrf tady, napsat jak je tam zapnuty, ze default je soucasti toho flask_formu ale my ho chceme pro vsechny ty post routy a pak vyjimku pro api modul -- tady napsat jak se nam siknou ty blueprinty
 
