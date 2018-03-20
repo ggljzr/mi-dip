@@ -41,7 +41,7 @@ Ostatní části aplikace (\textit{view} a \textit{controller}) používají \te
     \item \textbf{Zneplatnění API klíče} -- odepření přístupu podřízenému systému bez nutnosti smazání garáže a s~ní spojených událostí.
     \item \textbf{Zapínání registračního módu} -- v~tomto módu je možné vytvářet nové garáže na základě požadavku od podřízeného systému. Bližší informace jsou v~sekci \ref{sec:de_add_garage}. Registrační mód se po uplynutí časového limitu sám vypne.
     \item \textbf{Přístup k~uloženým datům} -- obecně operace typu získání všech garáží nebo všech událostí vázané ke konkrétní garáži.
-    \item \textbf{Vytvoření události} -- základní požadavek využívaný podřízenými systémy.
+    \item \textbf{Vytvoření události} -- základní operace využívaná podřízenými systémy.
 \end{itemize}
 
 Vnitřně pak model na základě těchto operací autentizuje pomocí API klíčů požadavky podřízených systému, validuje zaslaná data, spravuje databázi nadřazeného systému nebo obstarává zasílání notifikačních e-mailů.
