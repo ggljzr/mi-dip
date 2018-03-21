@@ -117,6 +117,7 @@ Jinja umožňuje dynamické generování HTML stránek z~předem vytvořených �
 Jinja také ďovoluje definici filtrů, sloužících ke zpracování zobrazovaných dat \cite{jinja}. V~ukázce \ref{lst:jinja_table} je použit filtr \texttt{event\_filter}. Ten dostane jako vstup instanci třídy \texttt{event} a vytvoří její textovou reprezentaci s~údaji o~typu a času události. Tím je oddělena implementace této třídy v~\textit{modelu} a její zobrazení ve \textit{view}.
 
 \subsection{Formuláře}
+\label{sec:im_forms}
 
 Webové rozhraní obsahuje několik formulářů, které slouží například k~editaci garáže či změně hesla. Tyto formuláře jsou implementovány pomocí frameworku WTForms, který je opět integrován ve Flasku \cite{flask_wtf}.
 
@@ -156,7 +157,7 @@ Při zobrazení seznamu událostí konkrétní garáže je možné tyto událost
 Pro spárování funkce a URL je použit dekorátor \texttt{route}. Dekorátor je konstrukt jazyka Python, který umožňuje rozšířit danou funkci či metodu o~další funkcionalitu \cite{python_decorators}. Pomocí dekorátoru \texttt{route} je definováno URL a případně i povolené HTTP metody, které může klient při požadavku použít. Implicitně je povolena pouze metoda \texttt{get} \cite{flask_api}. 
 
 \begin{listing}[htbp]
-\caption{\label{lst:route} Přiřazení funkce k~URL. Funkce \texttt{index} bude zavolána při každém příchozím požadavku s~metodou \texttt{get} na kořenové URL \texttt{/}. Tato funkce vrací vygenerovanou HTML stránku, která bude zaslána klientovi}
+\caption{\label{lst:route} Přiřazení funkce k~URL. Funkce \texttt{index} bude zavolána při každém příchozím požadavku s~metodou \texttt{get} na kořenové URL \texttt{/}. Návratová hodnota funkce je vygenerovaná HTML stránka, která bude zaslána klientovi}
 \begin{minted}[bgcolor=codebg]{python}
 from flask import Blueprint, render_template
 
@@ -182,7 +183,7 @@ def index():
 \end{minted}
 \end{listing}
 
-Pokud funkce zpracovávající požadavek mění obsah databáze (například vytváří novou garáž), je vyžadována metoda \texttt{post}.
+Pokud funkce zpracovávající požadavek mění obsah databáze (například vytváří novou garáž), je u~požadavku vyžadována metoda \texttt{post}. Tyto požadavky jsou také chráněny proti CSRF útoku. Do každého formuláře používajícího metodu \texttt{post} je vložen náhodně generovaný \textit{token}, podle kterého může aplikace ověřit původ požadavku. Ochrana proti CSRF je automaticky zapnuta u~všech formulářů vytvořených pomocí WTForms (viz sekci \ref{sec:im_forms}) \cite{flask_wtf}.
 
 %csrf, viz  napsat ze pro add garage a revoke key misto normalni routy, getu a linku pouzivame formulare a post kvuli vochrane pred csrf, viz \url{https://stackoverflow.com/questions/6812765/how-to-demonstrate-a-csrf-attack}. Timhle utokem by nekdo moh vytvaret garaze a rusit api klice, coz neni naka velka skoda ale spis na votravovani no (u~vostatnich veci (tj hlavne change password) to bylo uz driv v~pohode protoze byly pouzity ty flaskforms)
 
