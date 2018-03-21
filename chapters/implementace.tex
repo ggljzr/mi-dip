@@ -200,7 +200,7 @@ Jelikož se podřízené systémy prokazují pomocí API klíče, není zde nutn
 
 Autentizace uživatele je provedena zadáním hesla. Heslo je zadáváno pomocí formuláře na přihlašovací stránce a posíláno požadavkem \texttt{post}. Použití metody \texttt{get} není vhodné, neboť heslo jako součást URL zůstane uchované jednak v~historii prohlížeče, jednak v~záznamu požadavků na serveru.
 
-Pokud uživatel poskytl správné heslo, je v~jeho HTTP relaci nastavena proměnná \texttt{logged\_in} na hodnotu \texttt{true}. Tato proměnná slouží ke kontrole přihlášení uživatele při přístupu k~dalším částem webového rozhraní. Kód provádějící kontrolu je vkládán do funkcí pomocí dekorátoru \texttt{login\_required}, jehož použití lze vidět v~ukázce \ref{lst:route} (bližší informace o~dekorátorech je možno najít v~sekci \ref{sec:im_controller}).
+Pokud uživatel poskytl správné heslo, je v~jeho HTTP relaci nastavena proměnná \texttt{logged\_in} na hodnotu \texttt{true}. Tato proměnná slouží ke kontrole přihlášení uživatele při přístupu k~dalším částem webového rozhraní. Kód provádějící kontrolu je vkládán do funkcí pomocí dekorátoru \texttt{login\_required}, jehož použití lze vidět v~ukázce \ref{lst:route} (bližší informace o~dekorátorech je možno najít v~sekci \ref{sec:im_controller}). Odhlášení je provedeno nastavením hodnoty \texttt{logged\_in} na \texttt{false}.
 
 %ukladani hesla (asi jen ze pouzivame bcrypt a ze to generuje i sul kterou to pripoji k tomu hashi hned takze se nemusi nic resit)
 
