@@ -187,9 +187,13 @@ Pokud funkce zpracovávající požadavek mění obsah databáze (například vy
 
 %csrf, viz  napsat ze pro add garage a revoke key misto normalni routy, getu a linku pouzivame formulare a post kvuli vochrane pred csrf, viz \url{https://stackoverflow.com/questions/6812765/how-to-demonstrate-a-csrf-attack}. Timhle utokem by nekdo moh vytvaret garaze a rusit api klice, coz neni naka velka skoda ale spis na votravovani no (u~vostatnich veci (tj hlavne change password) to bylo uz driv v~pohode protoze byly pouzity ty flaskforms)
 
-\subsection{API \textit{controller}}
+\subsection{Implementace API}
 
 %vyjimka z csrf (neni potreba login, prokazuje se klicem)
+
+Způsobem popsaným v~sekci \ref{sec:im_controller} je implementováno i API nadřazeného systému. Operace a URL ze sekce \ref{sec:de_api} jsou spárovány s~příslušnými funkcemi, upravujícími \textit{model} aplikace.
+
+Jelikož se podřízené systémy prokazují pomocí API klíče, není zde nutné provádět žádnou kontrolu přihlášení jako při zpracování požadavků ve webovém rozhraní. Pouze je zkontrolována přítomnost zaslaného klíče v~databázi. Také není nutné implementovat ochranu proti CSRF útokům.
 
 \section{Autentizace uživatele}
 \label{sec:im_auth}
