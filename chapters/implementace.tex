@@ -23,7 +23,7 @@ Jak je zmíněno v~sekci \ref{sec:de_model}, \textit{model} aplikace je tvořen 
 
 Tento framework poskytuje přístup k~SQL databázím přímo z~jazyka Python, takže není nutné psát prakticky žádný SQL kód. Tabulku v~databázi je možné definovat jako Python třídu s~přísušnými atributy a SQLAlchemy vytvoří odpovídající databázové schéma. 
 
-SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{modelu} nadřazeného systému se vyskytuje pouze vztah $1:N$ mezi třídami \texttt{Garage} a \texttt{Event} (jedna garáž má mnoho událostí, každá událost má právě jednu garáž). Tento vztah je pomocí SQLAlchemy definován následujícím způsobem:
+SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{modelu} nadřazeného systému se vyskytuje pouze vztah $1:N$ mezi třídami \texttt{Garage} a \texttt{Event} (jedna garáž má mnoho událostí, každá událost má právě jednu garáž). Tento vztah je definován následujícím způsobem:
 
 \begin{listing}[htbp]
 \caption{\label{lst:db_relationship} Vytvoření vztahu $1:N$ mezi třídami \texttt{Garage} a \texttt{Event}}
@@ -195,17 +195,13 @@ Způsobem popsaným v~sekci \ref{sec:im_controller} je implementováno i API nad
 
 Jelikož se podřízené systémy prokazují pomocí API klíče, není zde nutné provádět žádnou kontrolu přihlášení jako při zpracování požadavků ve webovém rozhraní. Pouze je zkontrolována přítomnost zaslaného klíče v~databázi. Také není nutné implementovat ochranu proti CSRF útokům.
 
-\section{Autentizace uživatele}
+\section{Autentizace a přihlášení uživatele}
 \label{sec:im_auth}
 
-%asi hlavne bcrypt popsat
+Autentizace uživatele je provedena zadáním hesla. Heslo je zadáváno pomocí formuláře na přihlašovací stránce a posíláno požadavkem \texttt{post}. Použití metody \texttt{get} není vhodné, neboť heslo jako součást URL zůstane uchované jednak v~historii prohlížeče, jednak v~záznamu požadavků na serveru.
 
-%login_required decorator \url{http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/}
+Pokud uživatel poskytl správné heslo, je v~jeho HTTP relaci nastavena proměnná \texttt{logged\_in} na hodnotu \texttt{true}. Tato proměnná slouží ke kontrole přihlášení uživatele při přístupu k~dalším částem webového rozhraní. Kód provádějící kontrolu je vkládán do funkcí pomocí dekorátoru \texttt{login\_required}, jehož použití lze vidět v~ukázce \ref{lst:route} (bližší informace o~dekorátorech je možno najít v~sekci \ref{sec:im_controller}).
 
-%session
-
-%pouziti metody post pri posilani login udaju
-
-%mozna csrf tady, napsat jak je tam zapnuty, ze default je soucasti toho flask_formu ale my ho chceme pro vsechny ty post routy a pak vyjimku pro api modul -- tady napsat jak se nam siknou ty blueprinty
+%ukladani hesla (asi jen ze pouzivame bcrypt a ze to generuje i sul kterou to pripoji k tomu hashi hned takze se nemusi nic resit)
 
 %v~testovani je mozny tenhle utok demonstrovat a ukazat jak pekne nam to funguje (voproti ty prvni verzi kde byl na add garage normalne get). Ted se pri tim pokusu vo utok normalne zvobrazi invalid csrf token nebo tak neco. Pro porovnani zmen puvodni a vopraveny verze viz commit e52a54b2caa8eead85e8df28c738356a7541a1c4 (password redirect, to je posledni verze s~timhle bugem)
