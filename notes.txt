@@ -14,3 +14,5 @@ zneplatneni api klicu:
 posilani mailu: vidim to bud teda ze tam bude proste smtp klient a holt meno (pak ta emailova schranka muze bejt vicemene jakakoliv, to je taky trochu vyhoda -- tj si uzivatel zalozi stranku treba na seznamu, vyplni meno a heslo a ma to hotovy) a heslo a nebo pouzit nakou sluzbu na posilani mailu. Ten google ma tu oauth autorizaci hrozne slozitou, by asi bylo lepsi neco jako https://github.com/sendgrid/sendgrid-python (https://sendgrid.com/), tam staci proste api klic
 
 python email client https://github.com/kootenpv/yagmail
+
+taky mozna v prislusnejch sekcich zminit ze diky sqlalchemy/jinja mame nakou vochranu proti xss/sqlinjection out of the box
