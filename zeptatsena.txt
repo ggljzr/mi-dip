@@ -1,5 +1,4 @@
-* kontrola propasnutejch hlaseni
-* telegram bot??
 * tecky v popiscich??
 * api uz je definovany ve zkratkach, psat ho znova do ty teorie?
 * jak s tim emailem (smtp client a meno heslo nebo naka sluzba a api?)
+* jestli v ty kapitole testovani popisovat jen co se testovalo a jak to dopadlo nebo psat i vo ty implementaci testu (freezegun atd.)
