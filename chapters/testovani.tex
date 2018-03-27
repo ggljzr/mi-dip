@@ -1,18 +1,22 @@
 \chapter{Testování}
 \label{sec:te}
 
-\section{\textit{Unit} testy}
+K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funkčnost jednotlivých komponent. Konkrétně jde o~testy pro \textit{model} aplikace (zde je testována především třída \texttt{garage}), webové rozhraní a API systému. Tyto testy byly implementovány pomocí frameworku pytest \cite{pytest}.
 
-%tady jen strucne popsat co to je unit test at to nemusime cpat do teorie
+Části aplikace, u~kterých je automatizované testování problematikcé, jako například funkce využívající APScheduler (viz sekce \ref{sec:im_scheduler}) nebo zasílání emailů, jsem otestoval ručně.
 
-\subsection{Testování \textit{modelu}}
+\section{Testování \textit{modelu}}
 
-\subsection{Testování API}
+% zminit freezegun
 
-\subsection{Testování autentizace uživatele}
+\section{Testování API}
+
+\section{Testování webového rozhraní}
+
+\section{Testování autentizace uživatele}
 
 %napsat ze sem musel vypnout csrf vochranu kvuli snadnejsimu testovani, a test jestli ta csrf vochrana funguje je v jiny kapitole
 
-\section{Testování ochrany proti CSRF}
+\subsection{Testování ochrany proti CSRF}
 
-% eventuelne mozny preskocit a rict ze to je proste z toho frameworku takze nedava smysl to testovat
+% test je udelanej v test_auth
