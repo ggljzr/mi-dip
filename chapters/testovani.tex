@@ -5,7 +5,7 @@
 
 K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funkčnost jednotlivých komponent. Konkrétně jde o~testy pro \textit{model} aplikace (zde je testována především třída \texttt{Garage}), webové rozhraní a API systému. Tyto testy byly implementovány pomocí frameworku pytest \cite{pytest}.
 
-Části aplikace, u~kterých je automatizované testování problematikcé, jako například funkce využívající APScheduler (viz sekce \ref{sec:im_scheduler}) nebo zasílání emailů, jsem otestoval ručně.
+Části aplikace, u~kterých je automatizované testování problematikcé, jako například funkce využívající APScheduler (viz sekce \ref{sec:im_scheduler}) nebo zasílání e-mailů, jsem otestoval ručně.
 
 \subsection{Testovací konfigurace}
 
@@ -13,9 +13,9 @@ K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funk�
 
 \subsection{Testování \textit{modelu}}
 
-Testování \textit{modelu} aplikace spočívalo především v~testování metod třídy \textit{Garage}. Třída \textit{Event} slouží pouze k~uchování dat o~události a neimplementuje žádné metody, které by bylo možné testovat.
+Testování \textit{modelu} aplikace spočívalo především v~testování metod třídy \texttt{Garage}. Třída \texttt{Event} slouží pouze k~uchování dat o~události a neimplementuje žádné metody, které by bylo možné testovat.
 
-Testovány byly následující funkce:
+Testovány byly následující scénáře:
 
 \begin{itemize}
     \item Přidání garáže.
@@ -35,7 +35,7 @@ K~tomu jsem použil knihovnu FreezeGun \cite{freezegun}. Tato knihovna umožňuj
 \begin{listing}[htbp]
 \caption{\label{lst:freezegun} Test kontroly promeškaných hlášení. Pomocí knihovny FreezeGun je čas nastaven na půlnoc 1. 1. 2011. Poté je čas posunut o~dvě hodiny a otestována změna stavu garáže}
 \begin{minted}[bgcolor=codebg]{python}
-from freezegun import freezetime
+from freezegun import freeze_time
 
 # všechna volání datetime.datetime.now()
 # pocházející z~této funkce vrátí
