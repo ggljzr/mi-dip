@@ -5,9 +5,30 @@ K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funk�
 
 Části aplikace, u~kterých je automatizované testování problematikcé, jako například funkce využívající APScheduler (viz sekce \ref{sec:im_scheduler}) nebo zasílání emailů, jsem otestoval ručně.
 
+\section{Testovací konfigurace}
+
+%napsat ze sem musel vypnout csrf vochranu kvuli snadnejsimu testovani, a test jestli ta csrf vochrana funguje je v jiny kapitole
+
 \section{Testování \textit{modelu}}
 
-% zminit freezegun
+Testování \textit{modelu} aplikace spočívalo především v~testování metod třídy \textit{garage}. Třída \textit{event} slouží pouze k~uchování dat o~události a neimplementuje žádné metody, které by bylo možné testovat.
+
+Testovány byly následující funkce:
+
+\begin{itemize}
+    \item Přidání garáže.
+    \item Smazání garáže.
+    \item Kontrola zmeškaných hlášení.
+    \item Zaslání kontrolího hlášení.
+    \item Změna stavu po zaslání události.
+    \item Zneplatnění API klíče.
+\end{itemize}
+
+Zde stojí za zmínku test kontroly zmeškaných hlášení. V~něm je garáži zasláno kontrolní hlášení, čímž je určen čas dalšího očekávaného hlášení. Po překročení tohoto času je potřeba otestovat, zda byl stav garáže změnen na \uv{Nehlásí se}.
+
+Jelikož je minimální perioda hlášení 1 minuta, prosté čekání (například pomocí funkce \texttt{sleep()}) by proces testování neúnosně zpomalilo (pro srovnání spuštění všech testů aplikace na běžném počítači zabere asi 4 sekundy). Vhodnější je tedy časový posun nasimulovat.
+
+K~tomu jsem použil knihovnu freezegun \cite{freezegun}.
 
 \section{Testování API}
 
@@ -15,8 +36,12 @@ K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funk�
 
 \section{Testování autentizace uživatele}
 
-%napsat ze sem musel vypnout csrf vochranu kvuli snadnejsimu testovani, a test jestli ta csrf vochrana funguje je v jiny kapitole
-
 \subsection{Testování ochrany proti CSRF}
 
 % test je udelanej v test_auth
+
+\section{Test HTTPS konfigurace}
+
+% lol nasadime to na aws nebo digital ocean, registrujem domenu, dame lets encrypt cert a zkusime sslabs test
+
+% v tyhle kapitole taky poresit to ze se jako bottleneck ty komunikace zda bejt ten https handshake a ze by se to asi dalo vyresti pouzitim sessions na strane klienta http://docs.python-requests.org/en/latest/user/advanced/#session-objects
