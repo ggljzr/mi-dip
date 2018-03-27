@@ -1,17 +1,19 @@
 \chapter{Testování}
 \label{sec:te}
 
-K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funkčnost jednotlivých komponent. Konkrétně jde o~testy pro \textit{model} aplikace (zde je testována především třída \texttt{garage}), webové rozhraní a API systému. Tyto testy byly implementovány pomocí frameworku pytest \cite{pytest}.
+\section{Automatizované testy}
+
+K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funkčnost jednotlivých komponent. Konkrétně jde o~testy pro \textit{model} aplikace (zde je testována především třída \texttt{Garage}), webové rozhraní a API systému. Tyto testy byly implementovány pomocí frameworku pytest \cite{pytest}.
 
 Části aplikace, u~kterých je automatizované testování problematikcé, jako například funkce využívající APScheduler (viz sekce \ref{sec:im_scheduler}) nebo zasílání emailů, jsem otestoval ručně.
 
-\section{Testovací konfigurace}
+\subsection{Testovací konfigurace}
 
 %napsat ze sem musel vypnout csrf vochranu kvuli snadnejsimu testovani, a test jestli ta csrf vochrana funguje je v jiny kapitole
 
-\section{Testování \textit{modelu}}
+\subsection{Testování \textit{modelu}}
 
-Testování \textit{modelu} aplikace spočívalo především v~testování metod třídy \textit{garage}. Třída \textit{event} slouží pouze k~uchování dat o~události a neimplementuje žádné metody, které by bylo možné testovat.
+Testování \textit{modelu} aplikace spočívalo především v~testování metod třídy \textit{Garage}. Třída \textit{Event} slouží pouze k~uchování dat o~události a neimplementuje žádné metody, které by bylo možné testovat.
 
 Testovány byly následující funkce:
 
@@ -28,13 +30,38 @@ Zde stojí za zmínku test kontroly zmeškaných hlášení. V~něm je garáži 
 
 Jelikož je minimální perioda hlášení 1 minuta, prosté čekání (například pomocí funkce \texttt{sleep()}) by proces testování neúnosně zpomalilo (pro srovnání spuštění všech testů aplikace na běžném počítači zabere asi 4 sekundy). Vhodnější je tedy časový posun nasimulovat.
 
-K~tomu jsem použil knihovnu freezegun \cite{freezegun}.
+K~tomu jsem použil knihovnu FreezeGun \cite{freezegun}. Tato knihovna umožňuje explicitně nastavit datum a čas, které vrátí funkce \texttt{now()}, používaná v~implementaci třídy \texttt{Garage}. Použití knihovny při testování kontroly promeškaných hlášení je demonstrováno v~ukázce \ref{lst:freezegun}.
 
-\section{Testování API}
+\begin{listing}[htbp]
+\caption{\label{lst:freezegun} Test kontroly promeškaných hlášení. Pomocí knihovny FreezeGun je čas nastaven na půlnoc 1. 1. 2011. Poté je čas posunut o~dvě hodiny a otestována změna stavu garáže}
+\begin{minted}[bgcolor=codebg]{python}
+from freezegun import freezetime
 
-\section{Testování webového rozhraní}
+# všechna volání datetime.datetime.now()
+# pocházející z~této funkce vrátí
+# hodnotu 2011-01-01 00:00:00
+@freeze_time("2011-01-01 00:00:00")
+def test_check_report(garage):
+    new_garage = garage.add_garage()
+    new_garage.period = 60 # explicitní nastavení periody
+    new_garage.add_report_event()
+    new_garage.check_report()
 
-\section{Testování autentizace uživatele}
+    assert new_garage.state == garage.STATE_OK
+
+    # nastavení návratové hodnoty funkce now()
+    # v~rámci bloku with
+    with freeze_time("2011-01-01 02:00:00"):
+        new_garage.check_report()
+        assert new_garage.state == garage.STATE_NOT_RESPONDING
+\end{minted}
+\end{listing}
+
+\subsection{Testování API}
+
+\subsection{Testování webového rozhraní}
+
+\subsection{Testování autentizace uživatele}
 
 \subsection{Testování ochrany proti CSRF}
 
