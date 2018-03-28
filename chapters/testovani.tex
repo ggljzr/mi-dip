@@ -18,6 +18,7 @@ Sdílení \textit{tokenu} mezi aplikací a testy by sice bylo možné implemento
 Změna konfigurace aplikace je provadena nastavením proměnné prostředí \texttt{GARAGE\_SYSTEM\_CONFIG} na soubor se testovací konfigurací (blíže viz sekci \ref{sec:im_config}).
 
 \subsection{Testování \textit{modelu}}
+\label{sec:te_model}
 
 Testování \textit{modelu} aplikace spočívalo především v~testování metod třídy \texttt{Garage}. Třída \texttt{Event} slouží pouze k~uchování dat o~události a neimplementuje žádné metody, které by bylo možné testovat.
 
@@ -64,6 +65,16 @@ def test_check_report(garage):
 \end{listing}
 
 \subsection{Testování API}
+
+Testy API nadřazeného systému ověřují funkčnost následujících operací:
+
+\begin{itemize}
+    \item Vytvoření garáže při vypnutném reg. módu.
+    \item Zaslání události.
+    \item Zaslání události s~neplatným API klíčem.
+\end{itemize}
+
+U~každého testu je zkontrolováno, zda byla odeslána správná odpověď na příslušný požadavek -- návratový kód (například \textit{404 -- Forbidden}) a zaslaná data. Je tedy testována pouze reakce API \textit{controlleru},  vliv operací na databázi nadřazeného systému je pokryt v~testu \textit{modelu} (viz sekci \ref{sec:te_model}).
 
 \subsection{Testování webového rozhraní}
 
