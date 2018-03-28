@@ -20,9 +20,9 @@ Změna konfigurace aplikace je provadena nastavením proměnné prostředí \tex
 \subsection{Testování \textit{modelu}}
 \label{sec:te_model}
 
-Testování \textit{modelu} aplikace spočívalo především v~testování metod třídy \texttt{Garage}. Třída \texttt{Event} slouží pouze k~uchování dat o~události a neimplementuje žádné metody, které by bylo možné testovat.
+Testování \textit{modelu} aplikace spočívá především v~testování metod třídy \texttt{Garage}. Třída \texttt{Event} slouží pouze k~uchování dat o~události a neimplementuje žádné metody, které by bylo možné testovat.
 
-Testovány byly následující scénáře:
+Testovány jsou následující scénáře:
 
 \begin{itemize}
     \item Přidání garáže.
@@ -37,7 +37,7 @@ Zde stojí za zmínku test kontroly zmeškaných hlášení. V~něm je garáži 
 
 Jelikož je minimální perioda hlášení 1 minuta, prosté čekání (například pomocí funkce \texttt{sleep()}) by proces testování neúnosně zpomalilo (pro srovnání spuštění všech testů aplikace na běžném počítači zabere asi 4 sekundy). Vhodnější je tedy časový posun nasimulovat.
 
-K~tomu jsem použil knihovnu FreezeGun \cite{freezegun}. Tato knihovna umožňuje explicitně nastavit datum a čas, které vrátí funkce \texttt{now()}, používaná v~implementaci třídy \texttt{Garage}. Použití knihovny při testování kontroly promeškaných hlášení je demonstrováno v~ukázce \ref{lst:freezegun}.
+K~tomu je použita knihovnu FreezeGun \cite{freezegun}. Tato knihovna umožňuje explicitně nastavit datum a čas, které vrátí funkce \texttt{now()}, používaná v~implementaci třídy \texttt{Garage}. Použití knihovny při testování kontroly promeškaných hlášení je demonstrováno v~ukázce \ref{lst:freezegun}.
 
 \begin{listing}[htbp]
 \caption{\label{lst:freezegun} Test kontroly promeškaných hlášení. Pomocí knihovny FreezeGun je čas nastaven na půlnoc 1. 1. 2011. Poté je čas posunut o~dvě hodiny a otestována změna stavu garáže}
@@ -74,9 +74,40 @@ Testy API nadřazeného systému ověřují funkčnost následujících operací
     \item Zaslání události s~neplatným API klíčem.
 \end{itemize}
 
-U~každého testu je zkontrolováno, zda byla odeslána správná odpověď na příslušný požadavek -- návratový kód (například \textit{404 -- Forbidden}) a zaslaná data. Je tedy testována pouze reakce API \textit{controlleru},  vliv operací na databázi nadřazeného systému je pokryt v~testu \textit{modelu} (viz sekci \ref{sec:te_model}).
+U~každého testu je zkontrolováno, zda byla odeslána správná odpověď na příslušný požadavek -- návratový kód (například \textit{404 -- Forbidden}) a zaslaná data. Je tedy testována pouze reakce API \textit{controlleru}, vliv operací na databázi nadřazeného systému je pokryt v~testu \textit{modelu} (viz sekci \ref{sec:te_model}).
 
 \subsection{Testování webového rozhraní}
+
+V~těchto testech je zkoumán \textit{controller} webového rozhraní a zobrazované HTML stránky. Testovány jsou tyto scénáře:
+
+\begin{itemize}
+    \item Zobrazení hlavní stránky.
+    \item Zobrazení stránky garáže.
+    \item Zobrazení událostí.
+    \item Zobrazení chybové stránky při zadání neexistující garáže.
+    \item Úprava dat garáže (označení a poznámka).
+\end{itemize}
+
+V~každém testu je testováno, zda aplikace v~reakci na požadavek vygeneruje odpovídající webovou stránku a vrátí odpovídající návratový kód.
+
+% napsat vo uprave user session -- logged_in = true aby se v tech testech nemuselo furt logovat a starat se vo heslo
+Zobrazení testovaných stránek vyžaduje přihlášení do systému. To by vyžadovalo zaslání přihlašovacího požadavku se správným heslem před spuštěním testů.
+
+Další možnost je nastavit přihlášení explicitně, modifikací testovací HTTP relace. Díky tomu není nutné spoléhat na funkcionalitu přihlašování, která je testována samostatně.
+
+Framework Flask umožňuje k~aplikaci vygenerovat testovacího klienta, jehož relaci je možné libovolně modifikovat \cite{flask_testing}. Díky tomu lze nastavit proměnnou \texttt{logged\_in}, která je používána ke kontrole přihlášení (viz sekci \ref{sec:im_auth}). Nastavení této proměnné je provedeno následujícím způsobem:
+
+\begin{listing}[htbp]
+\caption{\label{lst:logged_in} Explicitní nastavení proměnné \texttt{logged\_in} na požadovanou hodnotu}
+\begin{minted}[bgcolor=codebg]{python}
+# app_client je testovací klient Flask aplikace
+# získaný pomocí metody test_client()
+def set_logged_in(app_client, value):
+    with app_client as c:
+        with c.session_transaction() as s:
+            s['logged_in'] = value
+\end{minted}
+\end{listing}
 
 \subsection{Testování autentizace uživatele}
 
