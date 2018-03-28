@@ -9,7 +9,13 @@ K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funk�
 
 \subsection{Testovací konfigurace}
 
-%napsat ze sem musel vypnout csrf vochranu kvuli snadnejsimu testovani, a test jestli ta csrf vochrana funguje je v jiny kapitole
+Před spuštěním automatizovaných testů je nutné upravit konfiguraci aplikace. Především je třeba určit umístění testovací databáze a souboru s~uživatelským nastavením. Tyto soubory jsou v~průběhu testů upravovány a po dokončení smazány.
+
+Také je nutné vypnout ochranu proti CSRF v~celé aplikaci, což výrazně zjednodušší testování formulářů aplikace. Jelikož požadavky s~metodou \texttt{post} vytvořené v~testech nepocházejí z~webových stránek aplikace, nemohou dodat CSRF \textit{token}, který je součástí formuláře. 
+
+Sdílení \textit{tokenu} mezi aplikací a testy by sice bylo možné implementovat, bylo by však zbytečně komplikované. Za vhodnější postup považuji vypnutí CSRF ocharny pro většinu testů a funkčnost ochrany otestovat v~samostatném testu (viz sekci \ref{sec:te_csrf}).
+
+Změna konfigurace aplikace je provadena nastavením proměnné prostředí \texttt{GARAGE\_SYSTEM\_CONFIG} na soubor se testovací konfigurací (blíže viz sekci \ref{sec:im_config}).
 
 \subsection{Testování \textit{modelu}}
 
@@ -64,6 +70,7 @@ def test_check_report(garage):
 \subsection{Testování autentizace uživatele}
 
 \subsection{Testování ochrany proti CSRF}
+\label{sec:te_csrf}
 
 % test je udelanej v test_auth
 
