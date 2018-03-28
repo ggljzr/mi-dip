@@ -110,10 +110,48 @@ def set_logged_in(app_client, value):
 
 \subsection{Testování autentizace uživatele}
 
+Toto testování ověřuje jednak funkci \textit{controlleru} provádějícího autentizaci, jednak přístup k~souboru s~uloženým otiskem hesla. Jsou zde testovány tyto scénáře:
+
+\begin{itemize}
+    \item Zobrazení přihlašovací stránky.
+    \item Kontrola přihlášení při přístupu k~dalším částem systému (viz sekci \ref{sec:im_auth}).
+    \item Přihlášení pomocí implicitního hesla.
+    \item Odhlášení.
+    \item Změna hesla.
+\end{itemize}
+
+Opět jsou kontrolovány návratové kódy odpovědí. Také je testováno, zda byla provedena příslušná přesměrování (například přesměrování na přihlašovací stránku při pokusu o~přístup k~částem rozhraní bez přihlášení) a zobrazení chybových hlášek (například při zadání neplatného hesla).
+
 \subsection{Testování ochrany proti CSRF}
 \label{sec:te_csrf}
 
-% test je udelanej v test_auth
+Jelikož byla u~předchozích testů vypnuta ochrana proti CSRF, je vhodné provést ještě jednoduchý test, který ověří její fungování. Zde stačí zaslat testovanému formuláři data pomocí metody \texttt{post} bez platného CSRF \textit{tokenu}.
+
+Výchozí chování CSRF ochrany ve frameworku Flask je v~případě chybějícího nebo neplatného \textit{tokenu} zaslat návratový kód \textit{400 -- Bad request} \cite{flask_wtf}. V~těle odpovědi je pak informace o~problému s~\textit{tokenem}. Stačí tedy otestovat návratový kód a obsah odpovědi (viz ukázka \ref{lst:csrf_test}).
+
+\begin{listing}[htbp]
+\caption{\label{lst:csrf_test} Test ochrany proti CSRF}
+\begin{minted}[bgcolor=codebg]{python}
+def test_csrf():
+    ...
+    # vypnutí ochrany proti CSRF
+    app.config['WTF_CSRF_ENABLED'] = True
+    app.config['WTF_CSRF_CHECK_DEFAULT'] = True
+
+    # zaslání požadavku na přihlášení bez platného tokenu
+    response = app.test_client().post('/login', data={
+        # na zaslaném hesle nezáleží
+        # žádost bude odmítnuta na základě neplatného tokenu
+        'password' : 'test password',
+        'csrf_token' : 'some fake token'
+        })
+
+    assert response.status == '400 BAD REQUEST'
+    # odpověď by měla zmiňovat CSRF
+    assert 'CSRF' in response.data.decode('utf-8')
+\end{minted}
+\end{listing}
+
 
 \section{Test HTTPS konfigurace}
 
