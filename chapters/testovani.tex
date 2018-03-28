@@ -90,15 +90,14 @@ V~těchto testech je zkoumán \textit{controller} webového rozhraní a zobrazov
 
 V~každém testu je testováno, zda aplikace v~reakci na požadavek vygeneruje odpovídající webovou stránku a vrátí odpovídající návratový kód.
 
-% napsat vo uprave user session -- logged_in = true aby se v tech testech nemuselo furt logovat a starat se vo heslo
-Zobrazení testovaných stránek vyžaduje přihlášení do systému. To by vyžadovalo zaslání přihlašovacího požadavku se správným heslem před spuštěním testů.
+Zobrazení testovaných stránek vyžaduje přihlášení do webového rozhraní nadřazeného systému. To by vyžadovalo zaslání přihlašovacího požadavku se správným heslem před spuštěním testů.
 
 Další možnost je nastavit přihlášení explicitně, modifikací testovací HTTP relace. Díky tomu není nutné spoléhat na funkcionalitu přihlašování, která je testována samostatně.
 
 Framework Flask umožňuje k~aplikaci vygenerovat testovacího klienta, jehož relaci je možné libovolně modifikovat \cite{flask_testing}. Díky tomu lze nastavit proměnnou \texttt{logged\_in}, která je používána ke kontrole přihlášení (viz sekci \ref{sec:im_auth}). Nastavení této proměnné je provedeno následujícím způsobem:
 
 \begin{listing}[htbp]
-\caption{\label{lst:logged_in} Explicitní nastavení proměnné \texttt{logged\_in} na požadovanou hodnotu}
+\caption{\label{lst:logged_in} Explicitní nastavení proměnné \texttt{logged\_in} na požadovanou hodnotu. Pomocí takto modifikovaného testovacího klienta lze zasílat požadavky, na které bude aplikace reagovat jako při přihlášení}
 \begin{minted}[bgcolor=codebg]{python}
 # app_client je testovací klient Flask aplikace
 # získaný pomocí metody test_client()
