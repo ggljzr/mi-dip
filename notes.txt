@@ -16,3 +16,5 @@ posilani mailu: vidim to bud teda ze tam bude proste smtp klient a holt meno (pa
 python email client https://github.com/kootenpv/yagmail
 
 taky mozna v prislusnejch sekcich zminit ze diky sqlalchemy/jinja mame nakou vochranu proti xss/sqlinjection out of the box
+
+gsm modul https://www.adafruit.com/product/1946
