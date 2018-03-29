@@ -15,7 +15,7 @@ Také je nutné vypnout ochranu proti CSRF v~celé aplikaci, což výrazně zjed
 
 Sdílení \textit{tokenu} mezi aplikací a testy by sice bylo možné implementovat, bylo by však zbytečně komplikované. Za vhodnější postup považuji vypnutí CSRF ocharny pro většinu testů a funkčnost ochrany otestovat v~samostatném testu (viz sekci \ref{sec:te_csrf}).
 
-Změna konfigurace aplikace je provadena nastavením proměnné prostředí \texttt{GARAGE\_SYSTEM\_CONFIG} na soubor se testovací konfigurací (blíže viz sekci \ref{sec:im_config}).
+Změna konfigurace aplikace je provadena nastavením proměnné prostředí \texttt{GARAGE\_SYSTEM\_CONFIG} na soubor s~testovací konfigurací (blíže viz sekci \ref{sec:im_config}).
 
 \subsection{Testování \textit{modelu}}
 \label{sec:te_model}
