@@ -173,10 +173,12 @@ Nasazení aplikace v~reálném prostředí odhalilo několik chyb, které nebyly
 
 Druhá chyba se týkala nastavení hodnoty \texttt{secret\_key} v~konfiguračním souboru aplikace. Tento klíč slouží k~podepisování HTTP relace či generování CSRF \textit{tokenů} \cite{flask_api}. V~konfiguraci aplikace použité při lokálním testování byl klíč vždy nastaven na náhodně vygenerovanou hodnotu.
 
-Po nasazení se ukázalo, že WSGI \cite{python_wsgi} modul použitý pro spárování Python aplikace se serverem Apache tuto aplikaci v~některých případech restartuje. To by obecně ničemu nevadilo, nicméně při každém restartu byla znovu vygenerována nová hodnota \texttt{secret\_key}, což vedlo k~zneplatnění všech aktivních HTTP relací a CSRF \textit{tokenů}. Uživatel rozhraní byl tak náhle odhlášen nebo nemoh odesílat formuláře. 
+Po nasazení se ukázalo, že modul WSGI \cite{python_wsgi} použitý pro spárování Python aplikace se serverem Apache tuto aplikaci v~některých případech restartuje. To by obecně ničemu nevadilo, nicméně při každém restartu byla znovu vygenerována nová hodnota \texttt{secret\_key}, což vedlo k~zneplatnění všech aktivních HTTP relací a CSRF \textit{tokenů}. Uživatel rozhraní byl tak náhle odhlášen nebo nemoh odesílat formuláře. 
 
 V~konfiguračním souboru aplikace, který je použit při jejím nasazení, bylo proto generování klíče nahrazeno pevnou hodnotou (dostatečně dlouhým náhodně generovaným klíčem, který však není reinicializován při restartu aplikace).
 
 % tady by se este dalo napsat ze sme meli preklep v tim apache konfiguraku a proto to wsgi nebezelo v tim daemon modu, a proto byly ty restarty vod nej tak casty, viz https://stackoverflow.com/questions/48507267/mod-wsgi-keeps-restarting-flask-app#comment84021510_48507792
+
+% nicmene to ze generovat ten klic pokazdy je taky spatnej napad je taky pravda viz https://stackoverflow.com/questions/27287391/why-not-generate-the-secret-key-every-time-flask-starts
 
 % v tyhle kapitole taky poresit to ze se jako bottleneck ty komunikace zda bejt ten https handshake a ze by se to asi dalo vyresti pouzitim sessions na strane klienta http://docs.python-requests.org/en/latest/user/advanced/#session-objects -- tohle spis v ty sekci co bude testovat vykon rpi
