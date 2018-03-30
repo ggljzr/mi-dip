@@ -155,10 +155,19 @@ def test_csrf():
 
 \section{Testovací nasazení aplikace}
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{images/ssl_test.png}
+    \caption[Výsledky testu HTTPS konfigurace]{Výsledky testu HTTPS konfigurace.}
+    \label{fig:mvc}
+\end{figure}
+
 % lol nasadime to na aws nebo digital ocean, registrujem domenu, dame lets encrypt cert a zkusime sslabs test
 
 % napsat ze sme pri nasazovani prisli na novy chyby, ktery nebyly na lokale videt -- to s tim vodhlasovanim a secret_key, a to ze apache zahazuje ty headery s nepovolenejma znakama
 
 % napsat ze domena je registrovana do 30. 6., certifikat plati do 28. 6., pak uz to vobnovovat nebudu, klidne do footnote
+
+% napsat ze ten ssl test je delanej na lets encrypt certifikat, a ze lokalne ani nejde a nemelo by smysl ho delat proti self-signed certu
 
 % v tyhle kapitole taky poresit to ze se jako bottleneck ty komunikace zda bejt ten https handshake a ze by se to asi dalo vyresti pouzitim sessions na strane klienta http://docs.python-requests.org/en/latest/user/advanced/#session-objects -- tohle spis v ty sekci co bude testovat vykon rpi
