@@ -155,19 +155,20 @@ def test_csrf():
 
 \section{Testovací nasazení aplikace}
 
+V~rámci testování jsem se rozhodl nasadit aplikaci nadřazeného systému na virtuálním serveru, způsobem popsaným v~sekci \ref{sec:an_cloud}. Tím je jednak otestován průběh nasazování aplikace, jednak je běžící aplikaci možné použít pro demonstrační účely. Aplikace je momentálně\footnote{Aplikace byla spuštěna 30. 3. 2018. Jelikož je registrace domény platná do 30. 6. 2018, bude její provoz po tomto datu ukončen.} přístupná na doméně \url{https://demo-garaze.tk}.
+
+Jelikož je aplikace dostupná z~internetu, není vhodné použít k~provozu HTTPS \textit{self-signed} certifikát. Místo toho je k~doméně registrován platný certifikát autority Let's Encrypt.
+
+Aplikace k~provozu využívá server Apache. Při konfiguraci HTTPS na tomto serveru jsem vycházel z~článku \textit{Strong SSL Security on Apache2} \cite{apache_ssl}. Správnost konfigurace a platnost certifikátu byla ověřena pomocí testu poskytovaného společností Qualys. Výsledné hodnocení je možné vidět na obrázku \ref{fig:ssl_test}.
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/ssl_test.png}
-    \caption[Výsledky testu HTTPS konfigurace]{Výsledky testu HTTPS konfigurace.}
-    \label{fig:mvc}
+    \caption[Výsledky testu HTTPS konfigurace]{Výsledky testu HTTPS konfigurace poskytnutného společnstí Qualys.}
+    \label{fig:ssl_test}
 \end{figure}
 
-% lol nasadime to na aws nebo digital ocean, registrujem domenu, dame lets encrypt cert a zkusime sslabs test
-
 % napsat ze sme pri nasazovani prisli na novy chyby, ktery nebyly na lokale videt -- to s tim vodhlasovanim a secret_key, a to ze apache zahazuje ty headery s nepovolenejma znakama
-
-% napsat ze domena je registrovana do 30. 6., certifikat plati do 28. 6., pak uz to vobnovovat nebudu, klidne do footnote
-
-% napsat ze ten ssl test je delanej na lets encrypt certifikat, a ze lokalne ani nejde a nemelo by smysl ho delat proti self-signed certu
+Nasazení aplikace v reálném prostředí odhalilo několik chyb, které nebyly při lokálním testování patrné. V první řadě se ukázalo, ze server Apache od verze 2.4 ignoruje v příchozím požadavku hlavičky, které obsahují podtřžítka (\texttt{\_}) \cite{apache_headers_update}.
 
 % v tyhle kapitole taky poresit to ze se jako bottleneck ty komunikace zda bejt ten https handshake a ze by se to asi dalo vyresti pouzitim sessions na strane klienta http://docs.python-requests.org/en/latest/user/advanced/#session-objects -- tohle spis v ty sekci co bude testovat vykon rpi
