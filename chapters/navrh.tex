@@ -265,7 +265,7 @@ Požadavek zasílající kontrolní hlášení má tento formát:
     \item HTTP metoda -- POST.
     \item Hlavička požadavku:
     \begin{itemize}
-        \item \texttt{api\_key} -- unikátní klíč k~API nadřazeného systému.
+        \item \texttt{apikey} -- unikátní klíč k~API nadřazeného systému.
     \end{itemize}
     \item Návratová hodnota -- JSON:
     \begin{itemize}
@@ -284,7 +284,7 @@ url = 'https://raspberrypi.local/api/report_event'
 
 # API klíč (získaný například reg. požadavkem)
 # je zasílán v~hlavičce požadavku
-headers = {'api_key' : api_key}
+headers = {'apikey' : api_key}
 
 # požadavek 'post', bez ověření
 # self-signed certifikátu
@@ -312,7 +312,7 @@ Vytváření dalších událostí je stejné jako vytváření kontrolního hlá
     \item HTTP metoda -- POST.
     \item Hlavička požadavku:
     \begin{itemize}
-        \item \texttt{api\_key} -- unikátní klíč k~API nadřazeného systému.
+        \item \texttt{apikey} -- unikátní klíč k~API nadřazeného systému.
     \end{itemize}
     \item Návratová hodnota -- JSON:
     \begin{itemize}
@@ -328,7 +328,7 @@ import requests
 # stejné jako při zasílání kontrolního hlášení
 # liší se pouze url
 url = 'https://raspberrypi.local/api/smoke_event'
-headers = {'api_key' : api_key}
+headers = {'apikey' : api_key}
 
 r = requests.post(url, headers=headers, verify=False)
 
