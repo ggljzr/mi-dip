@@ -26,7 +26,7 @@ Tento framework poskytuje přístup k~SQL databázím přímo z~jazyka Python, t
 SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{modelu} nadřazeného systému se vyskytuje pouze vztah $1:N$ mezi třídami \texttt{Garage} a \texttt{Event} (jedna garáž má mnoho událostí, každá událost má právě jednu garáž). Tento vztah je definován následujícím způsobem:
 
 \begin{listing}[htbp]
-\caption{\label{lst:db_relationship} Vytvoření vztahu $1:N$ mezi třídami \texttt{Garage} a \texttt{Event}}
+\caption{\label{lst:db_relationship} Vytvoření vztahu $1:N$ mezi třídami \texttt{Garage} a \texttt{Event}.}
 \begin{minted}[bgcolor=codebg]{python}
 from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy.ext.declarative import declarative_base
@@ -62,7 +62,7 @@ Provádět kontrolu hlášení pouze v~reakci na vnější podnět však není d
 Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apscheduler}. APScheduler funguje jako knihovna do Pythonu, a umožňuje plánovat provádění zvolených funkcí. Nejde tedy o~externí program, plánovač je přímo součástí kódu nadřazeného systému \cite{apscheduler}. Vytvoření pravidelné kontroly hlášení podřízených systémů je implementováno tímto způsobem:
 
 \begin{listing}[htbp]
-\caption{\label{lst:scheduler_check} Pravidelná kontrola hlášení podřízených systémů pomocí knihovny APScheduler. Po startu plánovače je každých 5 minut volána metoda \texttt{Garage.check\_reports()}}
+\caption{\label{lst:scheduler_check} Pravidelná kontrola hlášení podřízených systémů pomocí knihovny APScheduler. Po startu plánovače je každých 5 minut volána metoda \texttt{Garage.check\_reports()}.}
 \begin{minted}[bgcolor=codebg]{python}
 
 from apscheduler.schedulers.background import \
@@ -129,7 +129,7 @@ U~některých polí je potřeba provádět kontrolu zadávaných hodnot (napří
 Využití tohoto frameworku při implementaci formuláře pro editaci údajů garáže popisuje ukázka \ref{lst:wtform}. Vygenerování HTML kódu formuláře, včetně zobrazení chybových zpráv po odeslání neplatného formuláře, je provedeno pomocí systému Jinja.
 
 \begin{listing}[htbp]
-\caption{\label{lst:wtform} Implementace formuláře pro editaci údajů garáže pomocí frameworku WTForms. Při kontrole vstupu je ověřen rozsah zadávané periody}
+\caption{\label{lst:wtform} Implementace formuláře pro editaci údajů garáže pomocí frameworku WTForms. Při kontrole vstupu je ověřen rozsah zadávané periody.}
 \begin{minted}[bgcolor=codebg]{python}
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, TextAreaField
@@ -158,7 +158,7 @@ Při zobrazení seznamu událostí konkrétní garáže je možné tyto událost
 Pro spárování funkce a URL je použit dekorátor \texttt{route}. Dekorátor je konstrukt jazyka Python, který umožňuje rozšířit danou funkci či metodu o~další funkcionalitu \cite{python_decorators}. Pomocí dekorátoru \texttt{route} je definováno URL a případně i povolené HTTP metody, které může klient při požadavku použít. Implicitně je povolena pouze metoda \texttt{get} \cite{flask_api}. 
 
 \begin{listing}[htbp]
-\caption{\label{lst:route} Přiřazení funkce k~URL. Funkce \texttt{index} bude zavolána při každém příchozím požadavku s~metodou \texttt{get} na kořenové URL \texttt{/}. Návratová hodnota funkce je vygenerovaná HTML stránka, která bude zaslána klientovi}
+\caption{\label{lst:route} Přiřazení funkce k~URL. Funkce \texttt{index} bude zavolána při každém příchozím požadavku s~metodou \texttt{get} na kořenové URL \texttt{/}. Návratová hodnota funkce je vygenerovaná HTML stránka, která bude zaslána klientovi.}
 \begin{minted}[bgcolor=codebg]{python}
 from flask import Blueprint, render_template
 

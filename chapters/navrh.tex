@@ -17,7 +17,7 @@ Struktura nadřazeného systému je vhodná k~použití návrhového vzoru MVC, 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/mvc.pdf}
-    \caption[Struktura MVC aplikace]{Struktura MVC aplikcace. Uživatel i podřízený systém používají aplikaci pomocí \textit{controlleru}. Ten definuje příslušná URL a zpracovává požadavky na ně -- aktualizuje \textit{model}, případně doručí odpovídající \textit{view}}
+    \caption[Struktura MVC aplikace]{Struktura MVC aplikcace. Uživatel i podřízený systém používají aplikaci pomocí \textit{controlleru}. Ten definuje příslušná URL a zpracovává požadavky na ně -- aktualizuje \textit{model}, případně doručí odpovídající \textit{view}.}
     \label{fig:mvc}
 \end{figure}
 
@@ -119,7 +119,7 @@ Třída \texttt{Event} obsahuje tyto údaje:
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/garage_state.pdf}
-    \caption[Diagram vyhodnocování stavu garáže]{Diagram vyhodnocování stavu garáže. Nadřazený systém reaguje na příchozí události odpovídající změnou stavu garáže. Změna stavu může být také vyvolána při pravidelné kontrole propásnutých hlášení (přechod do stavu \uv{Nehlásí se})}
+    \caption[Diagram vyhodnocování stavu garáže]{Diagram vyhodnocování stavu garáže. Nadřazený systém reaguje na příchozí události odpovídající změnou stavu garáže. Změna stavu může být také vyvolána při pravidelné kontrole propásnutých hlášení (přechod do stavu \uv{Nehlásí se}).}
     \label{fig:garage_state}
 \end{figure}
 
@@ -158,7 +158,7 @@ Případy užití rozhraní se dají shrnout do tří kategorií, popsaných na 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/use_case_top.pdf}
-    \caption[Vrchní úroveň případů užití webového rozhraní]{Vrchní úroveň případů užití webového rozhraní. Uživatel do aplikace přistupuje buď za účelem změny uživatelského nastavení, správy jednotlivý podřízených systémů, případně kvůli kontrole zaznamenaných událostí}
+    \caption[Vrchní úroveň případů užití webového rozhraní]{Vrchní úroveň případů užití webového rozhraní. Uživatel do aplikace přistupuje buď za účelem změny uživatelského nastavení, správy jednotlivý podřízených systémů, případně kvůli kontrole zaznamenaných událostí.}
     \label{fig:use_case_top}
 \end{figure}
 
@@ -182,7 +182,7 @@ Případy užití z~kategorie zobrazení událostí popisuje obrázek \ref{fig:u
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_events.pdf}
-    \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje události spojené s~konkrétní garáží. Zobrazené událostí filtruje podle jejich typu}
+    \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje události spojené s~konkrétní garáží. Zobrazené událostí filtruje podle jejich typu.}
     \label{fig:use_case_events}
 \end{figure}
 
@@ -196,7 +196,7 @@ Uživatelské nastavení není uloženo přímo v~databázi, ale zvlášť v~kon
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_user.pdf}
-    \caption[Případy užití uživatelského nastavení]{Případy užití uživatelského nastavení. Uživatel ve webovém rozhraní provádí změnu hesla, změnu notifikačního e-mailu, případně zákaz/povolení notifikací}
+    \caption[Případy užití uživatelského nastavení]{Případy užití uživatelského nastavení. Uživatel ve webovém rozhraní provádí změnu hesla, změnu notifikačního e-mailu, případně zákaz/povolení notifikací.}
     \label{fig:use_case_user}
 \end{figure}
 
@@ -238,7 +238,7 @@ Registrační požadavek má následující formát (zaslání registračního p
 \end{itemize}
 
 \begin{listing}[htbp]
-\caption{\label{lst:api_reg} Zaslání registračního požadavku nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}}
+\caption{\label{lst:api_reg} Zaslání registračního požadavku nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}.}
 \begin{minted}[bgcolor=codebg]{python}
 import requests
 # server nadřazeného systemu je přístupný
@@ -321,7 +321,7 @@ Vytváření dalších událostí je stejné jako vytváření kontrolního hlá
 \end{itemize}
 
 \begin{listing}[htbp]
-\caption{\label{lst:api_report} Zaslání události detekce kouře nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}}
+\caption{\label{lst:api_report} Zaslání události detekce kouře nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}.}
 \begin{minted}[bgcolor=codebg]{python}
 import requests
 
