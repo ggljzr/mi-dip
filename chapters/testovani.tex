@@ -40,7 +40,7 @@ Jelikož je minimální perioda hlášení 1 minuta, prosté čekání (napřík
 K~tomu je použita knihovnu FreezeGun \cite{freezegun}. Tato knihovna umožňuje explicitně nastavit datum a čas, které vrátí funkce \texttt{now()}, používaná v~implementaci třídy \texttt{Garage}. Použití knihovny při testování kontroly promeškaných hlášení je demonstrováno v~ukázce \ref{lst:freezegun}.
 
 \begin{listing}[htbp]
-\caption{\label{lst:freezegun} Test kontroly promeškaných hlášení. Pomocí knihovny FreezeGun je čas nastaven na půlnoc 1. 1. 2011. Poté je čas posunut o~dvě hodiny a otestována změna stavu garáže}
+\caption{\label{lst:freezegun} Test kontroly promeškaných hlášení. Pomocí knihovny FreezeGun je čas nastaven na půlnoc 1. 1. 2011. Poté je čas posunut o~dvě hodiny a otestována změna stavu garáže.}
 \begin{minted}[bgcolor=codebg]{python}
 from freezegun import freeze_time
 
@@ -97,7 +97,7 @@ Další možnost je nastavit přihlášení explicitně, modifikací testovací 
 Framework Flask umožňuje k~aplikaci vygenerovat testovacího klienta, jehož relaci je možné libovolně modifikovat \cite{flask_testing}. Díky tomu lze nastavit proměnnou \texttt{logged\_in}, která je používána ke kontrole přihlášení (viz sekci \ref{sec:im_auth}). Nastavení této proměnné je provedeno následujícím způsobem:
 
 \begin{listing}[htbp]
-\caption{\label{lst:logged_in} Explicitní nastavení proměnné \texttt{logged\_in} na požadovanou hodnotu. Pomocí takto modifikovaného testovacího klienta lze zasílat požadavky, na které bude aplikace reagovat jako při přihlášení}
+\caption{\label{lst:logged_in} Explicitní nastavení proměnné \texttt{logged\_in} na požadovanou hodnotu. Pomocí takto modifikovaného testovacího klienta lze zasílat požadavky, na které bude aplikace reagovat jako při přihlášení.}
 \begin{minted}[bgcolor=codebg]{python}
 # app_client je testovací klient Flask aplikace
 # získaný pomocí metody test_client()
@@ -130,7 +130,7 @@ Jelikož byla u~předchozích testů vypnuta ochrana proti CSRF, je vhodné prov
 Výchozí chování CSRF ochrany ve frameworku Flask je v~případě chybějícího nebo neplatného \textit{tokenu} zaslat návratový kód \textit{400 -- Bad request} \cite{flask_wtf}. V~těle odpovědi je pak informace o~problému s~\textit{tokenem}. Stačí tedy otestovat návratový kód a obsah odpovědi (viz ukázka \ref{lst:csrf_test}).
 
 \begin{listing}[htbp]
-\caption{\label{lst:csrf_test} Test ochrany proti CSRF}
+\caption{\label{lst:csrf_test} Test ochrany proti CSRF.}
 \begin{minted}[bgcolor=codebg]{python}
 def test_csrf():
     ...
