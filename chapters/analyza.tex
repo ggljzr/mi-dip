@@ -50,7 +50,7 @@ Další, kdo přistupuje do systému, je \textcolor{magenta}{uživatel}. Přes w
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/basic_struct.pdf}
-    \caption[Základní struktura systému]{Základní struktura systému. Podřízené systémy využívají komunikační API k~zasílání událostí. Nadřazený systém tyto události zaznamenává a upravuje podle nich stav garáží. Uživatel nadřazený systém ovládá pomocí webového rozhraní }
+    \caption[Základní struktura systému]{Základní struktura systému. Podřízené systémy využívají komunikační API k~zasílání událostí. Nadřazený systém tyto události zaznamenává a upravuje podle nich stav garáží. Uživatel nadřazený systém ovládá pomocí webového rozhraní. }
     \label{fig:basic_struct}
 \end{figure}
 
@@ -120,7 +120,7 @@ Podřízené systémy by při zasílání požadavků museli přeskočit krok ov
 Tento jazyk a knihovna byly zvoleny z~důvodů kompaktnosti ukázkového kódu, v~jiných jazicích lze tuto verifikaci obejít obdobným způsobem.
 
 \begin{listing}[htbp]
-\caption{\label{lst:req_selfsigned} Vytvoření HTTPS požadavku v~knihovně Requests, bez ověření totožnosti serveru}
+\caption{\label{lst:req_selfsigned} Vytvoření HTTPS požadavku v~knihovně Requests, bez ověření totožnosti serveru.}
 \begin{minted}[bgcolor=codebg]{python}
 >>> import requests
 >>> r = requests.get('https://test.local/hello', verify=False)
@@ -155,7 +155,7 @@ Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí ce
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/basic_mqtt.pdf}
-    \caption[Příklad struktury protokolu MQTT]{Příklad struktury protokolu MQTT \cite{mqtt_eclipse}. Klienti A~a B jsou \textit{subscribery} \textit{topicu} \uv{Teplota}. Když klient C na tuto adresu publikuje novou zprávu, \textit{broker} se postará o~její doručení všem \textit{subscriberům}}
+    \caption[Příklad struktury protokolu MQTT]{Příklad struktury protokolu MQTT \cite{mqtt_eclipse}. Klienti A~a B jsou \textit{subscribery} \textit{topicu} \uv{Teplota}. Když klient C na tuto adresu publikuje novou zprávu, \textit{broker} se postará o~její doručení všem \textit{subscriberům}.}
     \label{fig:basic_mqtt}
 \end{figure}
 
@@ -202,7 +202,7 @@ Kromě certifikátů lze pro šifrování použít i PSK. V~tom případě \text
 
 Bohužel podpora PSK v~MQTT klientech není příliš rozšířená. PSK je možné použít v~knihovně libmosquitto, určené pro C/C++ (s~vazbami pro Python). U~této knihovny se mi však podařilo najít pouze manuálovou stránku (viz \cite{libmosquitto_man}), bez informací o~jejím dalším vývoji či udržování. Modul poskytující vazby do Pythonu byl nicméně předán projektu Paho \cite{mosquitto_python}.
 
-Paho poskytuje implementace MQTT klientů pro mnoho platforem (včetně například Arduina \cite{paho_embedded}). Dokumentace klientů pro C++ a Python však možnost šifrování pomocí PSK vůbec nezmiňuje \cite{paho_cpp_doc} \cite{paho_pyt_doc}.
+Paho poskytuje implementace MQTT klientů pro mnoho platforem (včetně například Arduina \cite{paho_embedded}). Dokumentace klientů pro C++ a Python však možnost šifrování pomocí PSK vůbec nezmiňuje \cite{paho_cpp_doc, paho_pyt_doc}.
 
 Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při použití certifikátů lze v~konfiguračním souboru Mosquitta zvolit \verb|require_certificate| \cite{mqtt_mosquitto_conf}. Poté bude od klienta vyžadován certifikát prokazující jeho totožnost. Při použití PSK lze k~autentizaci využít sdílený klíč (\textit{broker} odmítne klienty s~neplatnými klíči) \cite{mqtt_mosquitto_conf}. Kromě toho je možno použít také autentizaci pomocí uživatelského jména a hesla, která je součástí MQTT protokolu, případně klienty neověřovat vůbec (a pouze šifrovat komunikaci) \cite{mqtt_mosquitto_conf}.
 
@@ -300,7 +300,7 @@ V~dalších sekcích jsem se blíže podíval na jednodeskové počítače Raspb
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/rpi.jpg}
-    \caption[Raspberry Pi 3]{Raspberry Pi 3 (obrázek převzat z~\url{https://en.wikipedia.org/wiki/Raspberry_Pi})}
+    \caption[Raspberry Pi 3]{Raspberry Pi 3 (obrázek převzat z~\url{https://en.wikipedia.org/wiki/Raspberry_Pi}).}
     \label{fig:rpi}
 \end{figure}
 
@@ -324,7 +324,7 @@ Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední ve
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/zybo.jpg}
-    \caption[Přípravek Zybo Zynq-7000]{Připravek Zybo Zynq-7000 (obrázek převzat z~\url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html})}
+    \caption[Přípravek Zybo Zynq-7000]{Připravek Zybo Zynq-7000 (obrázek převzat z~\url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html}).}
     \label{fig:zybo}
 \end{figure}
 
@@ -338,7 +338,7 @@ Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ub
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/xilibus.pdf}
-    \caption[Blokové schéma využití IP jádra Xilibus]{Blokové schéma využití IP jádra Xilibus \cite{xilibus}. Procesor přípravku komunikuje pomocí AXI sběrnice s~jádrem Xilibus. To požadovaná data zapíše či přečte z~FIFO fronty příslušného modulu}
+    \caption[Blokové schéma využití IP jádra Xilibus]{Blokové schéma využití IP jádra Xilibus \cite{xilibus}. Procesor přípravku komunikuje pomocí AXI sběrnice s~jádrem Xilibus. To požadovaná data zapíše či přečte z~FIFO fronty příslušného modulu.}
     \label{fig:xilibus}
 \end{figure}
 
@@ -373,7 +373,7 @@ Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. T
  Cena & 1200 Kč & 4000 Kč \\
  \hline
 \end{tabular}
-\caption[Srovnání platforem Raspberry Pi 3 a Zybo Zynq-7000]{Srovnání platforem Raspberry Pi 3 a Zybo Zynq-7000} \cite{rpi_benchoff} \cite{zybo_man}
+\caption[Srovnání platforem Raspberry Pi 3 a Zybo Zynq-7000]{Srovnání platforem Raspberry Pi 3 a Zybo Zynq-7000 \cite{rpi_benchoff, zybo_man}.}
 \label{tab:plat_compare}
 \end{table}
 
@@ -404,5 +404,5 @@ Další problém může představovat hlavní výhoda tohoto řešení, a to př
     \centering
     \includegraphics[width=\textwidth]{images/aws.pdf}
     \label{fig:aws}
-    \caption[Struktura systému provozovaného na virtuálním serveru]{Struktura systému provozovaného na virtuálním serveru. Podřízené systémy nezasílají požadavky lokálnímu nadřazenému systému v~místní síti, ale globálnímu nadřazenému systému, který je veřejně přístupný na internetu}
+    \caption[Struktura systému provozovaného na virtuálním serveru]{Struktura systému provozovaného na virtuálním serveru. Podřízené systémy nezasílají požadavky lokálnímu nadřazenému systému v~místní síti, ale globálnímu nadřazenému systému, který je veřejně přístupný na internetu.}
 \end{figure}
