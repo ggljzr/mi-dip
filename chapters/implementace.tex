@@ -57,7 +57,7 @@ V~databázi nadřazeného systému je potřeba pravidelně provádět kontrolu, 
 
 Aplikace nadřazeného systému nemá v~zásadě možnost, jak tuto kontrolu sama iniciovat, neboť pouze reaguje na příchozí požadavky (od uživatele či podřízeného systému). Provedení kontroly může být důsledkem takového požadavku, například pokud uživatel otevře hlavní stránku webového rozhraní. 
 
-Provádět kontrolu hlášení pouze v~reakci na vnější podnět však není dostatečné. Pokud by nadřazený systém musel pro provedení kontroly hlášení čekat interakci s~webovým rozhraním (nebo například s~podřízeným systémem), nemuselo by vůbec dojít ke změně stavu garáže a tedy ani k~odeslání notifikačního e-mailu. Je tedy nutné zajistit pravidelné provádění kontrol na základě vnitřního podnětu.
+Provádět kontrolu hlášení pouze v~reakci na vnější podnět však není dostatečné. Pokud by nadřazený systém musel pro provedení kontroly hlášení čekat interakci s~webovým rozhraním (nebo například s~podřízeným systémem), nemuselo by vůbec dojít ke změně stavu garáže a tedy ani k~odeslání upozornění. Je tedy nutné zajistit pravidelné provádění kontrol na základě vnitřního podnětu.
 
 Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apscheduler}. APScheduler funguje jako knihovna do Pythonu, a umožňuje plánovat provádění zvolených funkcí. Nejde tedy o~externí program, plánovač je přímo součástí kódu nadřazeného systému \cite{apscheduler}. Vytvoření pravidelné kontroly hlášení podřízených systémů je implementováno tímto způsobem:
 
