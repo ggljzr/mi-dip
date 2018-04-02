@@ -6,15 +6,4 @@ https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl
 
 implementace: podivat se na to RTC, mozna nefunguje ta synchronizace systemovejch hodin -> cas ulozenej na rtc (prectenej pomoci hwclock) je spravne, ale kdyz se to vypne a zapne tak je systemovej cas spatne (jinej nez v hwclock), a sesynchronizuje se az kdyz se to pripoji k internetu. Moznej workaround -> zavolat hwclock -s (nastaveni systemovyho casu z hwclock) pri bootu (also basic info: https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi?view=all#set-rtc-time, vo tim hwclock -s syncu https://raspberrypi.stackexchange.com/questions/28583/hwclock-s-in-rc-local-wont-work)
 
-zneplatneni api klicu:
- smazanim garaze -> to ale vodstrani i prislusny udalosti a to treba nechceme
- pri registraci pres api se ale dycky vytvori nova garaz. reseni: mit dve operace -- smazani cely garaze i s eventama (kdyz chci vopravdu vodstranit celou garaz) a jen zneplatneni klice pri kterym garaz mazat nebudu (tj stara garaz zustane i s eventama v databazi, ale uz nebude registrovat zadny novy eventy). pri zneplatneni klice este udelat moznost vygenerovat novej klic pro rucni nahrani na system. Registrace systemu pres registracni mod ale dycky vytvori novou garaz, s tim moc delat nejde.
-
-
-posilani mailu: vidim to bud teda ze tam bude proste smtp klient a holt meno (pak ta emailova schranka muze bejt vicemene jakakoliv, to je taky trochu vyhoda -- tj si uzivatel zalozi stranku treba na seznamu, vyplni meno a heslo a ma to hotovy) a heslo a nebo pouzit nakou sluzbu na posilani mailu. Ten google ma tu oauth autorizaci hrozne slozitou, by asi bylo lepsi neco jako https://github.com/sendgrid/sendgrid-python (https://sendgrid.com/), tam staci proste api klic
-
-python email client https://github.com/kootenpv/yagmail
-
 taky mozna v prislusnejch sekcich zminit ze diky sqlalchemy/jinja mame nakou vochranu proti xss/sqlinjection out of the box
-
-gsm modul https://www.adafruit.com/product/1946
