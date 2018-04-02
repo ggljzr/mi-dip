@@ -261,6 +261,8 @@ Nadřazený systém má být schopen zasílat uživatelům notifikace o~stavu je
 
 Tyto notifikace by měl obdržet jednak správce garáží (provozovatel nadřazeného systému), jednak jednotlivý nájemci, kterým budou zasílány notifikace týkající se jejich garáže.
 
+V~následujících sekcích jsem otestoval několik přístupů k~odesílání těchto notifikací, a to buď pomocí e-mailu nebo SMS.
+
 \subsection{E-mailové notifikace}
 
 První možnost je zasílat notifikace pomocí e-mailu. K~tomu je zapotřebí vytvořit účet, který by mohl nadřazený systém použít k~odesílání.
@@ -273,19 +275,19 @@ Tímto je částečně porušen požadavek na nezávislost (viz sekci \ref{sec:a
 
 Gmail umožňuje přístup k~účtu pomocí SMTP, je však nutné v~nastavení účtu Google povolit přístup méně zabezpečeným aplikacím, protože přihlášení je prováděno pomocí uživatelského jména a hesla \cite{google_smtp}. Jelikož by příhlašovací údaje musely být uloženy v~nadřazeném systému v~čitelné podobě, není tento způsob vhodný.
 
-Bezpečnější možnost je použít k~přístupu protokol OAuth \cite{rfc6749}. S~jeho pomocí je možné udělovat aplikacím (v~tomto případě nadřazenému systému) přístup k~částem účtu Google, tedy i Gmailu. Autentizace probíhá na základě náhodně generovaných \textit{tokenů}, není tedy nutné uchovávat v~nadřazeném systému heslo (které mohl uživatel systému použít i v~jiných službách) v~čitelné podobě \cite{google_oauth}.
+Bezpečnější možnost je použít k~přístupu protokol OAuth \cite{rfc6749}. S~jeho pomocí je možné udělovat aplikacím (v~tomto případě nadřazenému systému) přístup k~částem účtu Google, tedy i Gmailu. Autentizace probíhá na základě náhodně generovaných klíčů, není tedy nutné uchovávat v~nadřazeném systému heslo (které mohl uživatel systému použít i v~jiných službách) v~čitelné podobě \cite{google_oauth}.
 
 % este by se dalo napsat ze timhle taky de vomezit k jaky casti toho google uctu bude mit ten token pristup
 
 \subsection{SMS notifikace}
 
-Alternativa k~e-mailu je posílání upozornění pomocí SMS. To může být pro některé uživatele vhodnější, protože lze upozornění přijímat na prakticky jakémkoliv telefonu, bez nutnosti e-mailového klienta či připojení k~internetu.
+Alternativa k~e-mailu je posílání upozornění pomocí SMS. To může být pro uživatele vhodnější, protože lze upozornění přijímat na prakticky jakémkoliv telefonu, bez nutnosti e-mailového klienta či připojení k~internetu.
 
 Posílání SMS z~nadřazeného systému lze provést dvěma způsoby. První možnost je připojit k~počítači, na kterém nadřazený systém poběží GSM modul se SIM kartou. Také je možné k~posílání SMS využít internetovou službu, jako je například Twilio.
 
 \subsubsection{GSM modul}
 
-Poměrně snadný způsob jak odeslat SMS pomocí počítače je využít GSM modul, který lze připojit do USB (například modul E3131 od společnosti Huawei, zobrazený na obrázku \ref{fig:gsm_module}). Počítač může s~modulem komunikovat pomocí sériové linky a příkazů, které definuje GSM standard \cite{gsm_standard}. Díky tomu nejsou nutné specializované ovladače a modul lze použít na široké škále zařízení.
+Poměrně snadný způsob jak odeslat SMS pomocí počítače je využít GSM modul, který lze připojit do USB (například modul E3131 od společnosti Huawei, zobrazený na obrázku \ref{fig:gsm_module}). Počítač může s~modulem komunikovat pomocí sériové linky a příkazů, které definuje GSM standard \cite{gsm_standard}. Díky tomu nejsou nutné specializované ovladače a modul lze použít na mnoha různých zařízení.
 
 Modul je možné ovládat přímo pomocí sériové linky, vhodnější je však použít program či knihovnu, která zařídí zasílání příslušných příkazů. To je například projekt Gammu, který umožňuje komplexní ovládání modulu buď pomocí příkazové rádky nebo knihovny v~jazyce C \cite{gammu}.
 
@@ -304,6 +306,12 @@ Za hlavní nevýhodu považuji cenu řešení. Jednak je potřeba pořídit GSM 
 
 \subsubsection{Twilio}
 
+K~odesílání SMS lze také využít službu Twilio, která umožňuje registraci telefonního čísla a posílání SMS pomocí webového API \cite{twilio_sms}. K~tomu je lze použít připravenou knihovnu pro Python \cite{twilio_python}. Přístup k~API je ověřen pomocí klíčů, které uživatel obdrží po registraci \cite{twilio_keys}.
+
+Toto řešení je levnější než řešení využívající GSM modul, neboť není nutné kupovat žádný další hardware. Samtoné odesílání SMS je také poměrně levné -- jedna zpráva odeslaná v~rámci České republiky přijde na 0.049 dolaru \cite{twilio_pricing}. Kromě toho Twilio poskytuje další služby, které by bylo možné použít k~budoucímu rozšíření nadřazeného systému \cite{twilio_products}.
+
+Nevýhoda může být (stejně jako u~řešení založeného na e-mailech) nutnost připojení k~internetu a registrace účtu. Kromě toho je nutné na účtu udržovat kredit k~odesílání SMS, což vyžaduje zadání platební karty.
+
 %dalsi moznost twilio -- sluzba na posilani sms. vyhody -- relativne jednoduchy pouziti, snadna kontrola nad utratou, naky fancy pokrocily moznosti (custom cisla atd), levny (smsky, neni potreba gsm modul), comfy knihovna pro python3, snadna implementace, je mozny to pouzit i v tim cloudu. nevyhody -- potrebuje internet, nutna registrace (+ vyplneni kreditni karty, ale srovnat se shanenim sim karty), (trosicku slozitejsi na pouziti pro uzivatele -- musi vyplnit tri veci v tim web rozhrani). este teda je blby ze kdo ma pristup k tomu rpi muze posilat smsky vodkudkoliv kdyz si vopise ten auth token
 
 % naky zajimavy info https://support.twilio.com/hc/en-us/articles/223181828-Does-Twilio-check-to-see-if-phone-numbers-can-receive-SMS-
@@ -313,6 +321,8 @@ Za hlavní nevýhodu považuji cenu řešení. Jednak je potřeba pořídit GSM 
 % gammu kredit> sudo gammu --getussd AA182C3602 #to AA.. je zakodovany *101#
 
 \subsection{Závěř výběru způsobu zasílání upozornění}
+
+% napsat ze sem to vsechno vyzkousel -- gmail, twilio, modul a zkousel sem taky co bude slozity na pouziti pro toho uzivatele
 
 % napsat nakonec ze vybirame smsky, sou responsivnejsi a budem je posilat comfy pres to twilio
 
