@@ -281,16 +281,24 @@ Bezpečnější možnost je použít k~přístupu protokol OAuth \cite{rfc6749}.
 
 Alternativa k~e-mailu je posílání upozornění pomocí SMS. To může být pro některé uživatele vhodnější, protože lze upozornění přijímat na prakticky jakémkoliv telefonu, bez nutnosti e-mailového klienta či připojení k~internetu.
 
-Posílání SMS z~nadřazeného systému lze provést dvěma způsoby. První možnost je připojit k~počítači, na kterém systém poběží GSM modul se SIM kartou. Také je možné k~posílání SMS využít internetovou službu, jako je například Twilio.
+Posílání SMS z~nadřazeného systému lze provést dvěma způsoby. První možnost je připojit k~počítači, na kterém nadřazený systém poběží GSM modul se SIM kartou. Také je možné k~posílání SMS využít internetovou službu, jako je například Twilio.
 
 \subsubsection{GSM modul}
+
+Poměrně snadný způsob jak odeslat SMS pomocí počítače je využít GSM modul, který lze připojit do USB (například modul E3131 od společnosti Huawei, zobrazený na obrázku \ref{fig:gsm_module}). Počítač může s~modulem komunikovat pomocí sériové linky a příkazů, které definuje GSM standard \cite{gsm_standard}. Díky tomu nejsou nutné specializované ovladače a modul lze použít na široké škále zařízení.
+
+Modul je možné ovládat přímo pomocí sériové linky, vhodnější je však použít program či knihovnu, která zařídí zasílání příslušných příkazů. To je například projekt Gammu, který umožňuje komplexní ovládání modulu buď pomocí příkazové rádky nebo knihovny v~jazyce C \cite{gammu}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/gsm_module.jpg}
-    \caption[GSM modul Huawei E3131]{GSM modul Huawei E3131 s~odkrytým slotem na SIM kartu.}
+    \caption[GSM modul Huawei E3131]{GSM modul Huawei E3131 s~odkrytým slotem pro SIM kartu.}
     \label{fig:gsm_module}
 \end{figure}
+
+Výhoda tohoto řešení je nezávislost na internetu. Odesílání upozornění by tedy fungovalo i pokud by zařízení mělo přístup pouze k~místní síti. Řešení je také poměrně snadno implementované (po připojení modulu a instalaci knihovny stačí k~odeslání SMS jediný příkaz) a díky jednoduchému komunikačnímu rozhraní modulu výrazně neomezuje požadavky na hardware či ovladače.
+
+Za hlavní nevýhodu považuji cenu řešení. Jednak je potřeba pořídit GSM modul, jednak je nutné platit odeslané SMS (zde by záleželo na zvoleném tarifu). Méně významné nevýhody představují nutnost udržovat v~modulu aktivní SIM kartu a případně dostatečný kredit.
 
 %cool moznost -- vlastni gsm modul, vyhody -- hlavne nezavislost (de i bez netu), kompatibilni s hafem hw (staci seriova linka, komunikace pomoci at commandu), knihovny/programy (gammu) pro snadny vovladani. nejde posilat smsky bez toho gsm modulu, tj nestaci vopsat api klice jako u twilio. nevyhody -- spatna kontrola (kredit -- jako cist kredit asi de nak pres ty ussd zpravy ale celej ten interface by se musel naprogramovat a v tim twilliu je proste uz hotovej, varovani vo zruseni simky atd), nutnost mit ten modul (nefungovalo by pri nasazeni v cloudu), muze bejt relativne drahej (jak modul tak samotny sms), nutnost sehnat simku, pri zruseni simky problem zjistit ze se to stalo, gammu nema knihovnu pro python3
 
