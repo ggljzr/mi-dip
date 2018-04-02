@@ -32,4 +32,18 @@ k softwaru dat citaci primo v textu
     \item navrhovy vzory -- mvc
 \end{itemize}
 
-\section{Bezpečnost}
+\section{\textit{Hashování}}
+
+\textit{Hashováním} se obecně rozumí vytvoření otistku pevné délky -- \textit{hashe} -- z libovolných vstupních dat. Důležitou vlastností je jednosměrnost tohoto procesu, tedy že z vytvořeného otisku již nelze zrekonstruovat původní vstup. \cite{hash_crackstation}
+
+V této práci je \textit{hashování} použito při ukládání hesel. Heslo uložené v čitelné podobě není při úniku souboru s heslem nijak chráněno. Proto je vhodné uložit místo hesla samotného jeho \textit{hash}. Pokud dojde k úniku \textit{hashovaných} hesel, je pro útočníka velmi problematické  získat z otisků čitelná hesla \cite{hash_crackstation}.
+
+\textit{Hashování} lze provést pomocí mnoha algortimů, ne všechny se však hodí k zabezpečení ukládaných hesel. Některé algoritmy, jako například MD5, nejsou dostatečně výpočetně náročné, takže umožňují efektivní útoky hrubou silou (lze dostatečně rychle spočítat všechny možné kombinace vstupů do dané délky a tím zjistit jaký vstup odpovídá danému \textit{hashi}) \cite{hash_crackstation}. 
+
+Pro bezpečné ukládání hesel je tedy nutné použít dostatečné náročný algoritmus. V této práci je použit algoritmus Bcrypt, který je považován za vhodný k \textit{hashování} uložených hesel \cite{hash_crackstation}.
+
+\subsection{Solení \textit{hashů}}
+
+\textit{Hashování} hesla je vhodné doplnit o proces takzvaného \uv{solení}. Při něm se nevytváří otisk samotného hesla, ale hesla doplněného o náhodně vygenerovaný řetězec -- sůl. To ztěžuje použítí předpočítaných tabulek (například tabulky s otisky často používaných hesel) pro útoky hrubou silou \cite{hash_crackstation}.
+
+Pro bližší informace o bezpečném ukládání hesel doporučuji článek \textit{Salted Password Hashing - Doing it Right} \cite{hash_crackstation}.
