@@ -271,13 +271,11 @@ Alternativa je použít nějakého poskytovatele e-mailových služeb, jako nap�
 
 Tímto je částečně porušen požadavek na nezávislost (viz sekci \ref{sec:an}). Při zasílání notifikací je však nutný přístup k~internetu i v~případě použití vlastního e-mailového serveru a nezávislost na externí službě nevyváží komplikace spojené s~jeho provozem.
 
-%napsat problem se smtp prihlasenim (login a heslo musi bejt nekde v plaintextu). alternativa oauth u google nebo naky api
+Gmail umožňuje přístup k~účtu pomocí SMTP, je však nutné v~nastavení účtu Google povolit přístup méně zabezpečeným aplikacím, protože přihlášení je prováděno pomocí uživatelského jména a hesla \cite{google_smtp}. Jelikož by příhlašovací údaje musely být uloženy v~nadřazeném systému v~čitelné podobě, není tento způsob vhodný.
 
-%napsat vo srani se s autentikaci u google
+Bezpečnější možnost je použít k~přístupu protokol OAuth \cite{rfc6749}. S~jeho pomocí je možné udělovat aplikacím (v~tomto případě nadřazenému systému) přístup k~částem účtu Google, tedy i Gmailu. Autentizace probíhá na základě náhodně generovaných \textit{tokenů}, není tedy nutné uchovávat v~nadřazeném systému heslo (které mohl uživatel systému použít i v~jiných službách) v~čitelné podobě \cite{google_oauth}.
 
-%napsat vo srani se jinejma mail sluzbama -- mailgun, sendgrid
-
-%na email serem zkusime sms 
+% este by se dalo napsat ze timhle taky de vomezit k jaky casti toho google uctu bude mit ten token pristup
 
 \subsection{SMS notifikace}
 
@@ -288,6 +286,8 @@ Tímto je částečně porušen požadavek na nezávislost (viz sekci \ref{sec:a
 % naky zajimavy info https://support.twilio.com/hc/en-us/articles/223181828-Does-Twilio-check-to-see-if-phone-numbers-can-receive-SMS-
 
 %https://support.twilio.com/hc/en-us/articles/223183228-How-Does-Twilio-s-Pricing-Work-
+
+% gammu kredit> sudo gammu --getussd AA182C3602 #to AA.. je zakodovany *101#
 
 \subsection{Závěř výběru způsobu zasílání upozornění}
 
