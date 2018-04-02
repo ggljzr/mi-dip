@@ -279,7 +279,15 @@ Bezpečnější možnost je použít k~přístupu protokol OAuth \cite{rfc6749}.
 
 \subsection{SMS notifikace}
 
+Alternativa k~e-mailu je posílání upozornění pomocí SMS. To může být pro některé uživatele vhodnější, protože lze upozornění přijímat na prakticky jakémkoliv telefonu, bez nutnosti e-mailového klienta či připojení k~internetu.
+
+Posílání SMS z~nadřazeného systému lze provést dvěma způsoby. První možnost je připojit k~počítači, na kterém systém poběží GSM modul se SIM kartou. Také je možné k~posílání SMS využít nějakou internetovou službu, jako je například Twilio.
+
+\subsubsection{GSM modul}
+
 %cool moznost -- vlastni gsm modul, vyhody -- hlavne nezavislost (de i bez netu), kompatibilni s hafem hw (staci seriova linka, komunikace pomoci at commandu), knihovny/programy (gammu) pro snadny vovladani. nejde posilat smsky bez toho gsm modulu, tj nestaci vopsat api klice jako u twilio. nevyhody -- spatna kontrola (kredit -- jako cist kredit asi de nak pres ty ussd zpravy ale celej ten interface by se musel naprogramovat a v tim twilliu je proste uz hotovej, varovani vo zruseni simky atd), nutnost mit ten modul (nefungovalo by pri nasazeni v cloudu), muze bejt relativne drahej (jak modul tak samotny sms), nutnost sehnat simku, pri zruseni simky problem zjistit ze se to stalo, gammu nema knihovnu pro python3
+
+\subsubsection{Twilio}
 
 %dalsi moznost twilio -- sluzba na posilani sms. vyhody -- relativne jednoduchy pouziti, snadna kontrola nad utratou, naky fancy pokrocily moznosti (custom cisla atd), levny (smsky, neni potreba gsm modul), comfy knihovna pro python3, snadna implementace, je mozny to pouzit i v tim cloudu. nevyhody -- potrebuje internet, nutna registrace (+ vyplneni kreditni karty, ale srovnat se shanenim sim karty), (trosicku slozitejsi na pouziti pro uzivatele -- musi vyplnit tri veci v tim web rozhrani). este teda je blby ze kdo ma pristup k tomu rpi muze posilat smsky vodkudkoliv kdyz si vopise ten auth token
 
