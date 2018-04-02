@@ -302,6 +302,8 @@ Výhoda tohoto řešení je nezávislost na internetu. Odesílání upozornění
 
 Za hlavní nevýhodu považuji cenu řešení. Jednak je potřeba pořídit GSM modul, jednak je nutné platit odeslané SMS (zde by záleželo na zvoleném tarifu). Méně významné nevýhody představují nutnost udržovat v~modulu aktivní SIM kartu a případně dostatečný kredit.
 
+%v tim gammu pouzit https://wammu.eu/docs/manual/smsd/usage.html#creating-messages-to-send daemona to vyresi problemy s dlouho trvajicim vodeslanim a taky asi se sudo pristupem, tohle popsat v implementaci
+
 %cool moznost -- vlastni gsm modul, vyhody -- hlavne nezavislost (de i bez netu), kompatibilni s hafem hw (staci seriova linka, komunikace pomoci at commandu), knihovny/programy (gammu) pro snadny vovladani. nejde posilat smsky bez toho gsm modulu, tj nestaci vopsat api klice jako u twilio. nevyhody -- spatna kontrola (kredit -- jako cist kredit asi de nak pres ty ussd zpravy ale celej ten interface by se musel naprogramovat a v tim twilliu je proste uz hotovej, varovani vo zruseni simky atd), nutnost mit ten modul (nefungovalo by pri nasazeni v cloudu), muze bejt relativne drahej (jak modul tak samotny sms), nutnost sehnat simku, pri zruseni simky problem zjistit ze se to stalo, gammu nema knihovnu pro python3
 
 \subsubsection{Twilio}
