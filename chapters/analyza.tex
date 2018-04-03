@@ -20,7 +20,7 @@ Před samotným návrhem a implementací nadřazeného systému je potřeba pře
 Dále jsou od nadřazeného systému požadovány tyto vlastnosti:
 
 \begin{itemize}
-    \item \textbf{Bezpečnost} -- jak komunikace s~podřízenými systémy, tak přístup do uživatelského rozhraní by měl probíhat přes zabezpečený komunikační kanál.
+    \item \textbf{Bezpečnost} -- jak komunikace s~podřízenými systémy, tak přístup do uživatelského rozhraní by měly probíhat přes zabezpečený komunikační kanál.
     \item \textbf{Spolehlivost} -- způsob komunikace i systém jako celek by měl být dostatečně spolehlivý.
     \item \textbf{Presistence} -- data v~systému by měla být uchovávána presistentním způsobem.
     \item \textbf{Nezávislost} -- systém by neměl být příliš závislý na externích službách a alespoň v~omezené míře fungovat i bez přístupu k~internetu.
@@ -41,7 +41,7 @@ Z~těchto požadavků vyplývá software potřebný k~implementaci nadřazeného
 
 Struktura celého systému je naznačena na obrázku \ref{fig:basic_struct}. \textcolor{blue2}{Podřízené systémy} komunikují s~\textcolor{green}{nadřazeným} na základě událostí. Nadřazený systém tyto události zpracovává a upravuje podle nich stav garáží v~evidenci. 
 
-Zaznamenané události jsou také uchovávány v~historii událostí, spolu s~dalšími metadaty jako čas přijetí nebo podřízeného systému, který událost vytvořil.
+Zaznamenané události jsou také uchovávány v~historii událostí spolu s~dalšími metadaty, jako například čas přijetí.
 
 Komunikace mezi podřízeným a nadřazeným systémem je postavena na modelu \textit{client/server}. Nadřazený systém provozuje server zvoleného protokolu (viz sekci \ref{sec:an_protocol}), ke kterému se podřízené systémy připojují. Komunikaci tedy vždy iniciuje podřízený systém. S~možností zasílání nevyžádaných zpráv podřízeným systémům v~této práci nepočítám, mohl by to však být námět pro další rozšíření.
 
@@ -84,7 +84,7 @@ Nadřazený systém bude se svými klienty (monitorovací zařízení v~jednotli
 
 \subsection{Vlastní protokol}
 
-Jedna z~možností je implementovat vlastní protokol pomocí TCP/IP socketů. Toto řešení se mi však nezdá příliš vhodné, neboť nepřináší žádné významné výhody, naopak se s~ním pojí řada komplikací.
+Jedna z~možností je implementovat vlastní protokol pomocí TCP/IP \textit{socketů}. Toto řešení se mi však nezdá příliš vhodné, neboť nepřináší žádné významné výhody, naopak se s~ním pojí řada komplikací.
 
 Pro vlastní protokol by bylo nutné vytvořit robustní server, který zvládá obsluhu více klientů najednou. Dále by vzhledem k~citlivosti přenášených dat bylo nutné implementovat nějakou formu šifrování. Tyto velmi obsáhlé problémy přitom řeší většina dnešních protokolů.
 
@@ -118,7 +118,7 @@ Nevýhodou tohoto řešení je nedůvěra webových klientů (certifikát není 
 
 Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout například v~knihovně Requests (umožňující vytváření HTTP požadavků \cite{requests}) pro jazyk Python \cite{python_tutorial} je naznačeno v~ukázce \ref{lst:req_selfsigned}. 
 
-Tento jazyk a knihovna byly zvoleny z~důvodů kompaktnosti ukázkového kódu, v~jiných jazicích lze tuto verifikaci obejít obdobným způsobem.
+Tento jazyk a knihovna byly zvoleny z~důvodů kompaktnosti ukázkového kódu, v~jiných jazycích lze tuto verifikaci obejít obdobným způsobem.
 
 \begin{listing}[htbp]
 \caption{\label{lst:req_selfsigned} Vytvoření HTTPS požadavku v~knihovně Requests, bez ověření totožnosti serveru.}
@@ -138,7 +138,7 @@ Jednoduchou autentizaci přes HTTPS lze realizovat například pomocí generová
 
 Tyto klíče by také bylo nutné nahrát a uchovávat na podřízených systémech. Detaily tohoto procesu by záležely na platformě těchto systémů. Například u~Arduina by šlo klíč nahrát z~uživatelova počítače pomocí sériové linky (s~USB převodníkem) a udržovat ho v~paměti EEPROM, která je uchována i po odpojení napájení \cite{ard_eeprom}.
 
-Také by bylo možné implementovat v~nadřazeném systému \uv{registrační mód}, který by bylo možné dočasně povolit ve webovém rozhraní. V~tomto módu by systém po přijetí speciálního API požadavku vygeneroval nový klíč. Ten by si uložil do své databáze platných klíčů, a také ho v~odpovědi zaslal žádajícímu zařízení. Pokud by mód povolen nebyl, odpovědel by systém chybovým kódem, například 403 -- \textit{Forbidden}. Zaslání požadavku z~podřízeného systému by mohlo být provedeno stisknutím tlačítka.
+Také by bylo možné implementovat v~nadřazeném systému \uv{registrační mód}, který by bylo možné dočasně povolit ve webovém rozhraní. V~tomto módu by systém po přijetí speciálního API požadavku vygeneroval nový klíč, který by si uložil do své databáze platných klíčů, a také ho v~odpovědi zaslal žádajícímu zařízení. Pokud by mód povolen nebyl, odpovědel by systém chybovým kódem, například \textit{403 -- Forbidden}. Zaslání požadavku z~podřízeného systému by mohlo být provedeno stisknutím tlačítka.
 
 Tento přístup by byl pravděpodobně uživatelsky příjemnější, přináší však potencionální bezpečnostní rizika. Například pokud by uživatel zapomněl mód vypnout, systém by byl otevřený k~registraci nežádoucích zařízení. Takový problém by se však dal řešit například automatickou deaktivací módu po uplynutí časového limitu.
 
@@ -151,7 +151,7 @@ Obecně vycházím z~toho, že i v~případě registrace nežádoucího zaříze
 
 MQTT je komunikační protokol založený na modelu \textit{publisher/subscriber}, určený pro použití v~prostředí s~omezenými zdroji (malý výkon procesoru, omezená paměť atd.) \cite{mqtt_valerie}.
 
-Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí centrály, nazývané \textit{broker}. Ta spravuje adresy -- \textit{topics} -- na kterých mohou klienti publikovat či odebírat zprávy.
+Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí centrály nazývané \textit{broker}. Ta spravuje adresy -- \textit{topics}. Na nich mohou klienti publikovat či odebírat zprávy.
 
 \begin{figure}[h!]
     \centering
@@ -179,9 +179,9 @@ Adresy je možné hierarchicky strukturovat následujícím způsobem \cite{mqtt
     \end{itemize}
 \end{itemize}
 
-V~případě této práce by tedy jak nadřazený systém, tak podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Tím by vznikla obdoba \textit{client/server} modelu, zmíněného v~sekci \ref{sec:an_struct}. 
+V~případě této práce by tedy nadřazený systém i podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Tím by vznikla obdoba \textit{client/server} modelu, zmíněného v~sekci \ref{sec:an_struct}. 
 
-Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například open-source \textit{broker} Mosquitto je dostupný na řadě platforem, včetně Raspberry Pi \cite{mqtt_mosquitto_wiki}).
+Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například \textit{broker} Mosquitto je dostupný na řadě platforem, včetně Raspberry Pi \cite{mqtt_mosquitto_wiki}).
 
 Protokol podporuje tři možnosti QoS \cite{mqtt_valerie}:
 
@@ -205,13 +205,13 @@ Bohužel podpora PSK v~MQTT klientech není příliš rozšířená. PSK je mož
 
 Paho poskytuje implementace MQTT klientů pro mnoho platforem (včetně například Arduina \cite{paho_embedded}). Dokumentace klientů pro C++ a Python však možnost šifrování pomocí PSK vůbec nezmiňuje \cite{paho_cpp_doc, paho_pyt_doc}.
 
-Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při použití certifikátů lze v~konfiguračním souboru Mosquitta zvolit \verb|require_certificate| \cite{mqtt_mosquitto_conf}. Poté bude od klienta vyžadován certifikát prokazující jeho totožnost. Při použití PSK lze k~autentizaci využít sdílený klíč (\textit{broker} odmítne klienty s~neplatnými klíči) \cite{mqtt_mosquitto_conf}. Kromě toho je možno použít také autentizaci pomocí uživatelského jména a hesla, která je součástí MQTT protokolu, případně klienty neověřovat vůbec (a pouze šifrovat komunikaci) \cite{mqtt_mosquitto_conf}.
+Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při použití certifikátů lze v~konfiguračním souboru Mosquitta zvolit \verb|require_certificate| \cite{mqtt_mosquitto_conf}. Poté bude od klienta vyžadován certifikát prokazující jeho totožnost. Při použití PSK lze k~autentizaci využít sdílený klíč (\textit{broker} odmítne klienty s~neplatnými klíči) \cite{mqtt_mosquitto_conf}. Kromě toho je možno použít také autentizaci pomocí uživatelského jména a hesla, která je součástí MQTT protokolu, případně totožnost klientů neověřovat vůbec (a pouze šifrovat komunikaci) \cite{mqtt_mosquitto_conf}.
 
 \subsection{Závěr výběru protokolu}
 
 V~sekcích \ref{sec:an_https} a \ref{sec:an_mqtt} jsem se blíže podíval na dva poměrně rozšířené protokoly aplikační vrstvy, které by bylo možné použít pro tvorbu nadřazeného systému.
 
-Pokud by mezi požadavky na systém bylo zahrnuto zasílání nevyžádaných zpráv podřízeným systému (jak je zmíněno v~sekci \ref{sec:an_struct}), zvolil bych pravděpodobně protokol MQTT. V~tom je tato funkcionalita velmi snadno implementovatelná -- stačí aby podřízené systémy odebíraly \textit{topic}, na kterém by nadřazený systém publikoval zprávy.
+Pokud by mezi požadavky na systém bylo zahrnuto zasílání nevyžádaných zpráv podřízeným systému (jak je zmíněno v~sekci \ref{sec:an_struct}), zvolil bych pravděpodobně protokol MQTT. V~něm je tato funkcionalita velmi snadno implementovatelná -- stačí, aby podřízené systémy odebíraly \textit{topic}, na kterém by nadřazený systém publikoval zprávy.
 
 Jelikož se však v~této práci zabývám systémem, který zprávy pouze přijímá a zaznamenává, rozhodl jsem se pro HTTPS. Nasazení tohoto protokolu je o~něco snazší (není potřeba na zařízení instalovat \textit{broker} a zařizovat certifikační autoritu -- stačí \textit{self-signed} certifikát) a s~jeho použitím mám více zkušeností. Také se částečně uvolní požadavky na volbu platformy (webový server bude potřeba v~každém případě, při volbě HTTPS jako komunikačního protokolu mezi systémy tedy nebude nutný žádný další software). 
 
@@ -236,7 +236,7 @@ Vzhledem k~požadavku na spolehlivost systému je vhodné odhadnout předpoklád
 
 Pokud by se ukázalo, že při dlouhodobém provozu začíná být databáze neúnosně velká, bylo by nutné omezit množství uchovávaných dat, například pomocí front zaznamenaných událostí.
 
-Při odhadu jsem vycházel z~předpokladu, že největší objem dat v~databázi budou představovat zaznamenaná kontrolní hlášení podřízených systému. Pokud se budou podřízené systémy hlásit každou hodinu, představuje 24 záznamů denně na každou garáž, což by mělo být řádově více než u~jiných událostí. Například u~pravděpodobně druhé nejčastější události, tedy otevření/zavření dveří, předpokládám nejvýše jednotky denně.
+Při odhadu jsem vycházel z~předpokladu, že největší objem dat v~databázi budou představovat zaznamenaná kontrolní hlášení podřízených systému. Pokud se budou podřízené systémy hlásit každou hodinu, představuje to 24 záznamů denně na každou garáž, což by mělo být řádově více než u~jiných událostí. Například u~pravděpodobně druhé nejčastější události, tedy otevření/zavření dveří, předpokládám nejvýše jednotky denně.
 
 Událost kontrolního hlášení by měla obsahovat tyto údaje:
 
@@ -247,9 +247,9 @@ Událost kontrolního hlášení by měla obsahovat tyto údaje:
     \item Datum a čas dalšího plánovaného hlášení.
 \end{itemize}
 
-Jako identifikátory pravděpodobně budou stačit 32bitová celá čísla. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, 64bitové reálné číslo, či 32bitové cele číslo -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplývá, že jedno kontrolní hlášení bude mít velikost alespoň $4 * 32 = 128$ bitů.
+Jako identifikátory pravděpodobně budou stačit 32bitová celá čísla. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, 64bitové reálné číslo, či 32bitové cele číslo -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplývá, že jedno kontrolní hlášení bude mít velikost alespoň $4 \cdot 32 = 128$ bitů.
 
-Pokud nadřazený systém monitoruje 30 garáží, kde každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 * 24 * 96 = 98304$ bitů, tedy asi 98 Kb. Dá se tedy předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
+Pokud nadřazený systém monitoruje 30 garáží, přičemž každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 \cdot 24 \cdot 96 = 98304$ bitů, tedy asi 98 Kb. Dá se tedy předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
 
 Tento výpočet představuje pouze odhad předpokládané velikosti. Skutečná velikost bude záležet na zvolené implementaci, neměla by se však výrazně lišit od tohoto odhadu.
 
@@ -260,9 +260,9 @@ Tento výpočet představuje pouze odhad předpokládané velikosti. Skutečná 
 
 Nadřazený systém má být schopen zasílat uživatelům notifikace o~stavu jednotlivých garáží. Notifikace mohou informovat o~důležité události (například detekce kouře) nebo o~výpadku podřízeného systému (v~případě promeškání plánovaného kontrolního hlášení).
 
-Tyto notifikace by měl obdržet jednak správce garáží (provozovatel nadřazeného systému), jednak jednotlivý nájemci, kterým budou zasílány notifikace týkající se jejich garáže.
+Tyto notifikace by měl obdržet jednak správce garáží (provozovatel nadřazeného systému), jednak jednotliví nájemci, kterým budou zasílány notifikace týkající se jejich garáží.
 
-V~následujících sekcích jsem otestoval několik přístupů k~odesílání těchto notifikací, a to buď pomocí e-mailu nebo SMS.
+V~následujících sekcích jsem otestoval několik přístupů k~odesílání těchto notifikací, a to jak pomocí e-mailu tak SMS.
 
 \subsection{E-mailové notifikace}
 
@@ -276,7 +276,7 @@ Tímto je částečně porušen požadavek na nezávislost (viz sekci \ref{sec:a
 
 Gmail umožňuje přístup k~účtu pomocí SMTP, je však nutné v~nastavení účtu Google povolit přístup méně zabezpečeným aplikacím, protože přihlášení je prováděno pomocí uživatelského jména a hesla \cite{google_smtp}. Jelikož by příhlašovací údaje musely být uloženy v~nadřazeném systému v~čitelné podobě, není tento způsob vhodný.
 
-Bezpečnější možnost je použít k~přístupu protokol OAuth \cite{rfc6749}. S~jeho pomocí je možné udělovat aplikacím (v~tomto případě nadřazenému systému) přístup k~částem účtu Google, tedy i Gmailu. Autentizace probíhá na základě náhodně generovaných klíčů, není tedy nutné uchovávat v~nadřazeném systému heslo (které mohl uživatel systému použít i v~jiných službách) v~čitelné podobě \cite{google_oauth}.
+Bezpečnější možnost je použít k~přístupu protokol OAuth2 \cite{rfc6749}. S~jeho pomocí je možné udělovat aplikacím (v~tomto případě nadřazenému systému) přístup k~částem účtu Google, tedy i Gmailu. Autentizace probíhá na základě náhodně generovaných klíčů, není tedy nutné uchovávat v~nadřazeném systému heslo, které mohl uživatel systému použít i v~jiných službách, v~čitelné podobě \cite{google_oauth}.
 
 % este by se dalo napsat ze timhle taky de vomezit k jaky casti toho google uctu bude mit ten token pristup
 
@@ -284,7 +284,7 @@ Bezpečnější možnost je použít k~přístupu protokol OAuth \cite{rfc6749}.
 
 Alternativa k~e-mailu je posílání upozornění pomocí SMS. To může být pro uživatele vhodnější, protože lze upozornění přijímat na prakticky jakémkoliv telefonu, bez nutnosti e-mailového klienta či připojení k~internetu.
 
-Posílání SMS z~nadřazeného systému lze provést dvěma způsoby. První možnost je připojit k~počítači, na kterém nadřazený systém poběží GSM modul se SIM kartou. Také je možné k~posílání SMS využít internetovou službu, jako je například Twilio.
+Posílání SMS z~nadřazeného systému lze provést dvěma způsoby. První možnost je připojit k~počítači, na kterém nadřazený systém poběží, GSM modul se SIM kartou. Také je možné k~posílání SMS využít internetovou službu, jako je například Twilio.
 
 \subsubsection{GSM modul}
 
@@ -309,9 +309,9 @@ Za hlavní nevýhodu považuji cenu řešení. Jednak je potřeba pořídit GSM 
 
 \subsubsection{Twilio}
 
-K~odesílání SMS lze také využít službu Twilio, která umožňuje registraci telefonního čísla a posílání SMS pomocí webového API \cite{twilio_sms}. K~tomu je lze použít připravenou knihovnu pro Python \cite{twilio_python}. Přístup k~API je ověřen pomocí klíčů, které uživatel obdrží po registraci \cite{twilio_keys}.
+K~odesílání SMS lze také využít službu Twilio, která umožňuje registraci telefonního čísla a posílání SMS pomocí webového API \cite{twilio_sms}. K~tomu lze použít připravenou knihovnu pro Python \cite{twilio_python}. Přístup k~API je ověřen pomocí klíčů, které uživatel obdrží po registraci \cite{twilio_keys}.
 
-Toto řešení je levnější než řešení využívající GSM modul, neboť není nutné kupovat žádný další hardware. Samtoné odesílání SMS je také poměrně levné -- jedna zpráva odeslaná v~rámci České republiky přijde na 0.049 dolaru \cite{twilio_pricing}. Kromě toho Twilio poskytuje další služby, které by bylo možné použít k~budoucímu rozšíření nadřazeného systému \cite{twilio_products}.
+Toto řešení je levnější než řešení využívající GSM modul, neboť není nutné kupovat žádný další hardware. Samotné odesílání SMS je také poměrně levné -- jedna zpráva odeslaná v~rámci České republiky přijde na 0.049 USD \cite{twilio_pricing}. Kromě toho Twilio poskytuje další služby, které by bylo možné použít k~budoucímu rozšíření nadřazeného systému \cite{twilio_products}.
 
 Nevýhoda může být (stejně jako u~řešení založeného na e-mailech) nutnost připojení k~internetu a registrace účtu. Kromě toho je nutné na účtu udržovat kredit k~odesílání SMS, což vyžaduje zadání platební karty.
 
@@ -379,9 +379,9 @@ Raspberry Pi 3 bohužel nemá vlastní bateriově zálohovaný RTC obvod a k~udr
 
 S~počítačem je možné použít množství operačních systémů, z~nichž nejrozšířenější je pravděpodobně Raspbian, linuxový systém postavený na Debianu \cite{raspbian_faq}. Pro ten jsou dostupné všchny potřebné softwarové balíčky popsané v~sekci \ref{sec:an_plat}. Jelikož počítač nemá žádné vlastní úložiště, je nutné operační systém provozovat na vložené SD kartě \cite{rpi_benchoff}.
 
-Jednou z~výhod tohoto počítače je obrovské množství podporovaných hardwarových periferií a knihoven pro ně. V~této práci pravděpodobně využiju pouze zmíněný RTC obvod, případné další rozšiřování systému (například o~vestavěný LCD displej) bude na Raspberry Pi pravděpodobně snadnější než na jiných platformách.
+Jednou z~výhod tohoto počítače je obrovské množství podporovaných hardwarových periferií a knihoven pro ně. V~této práci bych využil pouze zmíněný RTC obvod, případné další rozšiřování systému (například o~vestavěný LCD displej) bude na Raspberry Pi pravděpodobně snadnější než na jiných platformách.
 
-Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523 (pro bližší informace o~modulu viz \cite{rpi_rtc_ada}). Ten vyjde asi na 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč\footnote{Ceny převzaté z~obchodů Alza (\url{https://alza.cz}) a SnailShop(\url{www.snailshop.cz}), v~únoru 2018.}.
+Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523 (pro bližší informace o~modulu viz \cite{rpi_rtc_ada}), jehož cena je příbližně 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč\footnote{Ceny převzaté z~obchodů Alza (\url{https://alza.cz}) a SnailShop(\url{www.snailshop.cz}), v~únoru 2018.}.
 
 \subsection{Zybo Zynq-7000}
 \label{sec:an_zyb}
