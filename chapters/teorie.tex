@@ -4,11 +4,9 @@
 \section{Základní pojmy}
 
 \begin{itemize}
-    \item api -- to uz ale je ve zkratkach, jestli to tady budem nak rozepisovat tak popsat taky json
     \item client/server
     \item tcp/ip
     \item osi
-    \item http/https, pozadavek, metody, navartovy kody, hlavicky pozadavku atd, relace (session)
     \item mqtt
     \item certifikát, k~tomu veřejný a soukromý klíč, self-signed jen treba lehce zminit, protoze je uz dost popsanej v~ty http sekci
     \item vícevláknová obsluha
@@ -20,6 +18,13 @@
     \item relacni databaze, databazovy schema, vztahy (1:n, atd)
     \item navrhovy vzory -- mvc
 \end{itemize}
+
+\section{Protokol HTTP}
+
+\subsection{Požadavek}
+% u pozadavku popsat navratovy kod, metody, hlavicku
+
+\subsection{Relace}
 
 \section{Nadřazený systém}
 
@@ -33,6 +38,8 @@ Podřízené systémy jsou monitorovací zařízení, která jsou umístěná v~
 
 Uživatelem se v~textu práce myslí osoba spravující nadřazený systém a přistupující do jeho webového rozhraní. Jde tedy například o~majitele garáží nebo zaměstnance pověřeného jejich správou.
 
+% \section{API} to mozna necham jen ve zkratkach, stejne tak JSON
+
 \section{Klíč}
 
 Náhodně generovaná data (například ve formě textového řetězce), která slouží k~ověření totožnosti. Znalost klíče umožní přístup k~šifrovaným datům nebo jinak zakázaným operacím. V~této práci se hovoří většinou o~API klíčích, kterými se prokazují podřízené systémy při komunikaci s~nadřazeným systémem.
@@ -42,6 +49,24 @@ Náhodně generovaná data (například ve formě textového řetězce), která 
 \textit{Attack surface} popisuje všechny možné body, kde by mohl potencionální útočník napadnout daný systém \cite{attack_surface_owasp}. V~této práci je zmíněn v~sekci \ref{sec:an_cloud}, ve spojitosti se zvýšeným ohrožením při provozu serveru dostupného z~internetu.
 
 \section{\textit{Man-in-the-middle} útok}
+
+\textit{Man-in-the-middle} útok na protokolu HTTPS využívá situace, kdy certifikát pro ověření totožnosti serveru není důvěryhodný a může být zfalšován \cite{mitm}. 
+
+V~tom případě může útočník (\textcolor{magenta}{Eva}) zachytit komunikaci mezi klientem (\textcolor{green}{Bob}) a serverem (\textcolor{blue2}{Alice}), a místo certifikátu serveru zaslat klientovi svůj certifikát. Poté je komunikace rozdělena na dvě části \cite{mitm}:
+
+\begin{enumerate}
+    \item \textcolor{green}{Bob} komunikuje s~\textcolor{magenta}{Evou} jako by to byla \textcolor{blue2}{Alice}. K~této komunikaci má \textcolor{magenta}{Eva} úplný přístup, neboť je šifrována pomocí jejího certifikátu.
+    \item Po zachycení komunikace od \textcolor{green}{Boba} \textcolor{magenta}{Eva} tyto data přepošle \textcolor{blue2}{Alici}. \textcolor{blue2}{Alice} zašle \textcolor{magenta}{Evě} odpověď šifrovanou pomocí původního certifikátu. \textcolor{magenta}{Eva} tuto odpověď přečte, opět zašifruje pomocí svého certifikátu a pošle \textcolor{green}{Bobovi}.
+\end{enumerate}
+
+V~tomto scénáři \textcolor{green}{Bob} netuší, že nekomunikuje s~\textcolor{blue2}{Alicí}. Jelikož \textcolor{blue2}{Alice} nedodala důvěryhodný certifikát, nemůže \textcolor{green}{Bob} zjistit, že používá zfalšovaný.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/mitm.pdf}
+    \caption[\textit{Man-in-the-middle} útok]{\textit{Man-in-the-middle} útok. Eva funguje jako nežádoucí prostředník mezi Bobem (klientem) a Alicí (původním serverem). Díky tomu má přístup ke zprávám obou účastníků komunikace.}
+    \label{fig:mitm}
+\end{figure}
 
 \section{\textit{Hashování}}
 
