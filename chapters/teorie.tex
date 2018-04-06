@@ -88,9 +88,9 @@ V~textu práce je možnost \textit{man-in-the-middle} útoku diskutována v~čá
 
 \section{\textit{Hashování}}
 
-\textit{Hashováním} se obecně rozumí vytvoření otistku pevné délky -- \textit{hashe} -- z~libovolných vstupních dat. Důležitou vlastností je jednosměrnost tohoto procesu, tedy že z~vytvořeného otisku již nelze zrekonstruovat původní vstup. \cite{hash_crackstation}
+\textit{Hashováním} se obecně rozumí vytvoření otistku pevné délky -- \textit{hashe} -- z~libovolných vstupních dat. Důležitou vlastností je jednosměrnost tohoto procesu, tedy že z~vytvořeného otisku již nelze (v~rozumném čase) zrekonstruovat původní vstup. \cite{hash_crackstation}
 
-V~této práci je \textit{hashování} použito při ukládání hesel. Heslo uložené v~čitelné podobě není při úniku souboru s~heslem nijak chráněno. Proto je vhodné uložit místo hesla samotného jeho \textit{hash}. Pokud dojde k~úniku \textit{hashovaných} hesel, je pro útočníka velmi problematické  získat z~otisků čitelná hesla \cite{hash_crackstation}.
+V~této práci je \textit{hashování} použito při ukládání hesel. Heslo uložené v~čitelné podobě není při úniku souboru s~heslem nijak chráněno. Proto je vhodné uložit místo hesla samotného jeho \textit{hash}. Pokud dojde k~úniku \textit{hashovaných} hesel, je pro útočníka velmi problematické získat z~otisků čitelná hesla \cite{hash_crackstation}.
 
 \textit{Hashování} lze provést pomocí mnoha algortimů, ne všechny se však hodí k~zabezpečení ukládaných hesel. Některé algoritmy, jako například MD5 či SHA-1, nejsou dostatečně výpočetně náročné, takže umožňují efektivní útoky hrubou silou (lze dostatečně rychle spočítat všechny možné kombinace vstupů do dané délky a tím zjistit jaký vstup odpovídá danému \textit{hashi}) \cite{hash_crackstation}. 
 
