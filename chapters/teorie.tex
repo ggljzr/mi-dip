@@ -1,8 +1,5 @@
 \chapter{Teoretický základ}
 \label{sec:te}
-
-\section{Základní pojmy}
-
 \begin{itemize}
     \item tcp/ip
     \item osi
@@ -10,9 +7,17 @@
     \item certifikát, k~tomu veřejný a soukromý klíč, self-signed jen treba lehce zminit, protoze je uz dost popsanej v~ty http sekci
     \item csrf, mozna xss sqlinjection
     \item webové rozhraní
-    \item cloud
     \item relacni databaze, databazovy schema, vztahy (1:n, atd)
     \item navrhovy vzory -- mvc
+\end{itemize}
+
+\section{Názvosloví použité v~práci}
+
+\begin{itemize}
+    \item \textbf{Nadřazený systém} -- Zařízení, jehož tvorba je cílem práce, je v~textu označováno jako nadřazený systém. Podrobná specifikace nadřazeného systému je popsána v~úvodu kapitoly \ref{sec:an}.
+    \item \textbf{Podřizený systém} -- Podřízené systémy jsou monitorovací zařízení, která jsou umístěná v~jednotlivých garážích. Zařízení neoperují samostatně, ale zasílají data nadřazenému systému. Podřízený systém je blíže popsán v~sekci \ref{sec:an_subsystem}.
+    \item \textbf{Uživatel} -- uživatelem se v~textu práce myslí osoba spravující nadřazený systém a přistupující do jeho webového rozhraní. Jde tedy například o~majitele garáží nebo zaměstnance pověřeného jejich správou.
+    \item \textbf{Klíč} -- Náhodně generovaná data (například ve formě textového řetězce), která slouží k~ověření totožnosti. Znalost klíče umožní přístup k~šifrovaným datům nebo jinak zakázaným operacím. V~této práci se hovoří většinou o~API klíčích, kterými se prokazují podřízené systémy při komunikaci s~nadřazeným systémem.
 \end{itemize}
 
 \section{Model \textit{client/server}}
@@ -28,25 +33,11 @@
 
 \subsection{HTTPS}
 
-\section{Nadřazený systém}
-
-Zařízení, jehož tvorba je cílem práce, je v~textu označováno jako nadřazený systém. Podrobná specifikace nadřazeného systému je popsána v~úvodu kapitoly \ref{sec:an}.
-
-\section{Podřízený systém}
-
-Podřízené systémy jsou monitorovací zařízení, která jsou umístěná v~jednotlivých garážích. Zařízení neoperují samostatně, ale zasílají data nadřazenému systému. Podřízený systém je blíže popsán v~sekci \ref{sec:an_subsystem}.
-
-\section{Uživatel}
-
-Uživatelem se v~textu práce myslí osoba spravující nadřazený systém a přistupující do jeho webového rozhraní. Jde tedy například o~majitele garáží nebo zaměstnance pověřeného jejich správou.
+% \section{Cloud}
 
 % \section{API} to mozna necham jen ve zkratkach, stejne tak JSON
 
 % \section{Vícevláknová obsluha} ????
-
-\section{Klíč}
-
-Náhodně generovaná data (například ve formě textového řetězce), která slouží k~ověření totožnosti. Znalost klíče umožní přístup k~šifrovaným datům nebo jinak zakázaným operacím. V~této práci se hovoří většinou o~API klíčích, kterými se prokazují podřízené systémy při komunikaci s~nadřazeným systémem.
 
 \section{\textit{Attack surface}}
 
