@@ -185,4 +185,10 @@ V~konfiguračním souboru aplikace, který je použit při jejím nasazení, byl
 
 Aplikace byla nasazena na virtuálním serveru ze služby Amazon EC2, s~jedním procesorovým jádrem a 1 GiB paměti. Použitý byl operační systém Ubuntu Xenial 16.04.
 
-% v tyhle kapitole taky poresit to ze se jako bottleneck ty komunikace zda bejt ten https handshake a ze by se to asi dalo vyresti pouzitim sessions na strane klienta http://docs.python-requests.org/en/latest/user/advanced/#session-objects -- tohle spis v ty sekci co bude testovat vykon rpi
+\section{Simulátor podřízeného systému}
+
+V~rámci testování aplikace nadřazeného systému jsem vytvořil simulátor podřízeného systému. Ten umožňuje snadné zasílání požadavku na API nadřazeného systému, podobně jako by to dělal reálný podřízený systém.
+
+Simulátor je implementován jako jednoduchá stránka, která je součástí webového rozhraní nadřazeného systému. Zasílání požadavků je realizováno pomocí Javascriptu a knihovny jQuery. 
+
+Stránka simulátoru je přístupná na \texttt{/simulator}, pokud byla aplikace nadřazeného systému spuštěna v~ladícím módu (\texttt{DEBUG = True} v~konfiguračním souboru aplikace).
