@@ -39,6 +39,20 @@
 
 % \section{Vícevláknová obsluha} ????
 
+\section{CSRF -- \textit{Cross-site request forgery}}
+
+CSRF je forma útoku na webovou aplikaci, při kterém může útočník odeslíat falešné požadavky pomocí prohlížeče přihlášeného uživatele \cite{csrf_owasp}. Útok může mít následující průběh:
+
+\begin{enumerate}
+    \item Uživatel je v~jedné záložce prohlížeče prihlášen do svého internetového bankovnictví, které není zabezpečeno proti CSRF.
+    \item Útočník pošle uživateli odkaz na stránku, na který uživatel klikne.
+    \item Stránka po načtení zašle požadavek internetovému bankovnictí, potvrzující převod peněz na útočníkův účet. Tento požadavek je platný, neboť pochází z~prohlížeče přihlášeného uživatele. Nezabezpečená aplikace internetového bankovnictví nemá jak ověřit, že požadavek nepřišel z~jejích stránek.
+\end{enumerate}
+
+% napsat ze muzem jen posilat data, ne je ziskavat -- same origin policy zminit
+
+% napsat strucne ze ochranu proti csrf de udelat pomoci tech tokenu, tady este jednou zminit ze by to nefungovalo bez same origin policy, protoze by utocnikovi nic nebranilo ziskat z ty stranky ten csrf token
+
 \section{\textit{Attack surface}}
 
 \textit{Attack surface} popisuje všechny možné body, kde by mohl potencionální útočník napadnout daný systém \cite{attack_surface_owasp}. V~této práci je zmíněn v~sekci \ref{sec:an_cloud}, ve spojitosti se zvýšeným ohrožením při provozu serveru dostupného z~internetu.
