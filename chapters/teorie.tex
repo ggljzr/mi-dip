@@ -94,7 +94,7 @@ V~této práci je \textit{hashování} použito při ukládání hesel. Heslo ul
 
 \textit{Hashování} lze provést pomocí mnoha algortimů, ne všechny se však hodí k~zabezpečení ukládaných hesel. Některé algoritmy, jako například MD5 či SHA-1, nejsou dostatečně výpočetně náročné, takže umožňují efektivní útoky hrubou silou (lze dostatečně rychle spočítat všechny možné kombinace vstupů do dané délky a tím zjistit jaký vstup odpovídá danému \textit{hashi}) \cite{hash_crackstation}. 
 
-Pro bezpečné ukládání hesel je tedy nutné použít dostatečné náročný algoritmus. V~této práci je použit algoritmus Bcrypt, který je považován za vhodný k~\textit{hashování} uložených hesel \cite{hash_crackstation}.
+Pro bezpečné ukládání hesel je tedy nutné použít dostatečné náročný algoritmus. V~této práci je použit algoritmus Argon2, který je považován za vhodný k~\textit{hashování} uložených hesel \cite{hash_crackstation}.
 
 \subsection{Solení \textit{hashů}}
 
