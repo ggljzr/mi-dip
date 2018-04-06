@@ -5,7 +5,6 @@
     \item osi
     \item mqtt
     \item certifikát, k~tomu veřejný a soukromý klíč, self-signed jen treba lehce zminit, protoze je uz dost popsanej v~ty http sekci
-    \item csrf, mozna xss sqlinjection
     \item webové rozhraní
     \item relacni databaze, databazovy schema, vztahy (1:n, atd)
     \item navrhovy vzory -- mvc
@@ -49,9 +48,17 @@ CSRF je forma útoku na webovou aplikaci, při kterém může útočník odeslí
     \item Stránka po načtení zašle požadavek internetovému bankovnictí, potvrzující převod peněz na útočníkův účet. Tento požadavek je platný, neboť pochází z~prohlížeče přihlášeného uživatele. Nezabezpečená aplikace internetového bankovnictví nemá jak ověřit, že požadavek nepřišel z~jejích stránek.
 \end{enumerate}
 
-% napsat ze muzem jen posilat data, ne je ziskavat -- same origin policy zminit
+Tento útok se dá použít k~zaslání nežádoucího požadavku (v~kontextu této práce například na smazání záznamu o~garáži), ne však ke získání dat ze stránky \cite{csrf_owasp}. Tomu zabraňuje koncept nazvaný \textit{same origin policy}, implementovaný v~současných prohlížečích \cite{sec_handbook}. Tento koncept omezuje to, jak spolu mohou interagovat webové stránky na různých doménách.
 
-% napsat strucne ze ochranu proti csrf de udelat pomoci tech tokenu, tady este jednou zminit ze by to nefungovalo bez same origin policy, protoze by utocnikovi nic nebranilo ziskat z ty stranky ten csrf token
+Ochranu proti CSRF je možné implementovat vkládáním náhodně generovaných \textit{tokenů} do formulářů na webové stránce. Při odeslání formuláře se pak původ požadavku ověří pomocí tohoto \textit{tokenu} -- zaslaný \textit{token} se musí shodovat s~\textit{tokenem} vloženým ve webové stránce.
+
+Přihlášený uživatel má přístup k~webovým stránkam aplikace, a je tedy možné do odeslaného požadavku vložit ověřovací \textit{token} získaný z~formuláře. 
+
+Naopak útočník může pouze zasílat požadavky, ale ne získávat data ze stránek, a tudíž nemá přístup k~\textit{tokenu}, kterým by mohl svůj požadavek zfalšovat.
+
+Zde je opět důležitá \textit{same origin policy}, která získání \textit{tokenu} zabraňuje. Pokud by tento mechanismus nefungoval, mohl by útočník kromě zasílání požadavků také získávat data ze stránky, a tedy i platné \textit{tokeny}.
+
+Webová aplikace implementovaná v~této práci využívá právě tento způsob ochrany proti CSRF (více v~sekci \ref{sec:im_controller}).
 
 \section{\textit{Attack surface}}
 
