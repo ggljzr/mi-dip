@@ -4,4 +4,4 @@ Zpráva ([download](https://github.com/ggljzr/mi-dip/raw/master/DP_Cervenka_Ondr
 
 Implementace [zde](https://github.com/ggljzr/mi-dip-impl).
 
-Aplikaci je možné vyzkoušet na https://demo-garaze.tk
+Aplikaci je možné vyzkoušet na https://demo-garaze.tk (simulátor podřízeného systému je dostupný [zde](https://demo-garaze.tk/simulator)).
