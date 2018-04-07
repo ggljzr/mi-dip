@@ -17,7 +17,20 @@
     \item \textbf{Podřizený systém} -- Podřízené systémy jsou monitorovací zařízení, která jsou umístěná v~jednotlivých garážích. Zařízení neoperují samostatně, ale zasílají data nadřazenému systému. Podřízený systém je blíže popsán v~sekci \ref{sec:an_subsystem}.
     \item \textbf{Uživatel} -- uživatelem se v~textu práce myslí osoba spravující nadřazený systém a přistupující do jeho webového rozhraní. Jde tedy například o~majitele garáží nebo zaměstnance pověřeného jejich správou.
     \item \textbf{Klíč} -- Náhodně generovaná data (například ve formě textového řetězce), která slouží k~ověření totožnosti. Znalost klíče umožní přístup k~šifrovaným datům nebo jinak zakázaným operacím. V~této práci se hovoří většinou o~API klíčích, kterými se prokazují podřízené systémy při komunikaci s~nadřazeným systémem.
+    \item \textbf{Webové rozhraní} -- ???
 \end{itemize}
+
+\section{Návrhový vzor MVC}
+
+MVC (\textit{model-view-controller}) je návrhový vzor, který strukturuje aplikaci do tří částí \cite{mvc_dalling}:
+
+\begin{itemize}
+    \item \textit{Model} reprezentuje data v~aplikaci a operace, které s~nimi lze provádět. Důležitá vlastnost \textit{modelu} je nezávislost na \textit{view} a \textit{controlleru}. Díky tomu je možné stejný \textit{model} použít například pro webovou a nativní aplikaci.
+    \item \textit{View} je zobrazení \textit{modelu} aplikace (například pomocí webových stránek).
+    \item \textit{Controller} zpracovává uživatelský vstup a na jeho základě přenáší data mezi \textit{modelem} a \textit{view}.
+\end{itemize}
+
+Návrhový vzor MVC je použit při implementaci webové aplikace nadřazeného systému (bližší informace o~použití tohoto vzoru jsou v~sekci \ref{sec:de_mvc}).
 
 \section{Model \textit{client/server}}
 
@@ -37,6 +50,10 @@
 % \section{API} to mozna necham jen ve zkratkach, stejne tak JSON
 
 % \section{Vícevláknová obsluha} ????
+
+\section{Certifikát}
+
+
 
 \section{CSRF -- \textit{Cross-site request forgery}}
 
