@@ -12,7 +12,7 @@ Struktura nadřazeného systému je vhodná k~použití návrhového vzoru MVC, 
 
 \textit{View} je zobrazení těchto dat, tedy především generované HTML stránky webového rozhraní. Jako další \textit{view} je možné považovat získávání dat (například ve formátu JSON) pomocí API nadřazeného systému, třeba při zasílání registračních klíčů podřízeným systémům.
 
-\textit{Controller} je pak část aplikace, která se stará o~zpracování HTTP požadavků. Ty mohou přicházet jednak z~uživateloval prohlížeče, jednak od podřízených systémů. Na základě těchto požadavků pak \textit{controller} posílá příslušné příkazy \textit{modelu}. Struktura aplikace při použití vzoru MVC je naznačena na obrázku \ref{fig:mvc}.
+\textit{Controller} je pak část aplikace, která se stará o~zpracování HTTP požadavků. Ty mohou přicházet jednak z~uživatelova prohlížeče, jednak od podřízených systémů. Na základě těchto požadavků pak \textit{controller} posílá příslušné příkazy \textit{modelu}. Struktura aplikace při použití vzoru MVC je naznačena na obrázku \ref{fig:mvc}.
 
 \begin{figure}[h!]
     \centering
@@ -23,7 +23,7 @@ Struktura nadřazeného systému je vhodná k~použití návrhového vzoru MVC, 
 
 Hlavní motivací pro použití tohoto vzoru je snadná rozšiřitelnost. Pokud by například bylo potřeba aplikaci doplnit o~komunikaci s~podřízenými systémy pomocí MQTT, stačí pouze vytvořit vhodný \textit{controller}. Ten pak může využívat \textit{model} aplikace stejným způsobem jako HTTP \textit{controller}.
 
-Tento návrhový vzor popisuje pouze nadřazený systém spravující garáže. Kromě toho je součástí aplikace ještě autentizace uživatele při přístupu do uživatelského rozhraní. Tuto funkci jsem se rozhodl pojmout jako samostatnou komponentu, popsanou v~sekci \ref{sec:de_auth}.
+Tento návrhový vzor popisuje pouze nadřazený systém spravující garáže. Kromě toho je součástí aplikace ještě autentizace uživatele při přístupu do webového rozhraní. Tuto funkci jsem se rozhodl pojmout jako samostatnou komponentu, popsanou v~sekci \ref{sec:de_auth}.
 
 \section{\textit{Model}}
 \label{sec:de_model}
@@ -67,14 +67,14 @@ Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv
 \subsubsection{Vytváření nových garáží}
 \label{sec:de_add_garage}
 
-Nové garáže mohou v~systému vznikat dvěma způsoby. První možnost je vytvoření nové garáže přímo v~uživatelském rozhraní. Po vytvoření se zde zobrazí vygenerovaný API klíč, který je potřeba nahrát na příslušný podřízený systém. Způsob nahrávání by závisel na příslušném hardwaru (například sériová linka). Tato možnost je určena především pro podřízené systémy, které by nepodporovaly zaslání registračního požadavku a nevyžaduje zapnutý registrační mód.
+Nové garáže mohou v~systému vznikat dvěma způsoby. První možnost je vytvoření nové garáže přímo v~uživatelském rozhraní. Po vytvoření se zde zobrazí vygenerovaný API klíč, který je potřeba nahrát na příslušný podřízený systém. Způsob nahrávání by závisel na příslušném hardwaru (například sériová linka). Tato možnost je určena především pro podřízené systémy, které by nepodporovaly zaslání registračního požadavku, a nevyžaduje zapnutý registrační mód.
 
-Druhá možnost je použít registrační mód. V~tom případě je nová garáž vytvořena na základě registračního požadavku podřízeného systému (pro bližší informace o~tomto požadavku viz sekci \ref{sec:de_api}). Vygenerovaný API klíč je při tom zaslán jako odpověď na požadavek, a není tedy nutné ho ručně nahrávat. Registrační mód je možné aktivovat v~uživatelském rozhraní. Pokud mód není aktivovaný, nadřazený systém odmítne všechny požadavky na registraci zaslané tímto způsobem.
+Druhá možnost je použít registrační mód. V~tom případě je nová garáž vytvořena na základě registračního požadavku podřízeného systému (pro bližší informace o~tomto požadavku viz sekci \ref{sec:de_api}). Vygenerovaný API klíč je přitom zaslán jako odpověď na požadavek, a není tedy nutné ho ručně nahrávat. Registrační mód je možné aktivovat v~uživatelském rozhraní. Pokud mód není aktivovaný, nadřazený systém odmítne všechny požadavky na registraci zaslané tímto způsobem.
 
 \subsubsection{API klíče}
 \label{sec:de_apikeys}
 
-Podřízené systému se při zasílání událostí přes API prokazují klíčem. Ten slouží jednak k~zamezení příjmu událostí od neautorizovaných systému, jednak k~identifikaci původu události (zdrojové garáže) v~rámci nadřazeného systému. Podřízený systém tedy nemusí znát \texttt{id} garáže, ale jen \texttt{api\_key}.
+Podřízené systémy se při zasílání událostí přes API prokazují klíčem. Ten slouží jednak k~zamezení příjmu událostí od neautorizovaných systémů, jednak k~identifikaci původu události (zdrojové garáže) v~rámci nadřazeného systému. Podřízený systém tedy nemusí znát \texttt{id} garáže, ale jen \texttt{api\_key}.
 
 %generovani klice
 Vzhledem k~těmto požadavkům nelze použít jeden univerzální, ale je nutné pro každý registrovaný podřízený systém vygenerovat unikátní klíč. Ten je pak spolu s~dalšími záznamy o~garáži uložen v~databázi systému. K~vytváření klíčů jsem se rozhodl použít systém UUID, umožňující generování náhodných klíčů délky 128 bitů, které jsou (pro praktické účely) unikátní \cite{rfc4122}.
@@ -119,7 +119,7 @@ Třída \texttt{Event} obsahuje tyto údaje:
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/garage_state.pdf}
-    \caption[Diagram vyhodnocování stavu garáže]{Diagram vyhodnocování stavu garáže. Nadřazený systém reaguje na příchozí události odpovídající změnou stavu garáže. Změna stavu může být také vyvolána při pravidelné kontrole propásnutých hlášení (přechod do stavu \uv{Nehlásí se}).}
+    \caption[Diagram vyhodnocování stavu garáže]{Diagram vyhodnocování stavu garáže. Nadřazený systém reaguje na příchozí události odpovídající změnou stavu garáže. Změna stavu může být také vyvolána při pravidelné kontrole promeškaných hlášení (přechod do stavu \uv{Nehlásí se}).}
     \label{fig:garage_state}
 \end{figure}
 
@@ -144,14 +144,14 @@ Na základě příchozích událostí odesílá nadřazený systém notifikačn�
 \section{\textit{View}}
 \label{sec:de_view}
 
-Hlavním \textit{view} nadřazeného systému je webové uživatelské rozhraní. Zde se zobrazuje celkový stav systému, jednotlivých garáží, a zachycené události. Také jsou ze přístupné ovládací prvky pro správu systému. Návrhem tohoto rozhraní se zabývá následující sekce \ref{sec:de_web}.
+Hlavním \textit{view} nadřazeného systému je webové uživatelské rozhraní. Zde se zobrazuje celkový stav systému, jednotlivých garáží, a zachycené události. Také jsou zde přístupné ovládací prvky pro správu systému. Návrhem tohoto rozhraní se zabývá následující sekce \ref{sec:de_web}.
 
 Další \textit{view} aplikace představují odpovědi (například vygenerované API klíče) nadřazeného systému podřízeným systému při zpracování jejich požadavků. Tento \textit{view} je popsán společně s~API systému v~sekci \ref{sec:de_api}.
 
 \subsection{Webové rozhraní}
 \label{sec:de_web}
 
-Webové rozhraní představuje prostředí umožňující uživatel správu celého nadřazeného systému. Rozhraní tvoří hlavní stránka, stránky jednotlivých garáží a stránky uživatelského nastavení (změna hesla a nastavení notifikací).
+Webové rozhraní představuje prostředí umožňující uživateli správu celého nadřazeného systému. Rozhraní tvoří hlavní stránka, stránky jednotlivých garáží a stránky uživatelského nastavení (změna hesla a nastavení notifikací).
 
 Případy užití rozhraní se dají shrnout do tří kategorií, popsaných na obrázku \ref{fig:use_case_top}.
 
@@ -291,7 +291,7 @@ headers = {'apikey' : api_key}
 r = requests.post(url, headers=headers, verify=False)
 
 if r.status == 201:
-    #odpověď -- čas do dalšího hlášení
+    # odpověď -- čas do dalšího hlášení
     period = r.json()['period']
 
 \end{minted}
@@ -333,7 +333,7 @@ headers = {'apikey' : api_key}
 r = requests.post(url, headers=headers, verify=False)
 
 if r.status == 201:
-    #odpověď neobsahuje žádná data
+    # odpověď neobsahuje žádná data
     ...
 
 \end{minted}

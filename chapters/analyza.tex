@@ -378,7 +378,7 @@ S~počítačem je možné použít množství operačních systémů, z~nichž n
 
 Jednou z~výhod tohoto počítače je obrovské množství podporovaných hardwarových periferií a knihoven pro ně. V~této práci bych využil pouze zmíněný RTC obvod, případné další rozšiřování systému (například o~vestavěný LCD displej) bude na Raspberry Pi pravděpodobně snadnější než na jiných platformách.
 
-Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523 (pro bližší informace o~modulu viz \cite{rpi_rtc_ada}), jehož cena je příbližně 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč\footnote{Ceny převzaté z~obchodů Alza (\url{https://alza.cz}) a SnailShop(\url{www.snailshop.cz}), v~únoru 2018.}.
+Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523 (pro bližší informace o~modulu viz \cite{rpi_rtc_ada}), jehož cena je příbližně 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč\footnote{Ceny převzaté z~obchodů Alza (\url{https://alza.cz}) a SnailShop (\url{www.snailshop.cz}), v~únoru 2018.}.
 
 \subsection{Zybo Zynq-7000}
 \label{sec:an_zyb}
@@ -392,7 +392,7 @@ Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední ve
 
 Tento přípravek od společnosti Digilent je postavený na SoC Xilinx Zynq Z-7010. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru ARM Cortex A9 s~FPGA odpovídající sérii Artix-7 \cite{zybo_man}. 
 
-Díky tomu je možná těsná integraci mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign} \cite{hw_code}.
+Díky tomu je možná těsná integrace mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign} \cite{hw_code}.
 
 %dostupne operacni systemy -- petalinux, xilinux
 Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ubuntu. Kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje Xilinux také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá \textcolor{magenta}{IP jádro Xilibus}, které funguje jako adaptér mezi \textcolor{green}{procesorem} a FPGA modulem (viz obrázek \ref{fig:xilibus}). Ten pak ke komunikaci může využívat standardni \textcolor{blue2}{FIFO} fronty a nemusí se zabývat AXI sběrnicí \cite{xilibus}.
@@ -406,7 +406,7 @@ Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ub
 
 Jelikož Xilinux staví na Ubuntu (konkrétně na verzi 12.04 LTS \cite{xilibus}), neměl by být problém nainstalovat software potřebný pro provoz nadřazeného systému (viz sekci \ref{sec:an_plat}). 
 
-Přípravek je možné připojiř k~síti pomocí Ethernetového portu, který podporuje rychlost až 1Gb/s \cite{zybo_man}. WiFi připojení by bylo možné realizovat pomocí USB modulu. Dále přípravek obsahuje HDMI a VGA port, audio konektory, čtyři tlačítka, čtyři přepínače a slot pro SD kartu \cite{zybo_man}.
+Přípravek je možné připojit k~síti pomocí ethernetového portu, který podporuje rychlost až 1 Gb/s \cite{zybo_man}. WiFi připojení by bylo možné realizovat pomocí USB modulu. Dále přípravek obsahuje HDMI a VGA port, audio konektory, čtyři tlačítka, čtyři přepínače a slot pro SD kartu \cite{zybo_man}.
 
 Na přípravku je také k~dispozici 128 MB flash paměti \cite{zybo_man}, k~provozu tedy teoreticky není potřeba SD karta. Tato paměť by však pravděpodobně nestačila k~instalaci vhodného operačního systému a potřebného softwaru. I~zde by tedy bylo nutné použít SD kartu.
 
@@ -427,7 +427,7 @@ Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. T
  \hline 
  SoC & Broadcom BCM2837 & Xilinx Zynq Z-7010 \\ 
  Procesor & ARM Cortex A53 & ARM Cortex A9 \\
- & 4 jádra, 1,2 GHz & 2 jádra, 650 MHz \\
+ & 4 jádra, 1.2 GHz & 2 jádra, 650 MHz \\
  RAM & 1024 MB LPDDR2 & 512 MB DDR3 \\
  FPGA & -- & ekvivalent řady Artix-7 \\
  Úložiště & SD karta & 128 MB Flash, SD karta \\
@@ -439,7 +439,7 @@ Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. T
 \label{tab:plat_compare}
 \end{table}
 
-Jak vyplývá z~tabulky \ref{tab:plat_compare}, Raspberry Pi 3 poskytuje znatelně výkonnější procesor a více paměti za méně než třetinu ceny desky Zybo. Hlavní přidaná hodnota této platformy tedy spočívá v~integraci s~FPGA, ta má však v~případě této práce pouze velmi omezené využití. 
+Jak vyplývá z~tabulky \ref{tab:plat_compare}, Raspberry Pi 3 poskytuje znatelně výkonnější procesor a více paměti za méně než třetinu ceny desky Zybo. Hlavní přidaná hodnota Zybo tedy spočívá v~integraci s~FPGA, ta má však v~případě této práce pouze velmi omezené využití. 
 
 FPGA by bylo možné využít například k~šifrování úložiště, vzhledem k~předpokládáným objemům dat by však zrychlení oproti softwarovému šifrování neospravedlnilo vysokou cenu přípravku. Na druhou stranu vyšší výkon procesoru u~Raspberry Pi může mít pro nadřazený systém význam, například z~hlediska odezvy uživatelského rozhraní.
 
@@ -452,7 +452,7 @@ V~této části bych chtěl popsat alternativu k~provozu systému na dedikované
 
 Jedním z~možných uplatnění této varianty je monitorování více garážových komplexů. Místo lokálního nadřazeného systému by mohly všechny \textcolor{blue2}{podřízené systémy} z~každého komplexu komunikovat s~jedním \textcolor{magenta}{globálním systémem}, provozovaným na virtuálním serveru a dostupným z~internetu, jak je naznačeno na obrázku \ref{fig:aws}. Při tomto provozu je však nutnost mít registrovanou doménu a zabezpečit spojení podepsaným certifikátem.
 
-Virtuální servery nabízí například firma DigitalOcean. Cena serveru závisí na počtu výpočetních jader, dostupně RAM a velikosti úložiště. Nejlevnější konfigurace přijde na 5 dolarů měsíčně a nabízí jednojádrový procesor, 1 GB RAM a 25 GB SSD \cite{digi_pricing}. Předpokládám, že tento výkon by stačil pro základní provoz systému, v~případě vyššího počtu podřízených systémů je však možnost zvyšovat dostupnou RAM a jádra CPU. 
+Virtuální servery nabízí například firma DigitalOcean. Cena serveru závisí na počtu výpočetních jader, dostupné RAM a velikosti úložiště. Nejlevnější konfigurace stojí 5 USD měsíčně a nabízí jednojádrový procesor, 1 GB RAM a 25 GB SSD \cite{digi_pricing}. Předpokládám, že tento výkon by stačil pro základní provoz systému, v~případě vyššího počtu podřízených systémů je však možnost zvyšovat dostupnou paměť a přidávat procesorová jádra. 
 
 S~těmito virtuálními servery lze použít řadu běžných linuxových operačních systémů jako Ubuntu, Debian či Fedora \cite{digi_droplets}, dostupnost softwaru potřebného pro spuštění aplikace tedy není problém.
 
@@ -460,7 +460,7 @@ Hlavní nevýhodou tohoto přístupu je poněkud složitější nasazení a spu�
 
 Také je složitější distribuovat adresu serveru s~nadřazeným systémem podřízeným systémům. V~místní síti může podřízený systém sám nalézt nadřazený systém testováním odpovědi zařízení v~síti na registrační požadavek. Pokud by však byl nadřazený systém dostupný pouze na internetové doméně, bylo by nutné ji ručně zadat každému podřízenému systému.
 
-Další problém může představovat hlavní výhoda tohoto řešení, a to přístupnost serveru z~internetu. Ta významně zvyšuje \textit{attack surface} celého nadřazeného systému, zvlášt oproti alternativě využívající k~propojení systémů pouze Ethernet u~kterého má (na rozdíl od WiFi) provozovatel fyzický přehled o~připojených zařízeních.
+Další problém může představovat hlavní výhoda tohoto řešení, a to přístupnost serveru z~internetu. Ta významně zvyšuje \textit{attack surface} celého nadřazeného systému, zvlášt oproti alternativě využívající k~propojení systémů pouze Ethernet, u~kterého má (na rozdíl od WiFi) provozovatel fyzický přehled o~připojených zařízeních.
 
 \begin{figure}[h!]
     \centering
