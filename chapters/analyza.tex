@@ -244,10 +244,10 @@ Událost kontrolního hlášení by měla obsahovat tyto údaje:
     \item Identifikátor události v~databázi.
     \item Identifikátor garáže, ke které událost patří.
     \item Datum a čas zaznamenání události.
-    \item Datum a čas dalšího plánovaného hlášení.
+    \item Typ události (kontrolní hlášení).
 \end{itemize}
 
-Jako identifikátory pravděpodobně budou stačit 32bitová celá čísla. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, 64bitové reálné číslo, či 32bitové cele číslo -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplývá, že jedno kontrolní hlášení bude mít velikost alespoň $4 \cdot 32 = 128$ bitů.
+Identifikátory a typ události pravděpodobně budou 32bitová celá čísla. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, 64bitové reálné číslo, či 32bitové cele číslo -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplývá, že jedno kontrolní hlášení bude mít velikost alespoň $4 \cdot 32 = 128$ bitů.
 
 Pokud nadřazený systém monitoruje 30 garáží, přičemž každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 \cdot 24 \cdot 96 = 98304$ bitů, tedy asi 98 Kb. Dá se tedy předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
 
