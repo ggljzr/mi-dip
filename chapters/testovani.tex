@@ -5,7 +5,7 @@
 
 K~aplikaci jsem vytvořil sadu automatizovaných testů, které ověřují funkčnost jednotlivých komponent. Konkrétně jde o~testy pro \textit{model} aplikace (zde je testována především třída \texttt{Garage}), webové rozhraní a API systému. Tyto testy byly implementovány pomocí frameworku pytest \cite{pytest}.
 
-Části aplikace, u~kterých je automatizované testování problematikcé, jako například funkce využívající APScheduler (viz sekce \ref{sec:im_scheduler}) nebo zasílání notifikací, jsem otestoval ručně.
+Části aplikace, u~kterých je automatizované testování problematikcé, jako například funkce využívající APScheduler (viz sekci \ref{sec:im_scheduler}) nebo zasílání notifikací, jsem otestoval ručně.
 
 \subsection{Testovací konfigurace}
 
@@ -13,9 +13,9 @@ Před spuštěním automatizovaných testů je nutné upravit konfiguraci aplika
 
 Také je nutné vypnout ochranu proti CSRF v~celé aplikaci, což výrazně zjednodušší testování formulářů aplikace. Jelikož požadavky s~metodou \texttt{post} vytvořené v~testech nepocházejí z~webových stránek aplikace, nemohou dodat CSRF \textit{token}, který je součástí formuláře. 
 
-Sdílení \textit{tokenu} mezi aplikací a testy by sice bylo možné implementovat, bylo by však zbytečně komplikované. Za vhodnější postup považuji vypnutí CSRF ocharny pro většinu testů a funkčnost ochrany otestovat v~samostatném testu (viz sekci \ref{sec:te_csrf}).
+Sdílení \textit{tokenu} mezi aplikací a testy by sice bylo možné implementovat, bylo by však zbytečně komplikované. Za vhodnější postup považuji vypnutí CSRF ochrany pro většinu testů a funkčnost ochrany otestovat v~samostatném testu (viz sekci \ref{sec:te_csrf}).
 
-Změna konfigurace aplikace je provadena nastavením proměnné prostředí \texttt{GARAGE\_SYSTEM\_CONFIG} na soubor s~testovací konfigurací (blíže viz sekci \ref{sec:im_config}).
+Změna konfigurace aplikace je provadena nastavením proměnné prostředí \texttt{GARAGE\_SYSTEM\_CONFIG} na soubor s~testovací konfigurací (viz sekci \ref{sec:im_config}).
 
 \subsection{Testování \textit{modelu}}
 \label{sec:te_model}
@@ -28,7 +28,7 @@ Testovány jsou následující scénáře:
     \item Přidání garáže.
     \item Smazání garáže.
     \item Kontrola zmeškaných hlášení.
-    \item Zaslání kontrolího hlášení.
+    \item Zaslání kontrolního hlášení.
     \item Změna stavu po zaslání události.
     \item Zneplatnění API klíče.
 \end{itemize}
@@ -69,7 +69,7 @@ def test_check_report(garage):
 Testy API nadřazeného systému ověřují funkčnost následujících operací:
 
 \begin{itemize}
-    \item Vytvoření garáže při vypnutném reg. módu.
+    \item Vytvoření garáže při vypnutném registračním módu.
     \item Zaslání události.
     \item Zaslání události s~neplatným API klíčem.
 \end{itemize}
@@ -86,14 +86,14 @@ V~těchto testech je zkoumán \textit{controller} webového rozhraní a zobrazov
     \item Zobrazení událostí.
     \item Zobrazení chybové stránky při zadání neexistující garáže.
     \item Úprava dat garáže (označení, poznámka a telefonní číslo), včetně testu ověření neplatných hodnot.
-    \item Ǔprava uživatelského nastavení (telefonní číslo pro zasílání upozornění).
+    \item Úprava uživatelského nastavení (telefonní číslo pro zasílání upozornění).
 \end{itemize}
 
-V~každém testu je testováno, zda aplikace v~reakci na požadavek vygeneruje odpovídající webovou stránku a vrátí odpovídající návratový kód.
+V~každém testu je ověřováno, zda aplikace v~reakci na požadavek vygeneruje odpovídající webovou stránku a vrátí odpovídající návratový kód.
 
 Zobrazení testovaných stránek vyžaduje přihlášení do webového rozhraní nadřazeného systému. To by vyžadovalo zaslání přihlašovacího požadavku se správným heslem před spuštěním testů.
 
-Další možnost je nastavit přihlášení explicitně, modifikací testovací HTTP relace. Díky tomu není nutné spoléhat na funkcionalitu přihlašování, která je testována samostatně.
+Další možnost je nastavit přihlášení explicitně, modifikací testovací HTTP relace. Proto není nutné spoléhat na funkcionalitu přihlašování, která je testována samostatně.
 
 Framework Flask umožňuje k~aplikaci vygenerovat testovacího klienta, jehož relaci je možné libovolně modifikovat \cite{flask_testing}. Díky tomu lze nastavit proměnnou \texttt{logged\_in}, která je používána ke kontrole přihlášení (viz sekci \ref{sec:im_auth}). Nastavení této proměnné je provedeno následujícím způsobem:
 
@@ -128,14 +128,14 @@ Opět jsou kontrolovány návratové kódy odpovědí. Také je testováno, zda 
 
 Jelikož byla u~předchozích testů vypnuta ochrana proti CSRF, je vhodné provést ještě jednoduchý test, který ověří její fungování. Zde stačí zaslat testovanému formuláři data pomocí metody \texttt{post} bez platného CSRF \textit{tokenu}.
 
-Výchozí chování CSRF ochrany ve frameworku Flask je v~případě chybějícího nebo neplatného \textit{tokenu} zaslat návratový kód \textit{400 -- Bad request} \cite{flask_wtf}. V~těle odpovědi je pak informace o~problému s~\textit{tokenem}. Stačí tedy otestovat návratový kód a obsah odpovědi (viz ukázka \ref{lst:csrf_test}).
+Výchozí chování CSRF ochrany ve frameworku Flask je v~případě chybějícího nebo neplatného \textit{tokenu} zaslat návratový kód \textit{400 -- Bad request} \cite{flask_wtf}. V~těle odpovědi je pak informace o~problému s~\textit{tokenem}. Stačí tedy otestovat návratový kód a obsah odpovědi (viz ukázku \ref{lst:csrf_test}).
 
 \begin{listing}[htbp]
 \caption{\label{lst:csrf_test} Test ochrany proti CSRF.}
 \begin{minted}[bgcolor=codebg]{python}
 def test_csrf():
     ...
-    # vypnutí ochrany proti CSRF
+    # zapnutí ochrany proti CSRF
     app.config['WTF_CSRF_ENABLED'] = True
     app.config['WTF_CSRF_CHECK_DEFAULT'] = True
 
@@ -165,12 +165,12 @@ Aplikace k~provozu využívá server Apache. Při konfiguraci HTTPS na tomto ser
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/ssl_test.png}
-    \caption[Výsledky testu HTTPS konfigurace]{Výsledky testu HTTPS konfigurace poskytnutného společnstí Qualys.}
+    \caption[Výsledky testu HTTPS konfigurace]{Výsledky testu HTTPS konfigurace poskytnutného společností Qualys.}
     \label{fig:ssl_test}
 \end{figure}
 
 % napsat ze sme pri nasazovani prisli na novy chyby, ktery nebyly na lokale videt -- to s tim vodhlasovanim a secret_key, a to ze apache zahazuje ty headery s nepovolenejma znakama
-Nasazení aplikace v~reálném prostředí odhalilo několik chyb, které nebyly při lokálním testování patrné. V~první řadě se ukázalo, ze server Apache od verze 2.4 ignoruje v~příchozím požadavku hlavičky, které obsahují podtřžítka \cite{apache_headers_update}. Podtřžítka byla původně použita při zasílání hlavičky s~API klíčem (původně \texttt{api\_key}). Tuto chybu jsem opravil přejmenováním hlavičky na \texttt{apikey}.
+Nasazení aplikace v~reálném prostředí odhalilo několik chyb, které nebyly při lokálním testování patrné. V~první řadě se ukázalo, že server Apache od verze 2.4 ignoruje v~příchozím požadavku hlavičky, které obsahují podtržítka \cite{apache_headers_update}. Podtržítka byla původně použita při zasílání hlavičky s~API klíčem (původně \texttt{api\_key}). Tuto chybu jsem opravil přejmenováním hlavičky na \texttt{apikey}.
 
 Druhá chyba se týkala nastavení hodnoty \texttt{secret\_key} v~konfiguračním souboru aplikace. Tento klíč slouží k~podepisování HTTP relace či generování CSRF \textit{tokenů} \cite{flask_api}. V~konfiguraci aplikace použité při lokálním testování byl klíč vždy nastaven na náhodně vygenerovanou hodnotu.
 
@@ -184,7 +184,7 @@ V~konfiguračním souboru aplikace, který je použit při jejím nasazení, byl
 
 \subsection{Provozní server}
 
-Aplikace byla nasazena na virtuálním serveru ze služby Amazon EC2, s~jedním procesorovým jádrem a 1 GiB paměti. Použitý byl operační systém Ubuntu Xenial 16.04.
+Aplikace byla nasazena na virtuálním serveru ze služby Amazon EC2, s~jedním procesorovým jádrem a 1 GB paměti. Použitý byl operační systém Ubuntu Xenial 16.04.
 
 \section{Simulátor podřízeného systému}
 

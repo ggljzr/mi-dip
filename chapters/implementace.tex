@@ -1,7 +1,7 @@
 \chapter{Implementace}
 \label{sec:im}
 
-V~této kapitole je popsána implementace nadřazeného systému podle návrhu z~kapitoly \ref{sec:de}. Jednotlivé sekce tedy popisují implementační detaily dílčích částí návrhového vzoru MVC. Poslední sekce \ref{sec:im_auth} se zabývá implementací autentizace uživatele.
+V~této kapitole je popsána implementace nadřazeného systému podle návrhu z~kapitoly \ref{sec:de}. Jednotlivé sekce popisují implementační detaily dílčích částí návrhového vzoru MVC. Poslední sekce \ref{sec:im_auth} se zabývá implementací autentizace uživatele.
 
 \section{Struktura aplikace}
 
@@ -85,9 +85,7 @@ Plánovač se kromě kontroly hlášení hodí také při vypínání registrač
 
 \subsection{Zasíláním upozornění}
 
-%posilani mailu pomoci toho eventu zmeny v sqlalchemy
 
-%posilani mailu obecne jak je implementovany
 
 \section{Implementace \textit{view}}
 
@@ -115,7 +113,7 @@ Jinja umožňuje dynamické generování HTML stránek z~předem vytvořených �
 \end{minted}
 \end{listing}
 
-Jinja také ďovoluje definici filtrů, sloužících ke zpracování zobrazovaných dat \cite{jinja}. V~ukázce \ref{lst:jinja_table} je použit filtr \texttt{event\_filter}. Ten dostane jako vstup instanci třídy \texttt{event} a vytvoří její textovou reprezentaci s~údaji o~typu a času události. Tím je oddělena implementace této třídy v~\textit{modelu} a její zobrazení ve \textit{view}.
+Jinja také ďovoluje definici filtrů sloužících ke zpracování zobrazovaných dat \cite{jinja}. V~ukázce \ref{lst:jinja_table} je použit filtr \texttt{event\_filter}. Ten dostane jako vstup instanci třídy \texttt{event} a vytvoří její textovou reprezentaci s~údaji o~typu a času události. Tím je oddělena implementace této třídy v~\textit{modelu} a její zobrazení ve \textit{view}.
 
 \subsection{Formuláře}
 \label{sec:im_forms}
@@ -198,7 +196,7 @@ Pokud funkce zpracovávající požadavek mění obsah databáze (například vy
 
 %vyjimka z csrf (neni potreba login, prokazuje se klicem)
 
-Způsobem popsaným v~sekci \ref{sec:im_controller} je implementováno i API nadřazeného systému. Operace a URL ze sekce \ref{sec:de_api} jsou spárovány s~příslušnými funkcemi, upravujícími \textit{model} aplikace.
+Způsobem popsaným v~sekci \ref{sec:im_controller} je implementováno i API nadřazeného systému. Operace a URL ze sekce \ref{sec:de_api} jsou spárovány s~příslušnými funkcemi upravujícími \textit{model} aplikace.
 
 Jelikož se podřízené systémy prokazují pomocí API klíče, není zde nutné provádět žádnou kontrolu přihlášení jako při zpracování požadavků ve webovém rozhraní. Pouze je zkontrolována přítomnost zaslaného klíče v~databázi. Také není nutné implementovat ochranu proti CSRF útokům.
 
