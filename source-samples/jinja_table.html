@@ -1,0 +1,14 @@
+<table class=basic_table>
+    <tr>
+    <th>Seznam událostí</th>
+    </tr>
+    <!-- použítí cyklu v systému Jinja -->
+    {% for event in garage.events %}
+        <tr>
+            <!-- přístup k proměnné pomocí bloku {{ }} -->
+            <td class=event_type_{{event.type}}>
+                {{ event | event_filter }}
+            </td>
+        </tr>
+    {% endfor %} <!--konec bloku cyklu -->
+</table>
