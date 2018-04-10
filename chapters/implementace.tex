@@ -129,11 +129,13 @@ U~některých polí je potřeba provádět kontrolu zadávaných hodnot (napří
 Využití tohoto frameworku při implementaci formuláře pro editaci údajů garáže popisuje ukázka \ref{lst:wtform}. Vygenerování HTML kódu formuláře, včetně zobrazení chybových zpráv po odeslání neplatného formuláře, je provedeno pomocí systému Jinja.
 
 \begin{listing}[htbp]
-\caption{\label{lst:wtform} Implementace formuláře pro editaci údajů garáže pomocí frameworku WTForms. Při kontrole vstupu je ověřen rozsah zadávané periody.}
+\caption{\label{lst:wtform} Implementace formuláře pro editaci údajů garáže pomocí frameworku WTForms. Při kontrole vstupu je ověřen rozsah zadávané periody a telefonní číslo. Platnost telefonního čísla je ověřena pomocí knihovny Phonenumbers \cite{phonenumbers}.}
 \begin{minted}[bgcolor=codebg]{python}
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, TextAreaField
 from wtforms.validators import NumberRange
+
+...
 
 class GarageForm(FlaskForm):
     tag = StringField('Označení')
@@ -141,6 +143,10 @@ class GarageForm(FlaskForm):
         validators=[
         NumberRange(1, 999, 
             message='Perioda musí být mezi 1 a 999')
+        ])
+    phone = StringField('Telefonní číslo', 
+        validators=[
+        validate_phone_number
         ])
     note = TextAreaField('Poznámka')
 \end{minted}
