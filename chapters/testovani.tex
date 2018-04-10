@@ -41,27 +41,7 @@ K~tomu je použita knihovnu FreezeGun \cite{freezegun}. Tato knihovna umožňuje
 
 \begin{listing}[htbp]
 \caption{\label{lst:freezegun} Test kontroly promeškaných hlášení. Pomocí knihovny FreezeGun je čas nastaven na půlnoc 1. 1. 2011. Poté je čas posunut o~dvě hodiny a otestována změna stavu garáže.}
-\begin{minted}[bgcolor=codebg]{python}
-from freezegun import freeze_time
-
-# všechna volání datetime.datetime.now()
-# pocházející z~této funkce vrátí
-# hodnotu 2011-01-01 00:00:00
-@freeze_time("2011-01-01 00:00:00")
-def test_check_report(garage):
-    new_garage = garage.add_garage()
-    new_garage.period = 60 # explicitní nastavení periody
-    new_garage.add_report_event()
-    new_garage.check_report()
-
-    assert new_garage.state == garage.STATE_OK
-
-    # nastavení návratové hodnoty funkce now()
-    # v~rámci bloku with
-    with freeze_time("2011-01-01 02:00:00"):
-        new_garage.check_report()
-        assert new_garage.state == garage.STATE_NOT_RESPONDING
-\end{minted}
+\inputminted[bgcolor=codebg]{python}{source-samples/freezegun.py}
 \end{listing}
 
 \subsection{Testování API}
@@ -99,14 +79,7 @@ Framework Flask umožňuje k~aplikaci vygenerovat testovacího klienta, jehož r
 
 \begin{listing}[htbp]
 \caption{\label{lst:logged_in} Explicitní nastavení proměnné \texttt{logged\_in} na požadovanou hodnotu. Pomocí takto modifikovaného testovacího klienta lze zasílat požadavky, na které bude aplikace reagovat jako při přihlášení.}
-\begin{minted}[bgcolor=codebg]{python}
-# app_client je testovací klient Flask aplikace
-# získaný pomocí metody test_client()
-def set_logged_in(app_client, value):
-    with app_client as c:
-        with c.session_transaction() as s:
-            s['logged_in'] = value
-\end{minted}
+\inputminted[bgcolor=codebg]{python}{source-samples/logged_in.py}
 \end{listing}
 
 \subsection{Testování autentizace uživatele}
@@ -132,27 +105,8 @@ Výchozí chování CSRF ochrany ve frameworku Flask je v~případě chybějíc�
 
 \begin{listing}[htbp]
 \caption{\label{lst:csrf_test} Test ochrany proti CSRF.}
-\begin{minted}[bgcolor=codebg]{python}
-def test_csrf():
-    ...
-    # zapnutí ochrany proti CSRF
-    app.config['WTF_CSRF_ENABLED'] = True
-    app.config['WTF_CSRF_CHECK_DEFAULT'] = True
-
-    # zaslání požadavku na přihlášení bez platného tokenu
-    response = app.test_client().post('/login', data={
-        # na zaslaném hesle nezáleží
-        # žádost bude odmítnuta na základě neplatného tokenu
-        'password' : 'test password',
-        'csrf_token' : 'some fake token'
-        })
-
-    assert response.status == '400 BAD REQUEST'
-    # odpověď by měla zmiňovat CSRF
-    assert 'CSRF' in response.data.decode('utf-8')
-\end{minted}
+\inputminted[bgcolor=codebg]{python}{source-samples/csrf_test.py}
 \end{listing}
-
 
 \section{Testovací nasazení aplikace}
 
