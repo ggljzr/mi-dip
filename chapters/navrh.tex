@@ -241,19 +241,7 @@ Registrační požadavek má následující formát (zaslání registračního p
 
 \begin{listing}[htbp]
 \caption{\label{lst:api_reg} Zaslání registračního požadavku nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}.}
-\begin{minted}[bgcolor=codebg]{python}
-import requests
-# server nadřazeného systemu je přístupný
-# na adrese raspberrypi.local
-url = 'https://raspberrypi.local/api/garages'
-
-# požadavek 'post', bez ověření
-# self-signed certifikátu
-r = requests.post(url, verify=False)
-
-if r.status == 201:
-    api_key = r.json()['api_key']
-\end{minted}
+\inputminted[bgcolor=codebg]{python}{source-samples/api_reg.py}
 \end{listing}
 
 \newpage
@@ -280,25 +268,8 @@ Požadavek zasílající kontrolní hlášení má tento formát:
 
 \begin{listing}[htbp]
 \caption{\label{lst:api_report} Zaslání kontrolního hlášení nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}}
-\begin{minted}[bgcolor=codebg]{python}
-import requests
-# server nadřazeného systému je přístupný
-# na adrese raspberrypi.local
-url = 'https://raspberrypi.local/api/report_event'
+\inputminted[bgcolor=codebg]{python}{source-samples/api_report.py}
 
-# API klíč (získaný například reg. požadavkem)
-# je zasílán v~hlavičce požadavku
-headers = {'apikey' : api_key}
-
-# požadavek 'post', bez ověření
-# self-signed certifikátu
-r = requests.post(url, headers=headers, verify=False)
-
-if r.status == 201:
-    # odpověď -- čas do dalšího hlášení
-    period = r.json()['period']
-
-\end{minted}
 \end{listing}
 
 \newpage
@@ -327,22 +298,8 @@ Vytváření dalších událostí je stejné jako vytváření kontrolního hlá
 \end{itemize}
 
 \begin{listing}[htbp]
-\caption{\label{lst:api_report} Zaslání události detekce kouře nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}.}
-\begin{minted}[bgcolor=codebg]{python}
-import requests
-
-# stejné jako při zasílání kontrolního hlášení
-# liší se pouze url
-url = 'https://raspberrypi.local/api/smoke_event'
-headers = {'apikey' : api_key}
-
-r = requests.post(url, headers=headers, verify=False)
-
-if r.status == 201:
-    # odpověď neobsahuje žádná data
-    ...
-
-\end{minted}
+\caption{\label{lst:api_event} Zaslání události detekce kouře nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}.}
+\inputminted[bgcolor=codebg]{python}{source-samples/api_event.py}
 \end{listing}
 
 \section{Autentizace uživatele}
