@@ -1,1 +1,2 @@
 * api uz je definovany ve zkratkach, psat ho znova do ty teorie?
+* jak s tou cenou toho gsm modulu? von muze bejt relativne blbe dostupnej
