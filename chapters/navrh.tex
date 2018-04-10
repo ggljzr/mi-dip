@@ -133,13 +133,13 @@ Kromě událostí měnících stav garáže nadřazený systém ještě rozezná
 
 \subsubsection{Zasílání upozornění}
 
-Na základě příchozích událostí odesílá nadřazený systém notifikační e-maily na adresu zvolenou uživatelem. E-mail s~příslušnou událostí je odeslán vždy při změně stavu garáže (mimo změny do stavu \uv{OK}). Tím je zamezeno zbytečnému zasílání duplicitních e-mailů.
+% Na základě příchozích událostí odesílá nadřazený systém notifikační e-maily na adresu zvolenou uživatelem. E-mail s~příslušnou událostí je odeslán vždy při změně stavu garáže (mimo změny do stavu \uv{OK}). Tím je zamezeno zbytečnému zasílání duplicitních e-mailů.
 
-%tady pak asi bude i jak to bude celkove s tema mailama
+Na základě příchozích událostí odesílá nadřazený systém SMS s~notifikacemi o~změnách stavu garáží. SMS jsou zasílány uživateli nadřazeného systému, tedy například správci či majiteli garáží. Tyto zprávy obsahují informace o~události, včetně označení garáže, ve které k~ní došlo. 
 
-%taky popsat jaky sou moznosti autorizace na tim gmailu (proste smtp meno heslo a pak ty oauth veci) a ze nic z toho neni pro nas uplne idealni
+Další upozornění jsou zasílána osobám pronajímajícím si jednotlivé garáže (pokud mají v~nadřazeném systému vyplněné správné telefonní číslo). V~nich je kromě informace o~proběhlé události také zobrazeno číslo, na kterém mohou kontaktovat správce garáží.
 
-%vidim to bud teda ze tam bude proste smtp klient a holt meno (pak ta emailova schranka muze bejt vicemene jakakoliv, to je taky trochu vyhoda -- tj si uzivatel zalozi stranku treba na seznamu, vyplni meno a heslo a ma to hotovy) a heslo a nebo pouzit nakou sluzbu na posilani mailu. Ten google ma tu oauth autorizaci hrozne slozitou, by asi bylo lepsi neco jako https://github.com/sendgrid/sendgrid-python (https://sendgrid.com/), tam staci proste api klic 
+Oba typy zpráv jsou zasílány vždy při změně stavu garáže (mimo změny do stavu \uv{OK}). Tím je zamezeno zbytečnému zasílání duplicitních SMS.
 
 \section{\textit{View}}
 \label{sec:de_view}
