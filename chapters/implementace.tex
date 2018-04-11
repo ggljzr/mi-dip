@@ -51,6 +51,12 @@ Plánovač se kromě kontroly hlášení hodí také při vypínání registrač
 \subsection{Zasíláním upozornění}
 
 % napsat ze zpravu posilame na zmenu stavu -> mame ten hook udelanej pres sqlalchemy
+Nadřazený systém zasílá SMS upozornění při změně stavu garáže (kromě změny do stavu \uv{OK}, viz sekci \ref{sec:de_event_eval}). Změnu stavu je možné hlídat pomocí dekorátoru \texttt{listens\_for} z~frameworku SQLAlchemy \cite{sqlalchemy_doc}, jak je naznačeno v~ukázce \ref{lst:state_change}.
+
+\begin{listing}[htbp]
+\caption{\label{lst:state_change} Odeslání SMS na základě změny stavu garáže. Změna stavu je zachycena pomocí dekorátoru \texttt{listens\_for}. Jelikož \texttt{listens\_for} reaguje pouze na nastavení hodnoty \texttt{Garage.state}, je ještě nutné provést kontrolu, zda opravdu došlo ke změně stavu.}
+\inputminted[bgcolor=codebg]{python}{source-samples/state_change.py}
+\end{listing}
 
 % mozna naka vosekana ukazka kodu toho hooku
 
