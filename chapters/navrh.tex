@@ -25,7 +25,7 @@ Hlavní motivací pro použití tohoto vzoru je snadná rozšiřitelnost. Pokud 
 
 Tento návrhový vzor popisuje pouze nadřazený systém spravující garáže. Kromě toho je součástí aplikace ještě autentizace uživatele při přístupu do webového rozhraní. Tuto funkci jsem se rozhodl pojmout jako samostatnou komponentu, popsanou v~sekci \ref{sec:de_auth}.
 
-\section{\textit{Model}}
+\section{Komponenta \textit{model}}
 \label{sec:de_model}
 
 \textit{Model} představuje jádro nadřazeného systému. Je zde implementována vnitřní reprezentace uchovávaných dat, což jsou především zaznamenané události. Každá událost má také svého původce, tedy garáž (přesněji podřízený systém v~této garáži).
@@ -142,7 +142,7 @@ Další upozornění jsou zasílána osobám pronajímajícím si jednotlivé ga
 
 Oba typy zpráv jsou zasílány vždy při změně stavu garáže (mimo změny do stavu \uv{OK}). Tím je zamezeno zbytečnému zasílání duplicitních SMS.
 
-\section{\textit{View}}
+\section{Komponenta \textit{view}}
 \label{sec:de_view}
 
 Hlavním \textit{view} nadřazeného systému je webové uživatelské rozhraní. Zde se zobrazuje celkový stav systému, jednotlivých garáží, a zachycené události. Také jsou zde přístupné ovládací prvky pro správu systému. Návrhem tohoto rozhraní se zabývá následující sekce \ref{sec:de_web}.
@@ -204,7 +204,7 @@ V~souboru je uložen otisk přístupového hesla (více v~sekci \ref{sec:de_auth
 \end{figure}
 
 
-\section{\textit{Controller}}
+\section{Komponenta \textit{controller}}
 \label{sec:de_controller}
 
 \textit{Controller} slouží ke zpracování požadavků uživatele a podřízených systémů. Jelikož jde o~HTTP požadavky, definuje \textit{controller} URL, přiřazuje k~nim akce, které se mají provést (kontrola přihlášení, přesměrování atd.) a vrací příslušné odpovědi (například vygenerované stránky).
