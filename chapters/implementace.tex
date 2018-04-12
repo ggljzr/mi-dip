@@ -58,13 +58,13 @@ Nadřazený systém zasílá SMS upozornění při změně stavu garáže (krom�
 \inputminted[bgcolor=codebg]{python}{source-samples/state_change.py}
 \end{listing}
 
-% mozna naka vosekana ukazka kodu toho hooku
+K~odeslílání SMS pomocí GSM modulu je použit program Gammu. S~ním lze odesílat zprávy pomocí příkazové řádky a příkazu \texttt{gammu sendsms} \cite{gammu_man}. Tento přístup však není příliš vhodný. 
 
-% napsat jak se pouziva gammu, ze sme to zkouseli s modemama huawei e1750 a e3131
+Jelikož by byl příkaz volán přímo z~kódu aplikace nadřazeného systému, bylo by nutné tuto aplikaci spouštět s~vhodnými přístupovými právy, jelikož je vyžadován přístup k~sériové lince. Příkaz je navíc blokující -- po jeho spuštění je nutné čekat na odeslání SMS a odpověď mobilní sítě. To by zbytečně zpomalovalo zasílání událostí, které vyvolají změnu garáže a odeslání upozornění.
 
-% napsat ze ten program gammu samotnej se moc nehodi > je blokujici a potrebuje extra pristupovy prava ktery by musel mit process ve kterym bezi cela webova aplikace, a je teda lepsi pouzit ten demon gammu-smsd
+Pro odesílání SMS je vhodnější využít démona Gammu SMSD, který běží na pozadí a v~pravidelných intervalech odesílá všechny SMS přidané do jeho fronty pomocí příkazu \texttt{gammu-smsd-inject} \cite{gammu_man}. 
 
-% trochu popsat jak funguje to gammu-smsd
+Přidání zprávy do fronty je provedeno okamžitě, není nutné čekat na reakci GSM modulu či sítě. Pro přidání také nejsou potřeba žádná speciální práva, stačí pouze přístup ke složce, která slouží jako fronta pro zprávy k~odeslání \cite{gammu_man}.
 
 \section{Implementace \textit{view}}
 
