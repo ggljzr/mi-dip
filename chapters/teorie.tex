@@ -31,12 +31,23 @@ Návrhový vzor MVC je použit při implementaci webové aplikace nadřazeného 
 
 \section{Protokol HTTP}
 
-\cite{tcp}
+Při implementaci nadřazeného systému byl rozsáhle využit protokol HTTP (na tomto protokolu je postaveno uživatelské rozhraní a komunikace s~podřízenými systémy). Tato sekce popisuje s~ním spojené principy, které jsou zmiňovány v~dalším textu práce. 
 
 \subsection{Model \textit{client/server}}
 
+Protokol používá model \textit{client/server}. Klienti zasílají HTTP serveru požadavky, které server zpracovává a vytváří příslušné odpovědi \cite{tcp}. Spojení je tedy iniciováno na straně klienta a server pouze odpovídá. 
+
 \subsection{Požadavek}
-% u pozadavku popsat navratovy kod, metody, hlavicku
+
+Požadavek (\textit{request}) zasílaný klientem tvoří následující části \cite{tcp}:
+
+\begin{itemize}
+    \item Metoda a URL požadavku. V~této práci jsou použity především metody \texttt{get} a \texttt{post}. Metoda \texttt{get} slouží ke získávání dat (například HTML stránek) ze serveru. Metoda \texttt{post} je určená k~zasílání nových informací serveru.
+    \item Záhlaví, které obsahuje jednotlivé hlavičky požadavku. Tato část je v~práci využita pro zaslání API klíče podřízeného systému, viz sekci \ref{sec:de_api}.
+    \item Volitelná přenášená data (například obsah HTML formuláře).
+\end{itemize}
+
+Na požadavek server odpovídá zasláním požadovaných dat (pokud jsou dostupná) a návratovým kódem, který indikuje úspěšnost dotazu \cite{tcp}.
 
 \subsection{Relace}
 
