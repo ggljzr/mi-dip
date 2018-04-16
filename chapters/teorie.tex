@@ -1,5 +1,5 @@
 \chapter{Teoretický základ}
-\label{sec:te}
+\label{sec:th}
 
 % tcp/ip, osi k tomu asi dam jen citaci (ty knizky) do toho textu to tam je stejne zmineny jednou
 
@@ -49,6 +49,10 @@ Na požadavek server odpovídá zasláním požadovaných dat (pokud jsou dostup
 
 \subsection{Rozšíření HTTPS}
 
+Samotný protokol HTTP neimplementuje žádné šifrování, proto vzniklo jeho rozšíření zabezpečené protokolem SSL či TLS \footnote{Dále je pro jednoduchost zmiňován jen protokol TLS.}, nazvané HTTPS \cite{tcp_sec}.
+
+Protokol TLS umožňuje autentizaci serveru pomocí certifikátu (viz sekci \ref{sec:th_cert}) a domluvu serveru a klienta na společném klíči \cite{tcp_sec}. Tímto klíčem je pak šifrována veškerá komunikace mezi klientem a serverem \cite{tcp_sec}.
+
 \section{Protokol MQTT}
 
 \subsection{Model \textit{publisher/subscriber}}
@@ -60,6 +64,7 @@ Na požadavek server odpovídá zasláním požadovaných dat (pokud jsou dostup
 % \section{Vícevláknová obsluha} ????
 
 \section{Certifikát}
+\label{sec:th_cert}
 
 \cite{tcp_sec}
 
