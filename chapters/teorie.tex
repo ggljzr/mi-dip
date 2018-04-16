@@ -72,6 +72,11 @@ Certifikát je obecně struktura sloužící k~ověření totožnosti účastní
 
 \subsection{Certifikační autorita}
 
+Certifikační autorita je subjekt, který se zabývá vydáváním certifikátů. Teoreticky může certifikát vydat kdokoliv, k~ověření totožnosti serveru lze však použít pouze certifikát vydaný důvěryhodnou certifikační autoritou.
+
+U~takového certifikátu lze ověřit jeho pravost a tím zaručit, že nebyl podvržen (útok založený na podvrženém certifikátu popisuje sekce \ref{sec:th_mitm}) \cite{tcp_sec}.
+
+Využití certifikátů v~rámci této práce je blíže popsáno v~sekci \ref{sec:an_certs}.
 
 \section{CSRF -- \textit{Cross-site request forgery}}
 
@@ -100,6 +105,7 @@ Webová aplikace implementovaná v~této práci využívá právě tento způsob
 \textit{Attack surface} popisuje všechny možné body, kde by mohl potencionální útočník napadnout daný systém \cite{attack_surface_owasp}. V~této práci je zmíněn v~sekci \ref{sec:an_cloud}, ve spojitosti se zvýšeným ohrožením při provozu serveru dostupného z~internetu.
 
 \section{\textit{Man-in-the-middle} útok}
+\label{sec:th_mitm}
 
 \textit{Man-in-the-middle} útok na protokolu HTTPS využívá situace, kdy certifikát pro ověření totožnosti serveru není důvěryhodný a může být zfalšován \cite{mitm}. 
 
