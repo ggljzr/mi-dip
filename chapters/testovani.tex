@@ -124,11 +124,11 @@ Aplikace k~provozu využívá server Apache2. Při konfiguraci HTTPS na tomto se
 \end{figure}
 
 % napsat ze sme pri nasazovani prisli na novy chyby, ktery nebyly na lokale videt -- to s tim vodhlasovanim a secret_key, a to ze apache zahazuje ty headery s nepovolenejma znakama
-Nasazení aplikace v~reálném prostředí odhalilo několik chyb, které nebyly při lokálním testování patrné. V~první řadě se ukázalo, že server Apache od verze 2.4 ignoruje v~příchozím požadavku hlavičky, které obsahují podtržítka \cite{apache_headers_update}. Podtržítka byla původně použita při zasílání hlavičky s~API klíčem (původně \texttt{api\_key}). Tuto chybu jsem opravil přejmenováním hlavičky na \texttt{apikey}.
+Nasazení aplikace v~reálném prostředí odhalilo několik chyb, které nebyly při lokálním testování patrné. V~první řadě se ukázalo, že server Apache2 od verze 2.4 ignoruje v~příchozím požadavku hlavičky, které obsahují podtržítka \cite{apache_headers_update}. Podtržítka byla původně použita při zasílání hlavičky s~API klíčem (původně \texttt{api\_key}). Tuto chybu jsem opravil přejmenováním hlavičky na \texttt{apikey}.
 
 Druhá chyba se týkala nastavení hodnoty \texttt{secret\_key} v~konfiguračním souboru aplikace. Tento klíč slouží k~podepisování HTTP relace či generování CSRF \textit{tokenů} \cite{flask_api}. V~konfiguraci aplikace použité při lokálním testování byl klíč vždy nastaven na náhodně vygenerovanou hodnotu.
 
-Po nasazení se ukázalo, že modul WSGI \cite{python_wsgi} použitý pro spárování Python aplikace se serverem Apache tuto aplikaci v~některých případech restartuje. To by obecně ničemu nevadilo, nicméně při každém restartu byla znovu vygenerována nová hodnota \texttt{secret\_key}, což vedlo k~zneplatnění všech aktivních HTTP relací a CSRF \textit{tokenů}. Uživatel rozhraní tak byl náhle odhlášen nebo nemohl odesílat formuláře. 
+Po nasazení se ukázalo, že modul WSGI \cite{python_wsgi} použitý pro spárování Python aplikace se serverem Apache2 tuto aplikaci v~některých případech restartuje. To by obecně ničemu nevadilo, nicméně při každém restartu byla znovu vygenerována nová hodnota \texttt{secret\_key}, což vedlo k~zneplatnění všech aktivních HTTP relací a CSRF \textit{tokenů}. Uživatel rozhraní tak byl náhle odhlášen nebo nemohl odesílat formuláře. 
 
 V~konfiguračním souboru aplikace, který je použit při jejím nasazení, bylo proto generování klíče nahrazeno pevnou hodnotou (dostatečně dlouhým náhodně generovaným klíčem, který však není reinicializován při restartu aplikace).
 
