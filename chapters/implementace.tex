@@ -60,7 +60,7 @@ Nadřazený systém zasílá SMS upozornění při změně stavu garáže (krom�
 
 K~odeslílání SMS pomocí GSM modulu je použit program Gammu. S~ním lze odesílat zprávy pomocí příkazové řádky a příkazu \texttt{gammu sendsms} \cite{gammu_man}. Tento přístup však není příliš vhodný. 
 
-Jelikož by byl příkaz volán přímo z~kódu aplikace nadřazeného systému, bylo by nutné tuto aplikaci spouštět s~vhodnými přístupovými právy, jelikož je vyžadován přístup k~sériové lince. Příkaz je navíc blokující -- po jeho spuštění je nutné čekat na odeslání SMS a odpověď mobilní sítě. To by zbytečně zpomalovalo zasílání událostí, které vyvolají změnu garáže a odeslání upozornění.
+Jelikož by byl příkaz volán přímo z~kódu aplikace nadřazeného systému, bylo by nutné tuto aplikaci spouštět s~vhodnými přístupovými právy, protože je vyžadován přístup k~sériové lince. Příkaz je navíc blokující -- po jeho spuštění je nutné čekat na odeslání SMS a odpověď mobilní sítě. To by zbytečně zpomalovalo zasílání událostí, které vyvolají změnu garáže a odeslání upozornění.
 
 Pro odesílání SMS je vhodnější využít démona Gammu SMSD, který běží na pozadí a v~pravidelných intervalech odesílá všechny SMS přidané do jeho fronty pomocí příkazu \texttt{gammu-smsd-inject} \cite{gammu_man}. 
 
