@@ -1,2 +1,3 @@
 * jak s tou cenou toho gsm modulu? von muze bejt relativne blbe dostupnej
 * jestli dat do teorie i symetrickou/asymetrickou kryptografii, ktera tam je potreba toho certifikatu
+* jak to je s licenci? na githubu mam mit
