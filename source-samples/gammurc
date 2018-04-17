@@ -1,4 +1,6 @@
 [gammu]
+# komunikace pomocí AT příkazů
+# linka nastavená na 19200 baudů
 connection = at19200
 port = /dev/ttyUSB0
 device = /dev/ttyUSB0
