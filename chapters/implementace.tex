@@ -49,6 +49,7 @@ Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apschedu
 Plánovač se kromě kontroly hlášení hodí také při vypínání registračního módu. Ten z~bezpečnostních důvodů po aktivaci běží po dobu tří minut. Jeho vypnutí je naplánováno obdobně jako kontrola hlášení, jediný rozdíl je, že úkol není spouštěn v~pravidelném intervalu, ale pouze jednou.
 
 \subsection{Zasíláním upozornění}
+\label{sec:im_notifications}
 
 % napsat ze zpravu posilame na zmenu stavu -> mame ten hook udelanej pres sqlalchemy
 Nadřazený systém zasílá SMS upozornění při změně stavu garáže (kromě změny do stavu \uv{OK}, viz sekci \ref{sec:de_event_eval}). Změnu stavu je možné hlídat pomocí dekorátoru \texttt{listens\_for} z~frameworku SQLAlchemy \cite{sqlalchemy_doc}, jak je naznačeno v~ukázce \ref{lst:state_change}.
