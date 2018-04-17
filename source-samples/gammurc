@@ -1,0 +1,18 @@
+[gammu]
+connection = at19200
+port = /dev/ttyUSB0
+device = /dev/ttyUSB0
+synchronizetime = yes
+
+[smsd]
+# pro ukládání zpráv je použit souborový systém
+service = files
+logfile = syslog
+# kontrola složek každých 5 sekund
+loopsleep = 5
+
+# složky pro ukládání SMS
+inboxpath = /var/spool/gammu/inbox/
+outboxpath = /var/spool/gammu/outbox/
+sentsmspath = /var/spool/gammu/sent/
+errorsmspath = /var/spool/gammu/error/

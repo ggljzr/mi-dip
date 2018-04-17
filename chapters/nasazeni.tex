@@ -39,22 +39,26 @@ K doručení Python aplikace je použit modul mod\_wsgi, jehož základní konfi
 
 \newpage
 
-\subsection{Přístup k databázi a \texttt{user\_config.ini}}
+\subsection{Přístup k databázi a souboru s uživatelským nastavením}
 
-Aplikace nadřazeného systému potřebuje měnit obsah databáze a souboru s uživatelským nastavením. Je tedy nutné povolit uživateli, pod kterým aplikace běží, čtení a zápis těchto souborů. 
+Aplikace nadřazeného systému potřebuje měnit obsah databáze a souboru s uživatelským nastavením (\texttt{user\_config.ini}). Je tedy nutné povolit uživateli, pod kterým aplikace běží, čtení a zápis těchto souborů. 
 
 Apache2 spouští aplikace jako uživatel \texttt{www-data}, přístup k souborům je tedy možné povolit způsobem popsaným v ukázce \ref{lst:wwwdata}.
 
 \begin{listing}[htbp]
-\caption{\label{lst:wwwdata} Nastavení přistupových práv k databázi a souboru s uživatelským nastavením.}
+\caption{\label{lst:wwwdata} Nastavení přistupových práv k databázi a souboru s uživatelským nastavením. Umístění souborů je možné nastavit v konfiguračním souboru aplikace (viz sekci \ref{sec:im_config}).}
 \inputminted[bgcolor=codebg]{bash}{source-samples/wwwdata.sh}
 \end{listing}
-
 
 \subsection{Konfigurace HTTPS}
 
 % zapnout mod_ssl
 
 \section{Konfigurace Gammu SMSD}
+
+\begin{listing}[htbp]
+\caption{\label{lst:gammurc} Konfigurční soubor Gammu SMSD}
+\inputminted[bgcolor=codebg]{ini}{source-samples/gammurc}
+\end{listing}
 
 \section{Konfigurace RTC}
