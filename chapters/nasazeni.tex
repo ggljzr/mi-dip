@@ -28,12 +28,12 @@ K instalaci a spuštění aplikace je zapotřebí tento software:
 
 \section{Konfigurace Apache2}
 
-Po instalaci potřebného softwaru je nejprve nutné nakonfigurovat server Apache2, aby doručoval aplikaci nadřazeného systému. 
+Po instalaci potřebného softwaru je nejprve nutné nakonfigurovat server Apache2 tak, aby doručoval aplikaci nadřazeného systému. 
 
 K doručení Python aplikace je použit modul mod\_wsgi, jehož základní konfigurace je popsána v článku \cite{flask_wsgi}. Spuštění aplikace pomocí mod\_wsgi je provedeno pomocí skriptu z ukázky \ref{lst:wsgi_script}.
 
 \begin{listing}[htbp]
-\caption{\label{lst:wsgi_script} Skript pro spuštění aplikace na serveru Apache2 pomocí modulu mod\_wsgi. Tento skript importuje objekt aplikace nadřazeného systému (\texttt{app}), který je pak používán WSGI modulem \cite{flask_wsgi}.}
+\caption{\label{lst:wsgi_script} Skript pro spuštění aplikace na serveru Apache2 pomocí modulu mod\_wsgi. Skript importuje objekt aplikace nadřazeného systému (\texttt{app}), který je pak tímto modulem používán \cite{flask_wsgi}.}
 \inputminted[bgcolor=codebg]{python}{source-samples/wsgi.py}
 \end{listing}
 
@@ -52,7 +52,9 @@ Apache2 spouští aplikace jako uživatel \texttt{www-data}, přístup k soubor�
 
 \subsection{Konfigurace HTTPS}
 
-% zapnout mod_ssl
+Jelikož je při nasazení na Raspberry Pi použit \textit{self-signed} certifikát, vycházel jsem při konfiguraci HTTPS z článku \textit{How To Create a Self-Signed SSL Certificate for Apache in Ubuntu 16.04} \cite{digital_ocean_selfsigned}.
+
+Při konfiguraci HTTPS se ukázalo, že Apache2 nainstalovaný z repozitářů Raspbianu nemá ve výchozím nastavení povolený SSL modul\footnote{Situace v dubnu 2018.}. Je tedy nutné ho ručně povolit pomocí příkazu \texttt{a2enmod ssl}. Pro srovnání, při instalaci Apache2 na testovacím serveru ze sekce \ref{sec:te_deployment} byl tento modul povolen implicitně.
 
 \section{Konfigurace Gammu SMSD}
 
@@ -60,5 +62,3 @@ Apache2 spouští aplikace jako uživatel \texttt{www-data}, přístup k soubor�
 \caption{\label{lst:gammurc} Konfigurční soubor Gammu SMSD}
 \inputminted[bgcolor=codebg]{ini}{source-samples/gammurc}
 \end{listing}
-
-\section{Konfigurace RTC}
