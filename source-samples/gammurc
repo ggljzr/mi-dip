@@ -4,6 +4,7 @@
 connection = at19200
 port = /dev/ttyUSB0
 device = /dev/ttyUSB0
+# synchornizace času mezi počítačem a GSM modulem
 synchronizetime = yes
 
 [smsd]
