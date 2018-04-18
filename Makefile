@@ -1,5 +1,5 @@
 
-SRC += chapters/uvod.tex chapters/analyza.tex chapters/implementace.tex chapters/navrh.tex chapters/testovani.tex chapters/teorie.tex chapters/zaver.tex chapters/prirucka.tex
+SRC += chapters/uvod.tex chapters/analyza.tex chapters/implementace.tex chapters/navrh.tex chapters/testovani.tex chapters/teorie.tex chapters/zaver.tex chapters/prirucka.tex chapters/nasazeni.tex
 
 all:
 	vlna -l -m -n $(SRC) DP_Cervenka_Ondrej_2018.tex
