@@ -11,3 +11,5 @@ taky mozna v prislusnejch sekcich zminit ze diky sqlalchemy/jinja mame nakou voc
 doplnit do toho vyberu platformy este tu csnu gsm modulu asi
 
 doplit do ty cloud sekce ze tam nebudou ty smsky fungovat, protoze tam neni ten gsm modul ofc, ze kdyby to bylo primarne cileny na takovejhle provoz tak by se to posilani smsek mohlo udelat pomoci toho twilio
+
+změnit licenci v implementaci na lgpl (https://choosealicense.com/licenses/lgpl-3.0/), ktera vodpovida tomu default prohlaseni v textu prace
