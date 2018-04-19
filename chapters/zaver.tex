@@ -5,17 +5,17 @@ Aplikace nadřazeného systému byla vytvořena v~jazyce Python a nasazena na je
 
 Text práce lze rozdělit do pěti kapitol: teoretický úvod, analýza, návrh, implementace a testování. Teoretický úvod slouží k~definici použitého názvosloví. Kromě toho obsahuje stručný popis některých pojmů a konceptů, které se v~práci vyskytují.
 
-V~analýze byla na základě zadání práce vytvořena specifikace nadřazeného systému, popisující jeho základní chování a požadavky, které má splňovat. Podle této specifikace byl pak zvolen software a hardware vhodný k~implementaci.
+V~analýze byla na základě zadání práce vytvořena specifikace nadřazeného systému, popisující jeho základní chování a požadavky, které má splňovat. Podle specifikace byl pak zvolen software a hardware vhodný k~implementaci.
 
 Významný prostor byl věnován volbě protokolu, na kterém bude postavena komunikace mezi nadřazeným a podřízenými systémy. Analýza se blíže zaměřila na protokoly HTTPS a MQTT. Kromě základních funkcí obou protokolů byly zkoumány také možnosti zabezpečení a autentizace účastníků komunikace. Pro komunikaci s~podřízenými systémy byl nakonec zvolen protokol HTTPS.
 
-Kromě protokolu byl v~analýze také zvolen způsob ukládání dat (databázový systém SQLite3) a odesílání upozornění. Právě zasílání upozornění se ukázalo jako poměrně zajímavý problém s~několika možnými řešeními. V~rámci analýzi byly otestovány internetové služby pro zasílání e-mailů (Gmail) a SMS (Twilio). Kromě toho bylo také otestováno zasílání SMS pomocí GSM modulu připojeného přes USB port. Tento způsob byl nakonec použit ve výsledném zařízení.
+Kromě protokolu byl v~analýze také zvolen způsob ukládání dat (databázový systém SQLite3) a odesílání upozornění. Právě zasílání upozornění se ukázalo jako poměrně zajímavý problém s~několika možnými řešeními. V~rámci analýzy byly otestovány internetové služby pro zasílání e-mailů (Gmail) a SMS (Twilio). Kromě toho bylo také otestováno zasílání SMS pomocí GSM modulu připojeného přes USB port. Tento způsob byl nakonec použit ve výsledném zařízení.
 
-Pro implementaci aplikace nadřazeného systému byl vybrán jazyk Python a webový framework Flask. Hlavní důvod této volby byla moje předchozí zkušenost s~těmito nástroji.
+Pro implementaci aplikace nadřazeného systému byl vybrán jazyk Python a webový framework Flask. Hlavní důvod volby byla moje předchozí zkušenost s~těmito nástroji.
 
-V~závěru analytické části byla zvolena vhodná hardwarová platforma pro tvorbu výsledného zařízení. Zkoumány byly jednodeskové počítače Raspberry Pi 3 a Zybo Zynq-7000. Deska Zynq-7000 byla zajímavá především díki integraci FPGA obvodu, ukázalo se však, že ten by měl v~této práci pouze velmi omezené využití. Jako platforma pro tvorbu zařízení bylo tedy zvoleno Raspberry Pi 3, které poskytuje vyšší procesorový výkon za výrazně nižší cenu.
+V~závěru analytické části byla zvolena vhodná hardwarová platforma pro tvorbu výsledného zařízení. Zkoumány byly jednodeskové počítače Raspberry Pi 3 a Zybo Zynq-7000. Deska Zynq-7000 byla zajímavá především díky integraci FPGA obvodu, ukázalo se však, že ten by měl v~této práci pouze velmi omezené využití. Jako platforma pro tvorbu zařízení bylo tedy zvoleno Raspberry Pi 3, které poskytuje vyšší procesorový výkon za výrazně nižší cenu.
 
-Na základě této analýzi byl vytvořen návrh aplikace nadřazeného systému, kde byl jako základ použit vzor \textit{model-view-controller}. Díky tomuto vzoru by měl být systém poměrně snadno rozšiřitelný. Například přidání možnosti komunikovat s~podřízenými systémy pomocí protokolu MQTT lze realizovat pouze doplněním vhodného \textit{controlleru}.
+Na základě analýzy byl vytvořen návrh aplikace nadřazeného systému, kde byl jako základ použit vzor \textit{model-view-controller}. Díky tomuto vzoru by měl být systém poměrně snadno rozšiřitelný. Například přidání možnosti komunikovat s~podřízenými systémy pomocí protokolu MQTT lze realizovat pouze doplněním vhodného \textit{controlleru}.
 
 Dále byl v~kapitole návrh popsán způsob vyhodnocování stavu monitorovaných garáží a odesílání upozornění.
 
@@ -31,7 +31,7 @@ Jak je zmíněno výše, aplikace nadřazeného systému byla implementována v~
 
 K~výsledné aplikaci byla vytvořena sada automatizovaných testů, které ověřují funkčnost jednotlivých částí (například přihlášování do webového rozhraní). Tyto testy slouží především k~dalšímu rozšiřování aplikace, neboť s~jejich pomocí lze rychle ověřit, zda přidaný kód neporušil nějakou již implementovanou funkcionalitu. Pro další testování byl také vytvořen jednoduchý simulátor podřízeného systému.
 
-V~rámci testování byla aplikace nasazena na virtuálním serveru služby Amazon EC2\footnote{Aplikace je do konce června 2018 dostupná na \url{https://demo-garaze.tk}.}. Účelem bylo otestovat proces nasazování aplikace. Nasazenou aplikaci (včetně simulátoru) je také možné použít k~demonstraci funkce nadřazeného systému.
+V~rámci testování byla aplikace nasazena na virtuálním serveru služby Amazon EC2\footnote{Aplikace je do konce června 2018 dostupná na \url{https://demo-garaze.tk}.}. Účelem bylo vyzkoušet proces nasazování aplikace. Nasazenou aplikaci (včetně simulátoru) je také možné použít k~demonstraci funkce nadřazeného systému.
 
 Výsledná aplikace nadřazeného systému byla poté úspěšně nasazena i na Raspberry Pi 3, čímž vzniklo zařízení, které bylo cílem této diplomové práce.
 
