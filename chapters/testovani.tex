@@ -31,6 +31,7 @@ Testovány jsou následující scénáře:
     \item Zaslání kontrolního hlášení.
     \item Změna stavu po zaslání události.
     \item Zneplatnění API klíče.
+    \item Získání zaznamenaých událostí podle typu.
 \end{itemize}
 
 Zde stojí za zmínku test kontroly zmeškaných hlášení. V~něm je garáži zasláno kontrolní hlášení, čímž je určen čas dalšího očekávaného hlášení. Po překročení tohoto času je potřeba otestovat, zda byl stav garáže změnen na \uv{Nehlásí se}.
@@ -65,6 +66,7 @@ V~těchto testech je zkoumán \textit{controller} webového rozhraní a zobrazov
     \item Zobrazení stránky garáže.
     \item Zobrazení událostí.
     \item Zobrazení chybové stránky při zadání neexistující garáže.
+    \item Filtrování událostí.
     \item Úprava dat garáže (označení, poznámka a telefonní číslo), včetně testu ověření neplatných hodnot.
     \item Úprava uživatelského nastavení (telefonní číslo pro zasílání upozornění).
 \end{itemize}
