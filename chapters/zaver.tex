@@ -13,7 +13,7 @@ Kromě protokolu byl v~analýze také zvolen způsob ukládání dat (databázov
 
 Pro implementaci aplikace nadřazeného systému byl vybrán jazyk Python a webový framework Flask. Hlavní důvod volby byla moje předchozí zkušenost s~těmito nástroji.
 
-V~závěru analytické části byla zvolena vhodná hardwarová platforma pro tvorbu výsledného zařízení. Zkoumány byly jednodeskové počítače Raspberry Pi 3 a Zybo Zynq-7000. Deska Zynq-7000 byla zajímavá především díky integraci FPGA obvodu, ukázalo se však, že ten by měl v~této práci pouze velmi omezené využití. Jako platforma pro tvorbu zařízení bylo tedy zvoleno Raspberry Pi 3, které poskytuje vyšší procesorový výkon za výrazně nižší cenu.
+V~závěru analytické části byla zvolena vhodná hardwarová platforma pro tvorbu výsledného zařízení. Zkoumány byly jednodeskové počítače Raspberry Pi 3 a Zybo Zynq-7000. Deska Zynq-7000 byla zajímavá především díky integraci FPGA obvodu, ukázalo se však, že ten by měl v~práci pouze velmi omezené využití. Jako platforma pro tvorbu zařízení bylo tedy zvoleno Raspberry Pi 3, které poskytuje vyšší procesorový výkon za výrazně nižší cenu.
 
 Na základě analýzy byl vytvořen návrh aplikace nadřazeného systému, kde byl jako základ použit vzor \textit{model-view-controller}. Díky tomuto vzoru by měl být systém poměrně snadno rozšiřitelný. Například přidání možnosti komunikovat s~podřízenými systémy pomocí protokolu MQTT lze realizovat pouze doplněním vhodného \textit{controlleru}.
 
@@ -23,7 +23,7 @@ Pro komunikaci s~podřízenými sytémy bylo navrženo API, pomocí kterého moh
 
 Zde bylo potřeba vyřešit problém distribuce klíčů podřízeným systémům. K~tomu byl implementován takzvaný registrační mód, který lze dočasně povolit ve webovém rozhraní nadřazeného systému. Když je mód zapnutný, mohou se podřízené systémy registrovat pomocí k~tomu určenému API požadavku, a přístupový klíč jim je zaslán v~odpovědi.
 
-Webové rozhraní nadřazeného systému bylo navrženo na základě předpokládaných případů užití, jako je například zobrazení monitorovaných garáží či událostí zaznamenaných v~konkrétní garáži. Přistup do rozhraní je zabezpečen heslem, které je uchováváno v~zabezpečené podobě pomocí \textit{hashovacího} algoritmu Argon2.
+Webové rozhraní nadřazeného systému bylo navrženo na základě předpokládaných případů užití, jako je například zobrazení monitorovaných garáží či událostí zaznamenaných v~konkrétní garáži. Přistup do rozhraní je ověřen pomocí hesla, které je uchováváno v~zabezpečené podobě pomocí \textit{hashovacího} algoritmu Argon2.
 
 Jak je zmíněno výše, aplikace nadřazeného systému byla implementována v~jazyce Python s~pomocí frameworku Flask. Kromě toho bylo použito několik dalších nástrojů, jako například program pro ovládání GSM modulu Gammu nebo framework SQLAlchemy, který výrazně usnadnil práci s~databází systému.
 
