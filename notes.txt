@@ -14,4 +14,4 @@ doplit do ty cloud sekce ze tam nebudou ty smsky fungovat, protoze tam neni ten 
 
 změnit licenci v implementaci na lgpl (https://choosealicense.com/licenses/lgpl-3.0/), ktera vodpovida tomu default prohlaseni v textu prace
 
-napsat jak to je s tema dverma, ze udalost votevreni dveri je proste vodemceni klicem a nasilny vniknuti se pozna podle detekce pohybu ktera je pri normalni vodemnceni deaktivovana
+u tech dveri je este teda problem ze kdyz je nekdo nak vypaci, a ten podrizenej system to detekuje jako votevreni dveri tak si tim zazdi ty dalsi udalosti vo pohybu ktery by detekoval. Tohle je spis vec na strane toho podrizenyho systemu a cidel ktery pouziva ke kontrole tech dveri ale este se na to zeptam.

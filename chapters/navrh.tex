@@ -110,6 +110,7 @@ Třída \texttt{Event} obsahuje tyto údaje:
         \item \texttt{door\_close} -- zavření dveří.
         \item \texttt{movement} -- detekce pohybu.
         \item \texttt{smoke} -- detekce kouře.
+        \item \texttt{device\_error} -- chyba podřízeného systému. Tato událost není zasílána podřízeným systémem, ale vzniká na základě vyhodnocení zaslaných událostí (více v~sekci \ref{sec:de_event_eval}). Událost nesignalizuje výpadek systému, ale jeho neočekávané chování.
     \end{itemize}
     \item Garáž, která je původcem události.
 \end{itemize}
@@ -130,7 +131,13 @@ Pokud při této kontrole nadřazený systém zjistí, že neobdržel očekávan
 
 Kontrolní hlášení funguje jako potvrzení, že jakákoliv nenadálá situace v~garáži byla vyřešena. Pokud například podřízený systém detekuje kouř, odešle příslušnou událost a pozdrží další kontrolní hlášení až do doby, kdy bude zdroj kouře odstraněn. Poté může zasláním kontrolního hlášení změnit stav garáže zpět na \textcolor{green}{\uv{OK}}.
 
-Kromě událostí měnících stav garáže nadřazený systém ještě rozeznává události otevření a zavření dveří garáže. Tyto události nemění stav garáže, pouze aktualizují stav dveří. Nejsou tedy součástí tohoto vyhodnocování.
+Kromě událostí měnících stav garáže nadřazený systém ještě rozeznává události otevření a zavření dveří garáže. Tyto události nemění stav garáže, pouze aktualizují stav dveří. 
+
+Událost otevření dveří představuje jejich odemčení pomocí klíče. Nesignalizuje tedy neoprávněné vniknutí. Pokud byly dveře odemčeny klíčem, nemá smysl detekovat pohyb.
+
+ V~případě, že jsou dveře garáže otevřené, by tedy podřízený systém neměl odesílat žádné události informující o~detekci pohybu. Pokud tak učiní, je událost nadřazeným systémem ignorována. Místo ní je zaznamenána událost informující o~chybě podřízeného systému (\texttt{device\_error}).
+
+ Události o~pohybu začne nadřazený systém opět registrovat poté, co je informován o~zavření dveří. Neoprávněné vniknutí je tak detekováno zjištěním pohybu v~uzavřené garáži. 
 
 \subsubsection{Zasílání upozornění}
 
@@ -203,6 +210,7 @@ V~souboru je uložen otisk přístupového hesla (více v~sekci \ref{sec:de_auth
     \label{fig:use_case_user}
 \end{figure}
 
+\newpage
 
 \section{Komponenta \textit{controller}}
 \label{sec:de_controller}
@@ -245,8 +253,6 @@ Registrační požadavek má následující formát (zaslání registračního p
 \inputminted[bgcolor=codebg]{python}{source-samples/api_reg.py}
 \end{listing}
 
-\newpage
-
 \subsubsection{Kontrolní hlášení}
 
 Kontrolní hlášení slouží k~ověření činnosti podřízeného systému. Jeho zasláním podřízený systém také potvrzuje, že stav sledované garáže je v~pořádku. 
@@ -270,10 +276,7 @@ Požadavek zasílající kontrolní hlášení má tento formát:
 \begin{listing}[htbp]
 \caption{\label{lst:api_report} Zaslání kontrolního hlášení nadřazenému systému provozovaném na adrese \texttt{raspberrypi.local}}
 \inputminted[bgcolor=codebg]{python}{source-samples/api_report.py}
-
 \end{listing}
-
-\newpage
 
 \subsubsection{Ostatní události}
 
