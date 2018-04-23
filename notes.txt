@@ -1,17 +1,7 @@
-jak spoustet flask s apache:
-http://flask.pocoo.org/docs/0.12/deploying/mod_wsgi/ --basic navod
-https://stackoverflow.com/questions/19344252/how-to-install-configure-mod-wsgi-for-py3 -- python3
-https://stackoverflow.com/questions/36493678/how-do-i-set-up-the-wsgi-file-and-apache-configuration-to-deploy-on-a-large-fla --dalsi info (musi se nastavit secret_key pro sessions v tim .wsgi)
-https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-16-04 --self signed cert
-
 implementace: podivat se na to RTC, mozna nefunguje ta synchronizace systemovejch hodin -> cas ulozenej na rtc (prectenej pomoci hwclock) je spravne, ale kdyz se to vypne a zapne tak je systemovej cas spatne (jinej nez v hwclock), a sesynchronizuje se az kdyz se to pripoji k internetu. Moznej workaround -> zavolat hwclock -s (nastaveni systemovyho casu z hwclock) pri bootu (also basic info: https://learn.adafruit.com/adding-a-real-time-clock-to-raspberry-pi?view=all#set-rtc-time, vo tim hwclock -s syncu https://raspberrypi.stackexchange.com/questions/28583/hwclock-s-in-rc-local-wont-work)
 
 taky mozna v prislusnejch sekcich zminit ze diky sqlalchemy/jinja mame nakou vochranu proti xss/sqlinjection out of the box
 
 doplnit do toho vyberu platformy este tu csnu gsm modulu asi
-
-doplit do ty cloud sekce ze tam nebudou ty smsky fungovat, protoze tam neni ten gsm modul ofc, ze kdyby to bylo primarne cileny na takovejhle provoz tak by se to posilani smsek mohlo udelat pomoci toho twilio
-
-změnit licenci v implementaci na lgpl (https://choosealicense.com/licenses/lgpl-3.0/), ktera vodpovida tomu default prohlaseni v textu prace
 
 u tech dveri je este teda problem ze kdyz je nekdo nak vypaci, a ten podrizenej system to detekuje jako votevreni dveri tak si tim zazdi ty dalsi udalosti vo pohybu ktery by detekoval. Tohle je spis vec na strane toho podrizenyho systemu a cidel ktery pouziva ke kontrole tech dveri ale este se na to zeptam.
