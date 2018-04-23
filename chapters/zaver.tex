@@ -21,7 +21,7 @@ Dále byl v~kapitole návrh popsán způsob vyhodnocování stavu monitorovanýc
 
 Pro komunikaci s~podřízenými sytémy bylo navrženo API, pomocí kterého mohou nadřazenému systému zasílat události popisující stav garáže (například při detekci kouře). Podřízené systémy se při přístupu k~API prokazují pomocí náhodně generovaných klíčů.
 
-Zde bylo potřeba vyřešit problém distribuce klíčů podřízeným systémům. K~tomu byl implementován takzvaný registrační mód, který lze dočasně povolit ve webovém rozhraní nadřazeného systému. Když je mód zapnutný, mohou se podřízené systémy registrovat pomocí k~tomu určenému API požadavku, a přístupový klíč jim je zaslán v~odpovědi.
+Zde bylo potřeba vyřešit problém distribuce klíčů podřízeným systémům. K~tomu byl implementován takzvaný registrační mód, který lze dočasně povolit ve webovém rozhraní nadřazeného systému. Když je mód zapnutný, mohou se podřízené systémy registrovat pomocí k~tomu určeného API požadavku, a přístupový klíč jim je zaslán v~odpovědi.
 
 Webové rozhraní nadřazeného systému bylo navrženo na základě předpokládaných případů užití, jako je například zobrazení monitorovaných garáží či událostí zaznamenaných v~konkrétní garáži. Přistup do rozhraní je ověřen pomocí hesla, které je uchováváno v~zabezpečené podobě pomocí \textit{hashovacího} algoritmu Argon2.
 
@@ -29,7 +29,7 @@ Jak je zmíněno výše, aplikace nadřazeného systému byla implementována v~
 
 % Nadřazený systém pracuje na základě modelu \textit{client/server}. Klienty jsou v tomto případě podřízené systémy přistupující k API a uživatel používající webové rozhraní. neco vo tim planovaci ale ne mmoc dlouhyho
 
-K~výsledné aplikaci byla vytvořena sada automatizovaných testů, které ověřují funkčnost jednotlivých částí (například přihlášování do webového rozhraní). Tyto testy slouží především k~dalšímu rozšiřování aplikace, neboť s~jejich pomocí lze rychle ověřit, zda přidaný kód neporušil nějakou již implementovanou funkcionalitu. Pro další testování byl také vytvořen jednoduchý simulátor podřízeného systému.
+K~výsledné aplikaci byla vytvořena sada automatizovaných testů, které ověřují funkčnost jednotlivých částí (například přihlašování do webového rozhraní). Tyto testy slouží především k~dalšímu rozšiřování aplikace, neboť s~jejich pomocí lze rychle ověřit, zda přidaný kód neporušil nějakou již implementovanou funkcionalitu. Pro další testování byl také vytvořen jednoduchý simulátor podřízeného systému.
 
 V~rámci testování byla aplikace nasazena na virtuálním serveru služby Amazon EC2\footnote{Aplikace je do konce června 2018 dostupná na \url{https://demo-garaze.tk}.}. Účelem bylo vyzkoušet proces nasazování aplikace. Nasazenou aplikaci (včetně simulátoru) je také možné použít k~demonstraci funkce nadřazeného systému.
 

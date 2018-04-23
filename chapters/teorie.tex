@@ -1,4 +1,4 @@
-\chapter{Teoretický základ}
+\chapter{Teoretický úvod}
 \label{sec:th}
 
 % tcp/ip, osi k tomu asi dam jen citaci (ty knizky) do toho textu to tam je stejne zmineny jednou
@@ -6,11 +6,11 @@
 \section{Názvosloví použité v~práci}
 
 \begin{itemize}
-    \item \textbf{Nadřazený systém} -- Zařízení, jehož tvorba je cílem práce, je v~textu označováno jako nadřazený systém. Podrobná specifikace nadřazeného systému je popsána v~úvodu kapitoly \ref{sec:an}.
-    \item \textbf{Podřizený systém} -- Podřízené systémy jsou monitorovací zařízení, která jsou umístěná v~jednotlivých garážích. Zařízení neoperují samostatně, ale zasílají data nadřazenému systému. Podřízený systém je blíže popsán v~sekci \ref{sec:an_subsystem}.
+    \item \textbf{Nadřazený systém} -- zařízení, jehož tvorba je cílem práce, je v~textu označováno jako nadřazený systém. Podrobná specifikace nadřazeného systému je popsána v~úvodu kapitoly \ref{sec:an}.
+    \item \textbf{Podřízený systém} -- podřízené systémy jsou monitorovací zařízení, která jsou umístěná v~jednotlivých garážích. Zařízení neoperují samostatně, ale zasílají data nadřazenému systému. Podřízený systém je blíže popsán v~sekci \ref{sec:an_subsystem}.
     \item \textbf{Uživatel} -- uživatelem se v~textu práce myslí osoba spravující nadřazený systém a přistupující do jeho webového rozhraní. Jde tedy například o~majitele garáží nebo zaměstnance pověřeného jejich správou.
-    \item \textbf{Klíč} -- Náhodně generovaná data (například ve formě textového řetězce), která slouží k~ověření totožnosti. Znalost klíče umožní přístup k~šifrovaným datům nebo jinak zakázaným operacím. V~této práci se hovoří většinou o~API klíčích, kterými se prokazují podřízené systémy při komunikaci s~nadřazeným systémem.
-    \item \textbf{Webové rozhraní} -- Webovým rozhraním jsou v~textu práce myšleny webové stránky pomocí kterých je možné spravovat nadřazený systém.
+    \item \textbf{Klíč} -- náhodně generovaná data (například ve formě textového řetězce), která slouží k~ověření totožnosti. Znalost klíče umožní přístup k~šifrovaným datům nebo jinak zakázaným operacím. V~této práci se hovoří většinou o~API klíčích, kterými se prokazují podřízené systémy při komunikaci s~nadřazeným systémem.
+    \item \textbf{Webové rozhraní} -- webovým rozhraním jsou v~textu práce myšleny webové stránky, pomocí kterých je možné spravovat nadřazený systém.
 \end{itemize}
 
 \section{Návrhový vzor MVC}
@@ -49,7 +49,7 @@ Na požadavek server odpovídá zasláním požadovaných dat (pokud jsou dostup
 
 \subsection{Rozšíření HTTPS}
 
-Samotný protokol HTTP neimplementuje žádné šifrování, proto vzniklo jeho rozšíření zabezpečené protokolem SSL či TLS \footnote{Dále je pro jednoduchost zmiňován jen protokol TLS podle normy RFC-5246 \cite{rfc5246}.}, nazvané HTTPS \cite{tcp_sec}.
+Samotný protokol HTTP neimplementuje žádné šifrování, proto vzniklo jeho rozšíření zabezpečené protokolem SSL či TLS\footnote{Dále je pro jednoduchost zmiňován jen protokol TLS podle normy RFC-5246 \cite{rfc5246}.}, nazvané HTTPS \cite{tcp_sec}.
 
 Protokol TLS umožňuje autentizaci serveru pomocí certifikátu (viz sekci \ref{sec:th_cert}) a domluvu serveru a klienta na společném klíči \cite{tcp_sec}. Tímto klíčem je pak šifrována veškerá komunikace mezi klientem a serverem \cite{tcp_sec}.
 
@@ -85,14 +85,16 @@ CSRF je forma útoku na webovou aplikaci, při kterém může útočník odeslí
 \begin{enumerate}
     \item Uživatel je v~jedné záložce prohlížeče prihlášen do svého internetového bankovnictví, které není zabezpečeno proti CSRF.
     \item Útočník pošle uživateli odkaz na stránku, na který uživatel klikne.
-    \item Stránka po načtení zašle požadavek internetovému bankovnictí, potvrzující převod peněz na útočníkův účet. Tento požadavek je platný, neboť pochází z~prohlížeče přihlášeného uživatele. Nezabezpečená aplikace internetového bankovnictví nemá jak ověřit, že požadavek nepřišel z~jejích stránek.
+    \item Stránka po načtení zašle požadavek internetovému bankovnictí, potvrzující převod peněz na útočníkův účet. Tento požadavek je platný, neboť pochází z~prohlížeče přihlášeného uživatele. 
+
+    Nezabezpečená aplikace internetového bankovnictví nemá jak ověřit, že požadavek nepřišel z~jejich stránek.
 \end{enumerate}
 
-Tento útok se dá použít k~zaslání nežádoucího požadavku (v~kontextu této práce například na smazání záznamu o~garáži), ne však ke získání dat ze stránky \cite{csrf_owasp}. Tomu zabraňuje koncept nazvaný \textit{same origin policy}, implementovaný v~současných prohlížečích \cite{sec_handbook}. Tento koncept omezuje to, jak spolu mohou interagovat webové stránky na různých doménách.
+Útok se dá použít k~zaslání nežádoucího požadavku (v~kontextu této práce například na smazání záznamu o~garáži), ne však ke získání dat ze stránky \cite{csrf_owasp}. Tomu zabraňuje koncept nazvaný \textit{same origin policy}, implementovaný v~současných prohlížečích \cite{sec_handbook}. Tento koncept omezuje to, jak spolu mohou inter\-agovat webové stránky na různých doménách.
 
 Ochranu proti CSRF je možné implementovat vkládáním náhodně generovaných \textit{tokenů} do formulářů na webové stránce. Při odeslání formuláře se pak původ požadavku ověří pomocí tohoto \textit{tokenu} -- zaslaný \textit{token} se musí shodovat s~\textit{tokenem} vloženým ve webové stránce.
 
-Přihlášený uživatel má přístup k~webovým stránkam aplikace, a je tedy možné do odeslaného požadavku vložit ověřovací \textit{token} získaný z~formuláře. 
+Přihlášený uživatel má přístup k~webovým stránkám aplikace, a je tedy možné do odeslaného požadavku vložit ověřovací \textit{token} získaný z~formuláře. 
 
 Naopak útočník může pouze zasílat požadavky, ale ne získávat data ze stránek, a tudíž nemá přístup k~\textit{tokenu}, kterým by mohl svůj požadavek zfalšovat.
 
@@ -102,7 +104,7 @@ Webová aplikace implementovaná v~této práci využívá právě tento způsob
 
 \section{\textit{Attack surface}}
 
-\textit{Attack surface} popisuje všechny možné body, kde by mohl potencionální útočník napadnout daný systém \cite{attack_surface_owasp}. V~této práci je zmíněn v~sekci \ref{sec:an_cloud}, ve spojitosti se zvýšeným ohrožením při provozu serveru dostupného z~internetu.
+\textit{Attack surface} popisuje všechny možné body, kde by mohl potencionální útočník napadnout daný systém \cite{attack_surface_owasp}. V~práci je zmíněn v~sekci \ref{sec:an_cloud}, ve spojitosti se zvýšeným ohrožením při provozu serveru dostupného z~internetu.
 
 \section{\textit{Man-in-the-middle} útok}
 \label{sec:th_mitm}
@@ -131,11 +133,11 @@ V~textu práce je možnost \textit{man-in-the-middle} útoku diskutována v~čá
 
 \textit{Hashováním} se obecně rozumí vytvoření otistku pevné délky -- \textit{hashe} -- z~libovolných vstupních dat. Důležitou vlastností je jednosměrnost tohoto procesu, tedy že z~vytvořeného otisku již nelze (v~rozumném čase) zrekonstruovat původní vstup. \cite{hash_crackstation}
 
-V~této práci je \textit{hashování} použito při ukládání hesel. Heslo uložené v~čitelné podobě není při úniku souboru s~heslem nijak chráněno. Proto je vhodné uložit místo hesla samotného jeho \textit{hash}. Pokud dojde k~úniku \textit{hashovaných} hesel, je pro útočníka velmi problematické získat z~otisků čitelná hesla \cite{hash_crackstation}.
+\textit{Hashování} se používá k~zabezpeční uložených hesel. Heslo uložené v~čitelné podobě není při úniku souboru s~heslem nijak chráněno. Proto je vhodné uložit místo hesla samotného jeho \textit{hash}. Pokud dojde k~úniku \textit{hashovaných} hesel, je pro útočníka velmi problematické získat z~otisků čitelná hesla \cite{hash_crackstation}.
 
-\textit{Hashování} lze provést pomocí mnoha algortimů, ne všechny se však hodí k~zabezpečení ukládaných hesel. Některé algoritmy, jako například MD5 či SHA-1, nejsou dostatečně výpočetně náročné, takže umožňují efektivní útoky hrubou silou (lze dostatečně rychle spočítat všechny možné kombinace vstupů do dané délky a tím zjistit jaký vstup odpovídá danému \textit{hashi}) \cite{hash_crackstation}. 
+\textit{Hashování} lze provést pomocí mnoha algortimů, ne všechny se však hodí k~zabezpečení ukládaných hesel. Některé algoritmy, jako například MD5 či SHA-1, nejsou dostatečně výpočetně náročné, takže umožňují efektivní útoky hrubou silou (lze dostatečně rychle spočítat všechny možné kombinace vstupů do dané délky, a tím zjistit jaký vstup odpovídá danému \textit{hashi}) \cite{hash_crackstation}. 
 
-Pro bezpečné ukládání hesel je tedy nutné použít dostatečné náročný algoritmus. V~této práci je použit algoritmus Argon2, který je považován za vhodný k~\textit{hashování} uložených hesel \cite{hash_crackstation}.
+Pro bezpečné ukládání hesel je nutné použít dostatečné náročný algoritmus. V~této práci je použit algoritmus Argon2, který je považován za vhodný k~\textit{hashování} uložených hesel \cite{hash_crackstation}.
 
 \subsection{Solení \textit{hashů}}
 

@@ -43,7 +43,7 @@ K~doručení Python aplikace je použit modul mod\_wsgi, jehož základní konfi
 
 Aplikace nadřazeného systému potřebuje měnit obsah databáze a souboru s~uživatelským nastavením (\texttt{user\_config.ini}). Je tedy nutné povolit uživateli, pod kterým aplikace běží, čtení a zápis těchto souborů. 
 
-Apache2 spouští aplikace jako uživatel \texttt{www-data}, přístup k~souborům je tedy možné povolit způsobem popsaným v~ukázce \ref{lst:wwwdata}.
+Apache2 spouští aplikace jako uživatel \texttt{www-data}, přístup k~souborům lze povolit způsobem popsaným v~ukázce \ref{lst:wwwdata}.
 
 \begin{listing}[htbp]
 \caption{\label{lst:wwwdata} Nastavení přistupových práv k~databázi a souboru s~uživatelským nastavením. Umístění souborů je možné nastavit v~konfiguračním souboru aplikace (viz sekci \ref{sec:im_config}).}
@@ -54,15 +54,15 @@ Apache2 spouští aplikace jako uživatel \texttt{www-data}, přístup k~soubor�
 
 Jelikož je při nasazení na Raspberry Pi použit \textit{self-signed} certifikát, vycházel jsem při konfiguraci HTTPS z~článku \textit{How To Create a Self-Signed SSL Certificate for Apache in Ubuntu 16.04} \cite{digital_ocean_selfsigned}.
 
-Při konfiguraci HTTPS se ukázalo, že Apache2 nainstalovaný z~repozitářů Raspbianu nemá ve výchozím nastavení povolený SSL modul\footnote{Situace v~dubnu 2018.}. Je tedy nutné ho ručně povolit pomocí příkazu \texttt{a2enmod ssl}. Pro srovnání, při instalaci Apache2 na testovacím serveru ze sekce \ref{sec:te_deployment} byl tento modul povolen implicitně.
+Při konfiguraci HTTPS se ukázalo, že Apache2 nainstalovaný z~repozitářů Raspbianu nemá ve výchozím nastavení povolený SSL modul\footnote{Situace v~dubnu 2018.} a je nutné ho ručně povolit pomocí příkazu \texttt{a2enmod ssl}. Pro srovnání, při instalaci Apache2 na testovacím serveru ze sekce \ref{sec:te_deployment} byl tento modul povolen implicitně.
 
 \section{Konfigurace Gammu SMSD}
 
-Konfigurace démona Gammu SMSD je poměrně snadná, jak je vidět v~ukázce \ref{lst:gammurc}. Nejprve je potřeba zvolit způsob komunikace s~GSM modulem -- v~tomto jde o~AT příkazy (pro bližší informace viz \cite{gsm_standard}). Také je možnost nastavit explicitně rychlost sériové linky (například 19200 baudů).
+Konfigurace démona Gammu SMSD je poměrně snadná, jak je vidět v~ukázce \ref{lst:gammurc}. Nejprve je potřeba zvolit způsob komunikace s~GSM modulem -- v~tomto případě jde o~AT příkazy (pro bližší informace viz \cite{gsm_standard}). Také je možnost nastavit explicitně rychlost sériové linky (například 19200 baudů).
 
 Dále je třeba zvolit umístění zařízení. To nemusí být vždy \texttt{ttyUSB0}, konkrétní umístění lze zjistit po přípojení GSM modulu příkazem \texttt{dmesg | grep "GSM"}.
 
-V~konfiguračním souboru je také zvoleno umístění složek, do kterých budou ukládány zprávy určené k~odeslání a již odeslané zprávy. Do složky zpráv k~odeslání (\texttt{outbox}) bude aplikace nadřazeného systému vkládat odesílaná upozornění pomocí příkazu \texttt{gammu-smsd-inject}. Je tedy nutné, aby aplikace (respektive uživatel pod kterým běží, což je \texttt{www-data}) měla přístup do této složky.
+V~konfiguračním souboru je také zvoleno umístění složek, do kterých budou ukládány zprávy určené k~odeslání a již odeslané zprávy. Do složky zpráv k~odeslání (\texttt{outbox}) bude aplikace nadřazeného systému vkládat odesílaná upozornění pomocí příkazu \texttt{gammu-smsd-inject}. Je proto nutné, aby aplikace (respektive uživatel, pod kterým běží, což je \texttt{www-data}) měla přístup do této složky.
 
 Při použítí výchozích složek (\texttt{/var/spool/gammu}), jako v~ukázce \ref{lst:gammurc}, stačí pro povolení přístupu přidat uživatele \texttt{www-data} do skupiny \texttt{gammu}. Tato skupina je vytvořena při instalaci programu Gammu.
 
