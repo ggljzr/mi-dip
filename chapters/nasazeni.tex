@@ -24,6 +24,13 @@ K~instalaci a spuštění aplikace je zapotřebí tento software:
     \item Program pro ovádání GSM modulu Gammu. Nadřazený systém je možné spustit i bez instalace tohoto programu, pouze nebude fungovat zasílání SMS upozornění.
 \end{itemize}
 
+\section{Konfigurace aplikace nadřazeného systému}
+\label{sec:dp_appconfig}
+
+Před nasazením aplikace je vhodné zvolit konfigurační soubor, který má být použit pro její nastavení. To je možné provést nastavením proměnné prostředí \texttt{GARAGE\_SYSTEM\_CONFIG} na cestu ke zvolenému souboru.
+
+Pokud tato proměnná není nastavena, je použit výchozí konfigurační soubor \texttt{default\_config.py}.
+
 \newpage
 
 \section{Konfigurace Apache2}
@@ -46,7 +53,7 @@ Aplikace nadřazeného systému potřebuje měnit obsah databáze a souboru s~u�
 Apache2 spouští aplikace jako uživatel \texttt{www-data}, přístup k~souborům lze povolit způsobem popsaným v~ukázce \ref{lst:wwwdata}.
 
 \begin{listing}[htbp]
-\caption{\label{lst:wwwdata} Nastavení přistupových práv k~databázi a souboru s~uživatelským nastavením. Umístění souborů je možné nastavit v~konfiguračním souboru aplikace (viz sekci \ref{sec:im_config}).}
+\caption{\label{lst:wwwdata} Nastavení přistupových práv k~databázi a souboru s~uživatelským nastavením. Umístění souborů je možné nastavit v~konfiguračním souboru aplikace (viz sekci \ref{sec:dp_appconfig}).}
 \inputminted[bgcolor=codebg]{bash}{source-samples/wwwdata.sh}
 \end{listing}
 
