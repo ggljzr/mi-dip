@@ -6,7 +6,7 @@ Před samotným návrhem a implementací nadřazeného systému je potřeba pře
 \begin{itemize}
     \item Systém má být schopen komunikovat s~podřízenými systémy pomocí WiFi či Ethernetu (v~rámci místní sítě). Komunikace je založena na zasílání událostí zaznamenaných podřízenými systémy.
     \item Systém má uchovávat zaznamenané události, včetně data a času přijetí a podřízeného systému, který událost vytvořil.
-    \item Systém má umožňovat správu pomocí webového rozhraní, které by mělo umožňovat následující funkce:
+    \item Systém má umožňovat správu pomocí webového rozhraní s~následujícími funkcemi:
         \begin{itemize}
             \item Přidat (registrovat) či odebrat podřízený systém.
             \item Zobrazit stav registrovaných podřízených systémů.
@@ -71,9 +71,7 @@ Návrh a implementace podřízeného systému není součástí této práce. Je
 
 \subsection{Událost}
 
-Událost slouží jako základní komunikační jednotka mezi nadřazeným a podřízeným systémem. V~případě překročení mezních hodnot senzorů se jednotlivé podřízené systémy okamžitě hlásí nadřazenému systému. Kromě toho také v~pravidelných intervalech odesílají kontrolní hlášení. 
-
-Vyhodnocení události je provedeno nadřazeným systémem. Podřízený systém tedy hlásí každou událost (například otevření dveří), aniž by nějak zkoumal její závažnost.
+Událost slouží jako základní komunikační jednotka mezi nadřazeným a podřízeným systémem. V~případě překročení mezních hodnot senzorů se jednotlivé podřízené systémy okamžitě hlásí nadřazenému systému. Kromě toho také v~pravidelných intervalech odesílají kontrolní hlášení.
 
 \section{Výběr komunikačního protokolu}
 \label{sec:an_protocol}
@@ -110,13 +108,13 @@ Výhodou je také snadná implementace na straně klienta, tedy podřízeného s
 
 Pro provoz HTTPS serveru lze použít například certifikáty certifikační autority Let's Encrypt, které jsou poskytovány  zdarma \cite{lets_encrypt_faq}. Kromě toho dodává Let's Encrypt také automatizačního klienta Certbot \cite{certbot} pro snadné nasazení a aktualizaci jejich certifikátů. Bohužel certifikáty jsou vydávány pouze na doménu \cite{lets_encrypt_faq}, což komplikuje použití v~místní síti.
 
-Jiná možnost je použití \textit{self-signed} certifikátu \cite{cert_wallen}. Tento certifikát není podepsaný žádnou certifikační autoritou, ale pouze vlastníkem certifikátu. Může tedy sloužit k~šifrování komunikace (poskytuje veřejný klíč), ale je zranitelný vůči \textit{man-in-the-middle} útoku \cite{cert_wallen}.
+Jiná možnost je použití \textit{self-signed} certifikátu, který není podepsaný žádnou certifikační autoritou, ale pouze vlastníkem certifikátu \cite{cert_wallen}. Může tedy sloužit k~šifrování komunikace (poskytuje veřejný klíč), ale je zranitelný vůči \textit{man-in-the-middle} útoku \cite{cert_wallen}.
 
-\textit{Self-signed} certifiát však lze použít k~šifrování komunikace na uzavřené lokální síti, za předpokladu, že je server s~certifikátem (přesněji s~jeho soukromým klíčem) dostatečně zabezpečen \cite{cert_wallen}. 
+\textit{Self-signed} certifiát však lze použít k~šifrování komunikace na uzavřené lokální síti za předpokladu, že je server s~certifikátem (přesněji s~jeho soukromým klíčem) dostatečně zabezpečen \cite{cert_wallen}. 
 
 Nevýhodou tohoto řešení je nedůvěra webových klientů (certifikát není podepsán certifikační autoritou a nelze tedy ověřit jeho pravost), což by ovlivnilo přístup k~uživatelskému rozhraní a API systému. V~případě webového rozhraní by prohlížeč zobrazil varování o~neznámém certifikátu. To by však mohl uživatel ignorovat. 
 
-Podřízené systémy by při zasílání požadavků museli přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout například v~knihovně Requests (umožňující vytváření HTTP požadavků \cite{requests}) pro jazyk Python \cite{python_tutorial} je naznačeno v~ukázce \ref{lst:req_selfsigned}. 
+Podřízené systémy by při zasílání požadavků musely přeskočit krok ověření totožnosti serveru. Jak toho dosáhnout například v~knihovně Requests (umožňující vytváření HTTP požadavků \cite{requests}) pro jazyk Python \cite{python_tutorial} je naznačeno v~ukázce \ref{lst:req_selfsigned}. 
 
 Tento jazyk a knihovna byly zvoleny z~důvodů kompaktnosti ukázkového kódu, v~jiných jazycích lze tuto verifikaci obejít obdobným způsobem.
 
@@ -132,7 +130,7 @@ Tento jazyk a knihovna byly zvoleny z~důvodů kompaktnosti ukázkového kódu, 
 
 \subsubsection{Autentizace klientů na HTTPS}
 
-Přístup k~API nadřazeného systému by měl být povolen pouze ověřeným klientům. Díky tomu bude možné zabránit například zasílání nepravdivých informací z~neznámých zdrojů.
+Přístup k~API nadřazeného systému by měl být povolen pouze ověřeným klient\-ům. Díky tomu bude možné zabránit například zasílání nepravdivých informací z~neznámých zdrojů.
 
 Jednoduchou autentizaci přes HTTPS lze realizovat například pomocí generování API klíčů. Pro každý podřízený systém bude vygenerován klíč, kterým se při zasílání požadavku systém prokáže. Seznam platných klíčů by byl udržován v~databázi nadřazeného systému. Klíče by uživatel mohl přidávat nebo odebírat (například v~případě odcizení podřízeného systému) pomocí webového rozhraní.
 
@@ -160,7 +158,7 @@ Komunikace mezi jednotlivými klienty v~systému je zprostředkována pomocí ce
     \label{fig:basic_mqtt}
 \end{figure}
 
-Na obrázku \ref{fig:basic_mqtt} tedy klienti \textcolor{green}{A} a \textcolor{green}{B} začnou odebírat \textit{topic} \uv{Teplota}. Když pak klient \textcolor{magenta}{C} pak publikuje zprávu na tuto adresu, \textcolor{blue2}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
+Na obrázku \ref{fig:basic_mqtt} \textcolor{green}{klienti A} a \textcolor{green}{B} začnou odebírat \textit{topic} \uv{Teplota}. Když pak \textcolor{magenta}{klient C} publikuje zprávu na tuto adresu, \textcolor{blue2}{\textit{broker}} se postará o~doručení všem odebírajícím klientům.
 
 Adresy je možné hierarchicky strukturovat následujícím způsobem \cite{mqtt_eclipse}: 
 
@@ -168,7 +166,7 @@ Adresy je možné hierarchicky strukturovat následujícím způsobem \cite{mqtt
 
 \item Lze tvořit skupiny, například:
     \begin{itemize}
-        \item \verb|/senzory/obyvak/teplota|.
+        \item \verb|/senzory/obyvak/teplota|,
         \item \verb|/senzory/kuchyne/vlhkost|.
     \end{itemize}
 \item Zprávy je nutné publikovat na jednoznačnou adresu.
@@ -179,7 +177,7 @@ Adresy je možné hierarchicky strukturovat následujícím způsobem \cite{mqtt
     \end{itemize}
 \end{itemize}
 
-V~případě této práce by tedy nadřazený systém i podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Tím by vznikla obdoba modelu \textit{client/server}, zmíněného v~sekci \ref{sec:an_struct}. 
+V~případě této práce by nadřazený systém i podřízené systémy byly klienty \textit{brokeru}. Podřízené systémy by publikovaly naměřená data, která by nadřazený systém odebíral. Tím by vznikla obdoba modelu \textit{client/server}, zmíněného v~sekci \ref{sec:an_struct}. 
 
 Samotný \textit{broker} by pak mohl běžet souběžně s~nadřazeným systémem na zvolené platformě (například \textit{broker} Mosquitto je dostupný na řadě platforem, včetně Raspberry Pi \cite{mqtt_mosquitto_wiki}).
 
@@ -209,7 +207,7 @@ Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při pou�
 
 \subsection{Závěr výběru protokolu}
 
-V~sekcích \ref{sec:an_https} a \ref{sec:an_mqtt} jsem se blíže podíval na dva poměrně rozšířené protokoly aplikační vrstvy, které by bylo možné použít pro tvorbu nadřazeného systému.
+V~sekcích \ref{sec:an_https} a \ref{sec:an_mqtt} jsem blíže prozkoumal dva poměrně rozšířené protokoly aplikační vrstvy, které by bylo možné použít pro tvorbu nadřazeného systému.
 
 Pokud by mezi požadavky na systém bylo zahrnuto zasílání nevyžádaných zpráv podřízeným systému (jak je zmíněno v~sekci \ref{sec:an_struct}), zvolil bych pravděpodobně protokol MQTT. V~něm je tato funkcionalita velmi snadno implementovatelná -- stačí, aby podřízené systémy odebíraly \textit{topic}, na kterém by nadřazený systém publikoval zprávy.
 
@@ -228,7 +226,7 @@ Zaznamenané události bude potřeba presistentně uchovávat. Zde by šly využ
 
 Z~dostupných možností mě zaujal SQLite, což není klasický databázový stroj s~modelem \textit{client/server}, ale místo toho tvoří součást programu, který databázi používá. Přístup k~datům je realizován pomocí přímého čtení/zápisu do databázového souboru na disku.  Díky tomu má malé nároky na diskový prostor a operační paměť. \cite{sqlite_about}
 
-Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omezenými zdroji, představují tyto vlastnosti nezanedbatelnou výhodu. Použití SQLite také zjednouší nasazení aplikace, neboť nebude nutné vytvářet a konfigurovat databázový server.
+Jelikož bude nadřazený systém pravděpodobně provozován na hardwaru s~omezenými zdroji, představují tyto vlastnosti nezanedbatelnou výhodu. Použití SQLite také zjednoduší nasazení aplikace, neboť nebude nutné vytvářet a konfigurovat databázový server.
 
 \subsection{Velikost databáze}
 
@@ -247,9 +245,9 @@ Událost kontrolního hlášení by měla obsahovat tyto údaje:
     \item Typ události (kontrolní hlášení).
 \end{itemize}
 
-Identifikátory a typ události pravděpodobně budou 32bitová celá čísla. Datum je možné v~SQLite ukládat buď jako textový retězec ve formátu \texttt{YYYY-MM-DD HH:MM:SS.SSS}, 64bitové reálné číslo, či 32bitové cele číslo -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplývá, že jedno kontrolní hlášení bude mít velikost alespoň $4 \cdot 32 = 128$ bitů.
+Identifikátory a typ události pravděpodobně budou 32bitová celá čísla. Datum je možné v~SQLite ukládat buď jako textový retězec s~formátem \texttt{YYYY-MM-DD HH:MM:SS.SSS}, 64bitové reálné číslo, či 32bitové celé číslo -- \textit{Unix Time} \cite{sqlite_datetypes}. Z~toho vyplývá, že jedno kontrolní hlášení bude mít velikost alespoň $4 \cdot 32 = 128$ bitů.
 
-Pokud nadřazený systém monitoruje 30 garáží, přičemž každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 \cdot 24 \cdot 96 = 98304$ bitů, tedy asi 98 Kb. Dá se tedy předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
+Pokud nadřazený systém monitoruje 30 garáží, přičemž každá odesílá kontrolní hlášení každou hodinu, jsou každý den vytvořeny záznamy o~velikosti $30 \cdot 24 \cdot 96 = 98304$ bitů, tedy asi 98 Kb. Dá se proto předpokládat, že velikost databázového souboru neporoste nijak dramaticky.
 
 Tento výpočet představuje pouze odhad předpokládané velikosti. Skutečná velikost bude záležet na zvolené implementaci, neměla by se však výrazně lišit od tohoto odhadu.
 
@@ -262,7 +260,7 @@ Nadřazený systém má být schopen zasílat uživatelům notifikace o~stavu je
 
 Tyto notifikace by měl obdržet jednak správce garáží (provozovatel nadřazeného systému), jednak jednotliví nájemci, kterým budou zasílány notifikace týkající se jejich garáží.
 
-V~následujících sekcích jsem otestoval několik přístupů k~odesílání těchto notifikací, a to jak pomocí e-mailu tak SMS.
+V~následujících sekcích jsem otestoval několik přístupů k~odesílání těchto notifikací, a to jak pomocí e-mailu, tak SMS.
 
 \subsection{E-mailové notifikace}
 
@@ -274,9 +272,9 @@ Alternativa je použít nějakého poskytovatele e-mailových služeb, jako nap�
 
 Tímto je částečně porušen požadavek na nezávislost (viz sekci \ref{sec:an}). Při zasílání notifikací je však nutný přístup k~internetu i v~případě použití vlastního e-mailového serveru a nezávislost na externí službě nevyváží komplikace spojené s~jeho provozem.
 
-Gmail umožňuje přístup k~účtu pomocí SMTP, je však nutné v~nastavení účtu Google povolit přístup méně zabezpečeným aplikacím, protože přihlášení je prováděno pomocí uživatelského jména a hesla \cite{google_smtp}. Jelikož by příhlašovací údaje musely být uloženy v~nadřazeném systému v~čitelné podobě, není tento způsob vhodný.
+Gmail umožňuje přístup k~účtu pomocí protokolu SMTP, je však nutné v~nastavení účtu Google povolit přístup méně zabezpečeným aplikacím, protože přihlášení je prováděno pomocí uživatelského jména a hesla \cite{google_smtp}. Jelikož by příhlašovací údaje musely být uloženy v~nadřazeném systému v~čitelné podobě, není tento způsob vhodný.
 
-Bezpečnější možnost je použít k~přístupu protokol OAuth2 \cite{rfc6749}. S~jeho pomocí je možné udělovat aplikacím (v~tomto případě nadřazenému systému) přístup k~částem účtu Google, tedy i Gmailu. Autentizace probíhá na základě náhodně generovaných klíčů, není tedy nutné uchovávat v~nadřazeném systému heslo, které mohl uživatel systému použít i v~jiných službách, v~čitelné podobě \cite{google_oauth}.
+Bezpečnější možnost je použít k~přístupu protokol OAuth2 \cite{rfc6749}. S~jeho pomocí je možné udělovat aplikacím (v~tomto případě nadřazenému systému) přístup k~částem účtu Google, tedy i Gmailu. Autentizace probíhá na základě náhodně generovaných klíčů, takže není nutné uchovávat v~nadřazeném systému heslo, které mohl uživatel systému použít i v~jiných službách, v~čitelné podobě \cite{google_oauth}.
 
 % este by se dalo napsat ze timhle taky de vomezit k jaky casti toho google uctu bude mit ten token pristup
 
@@ -288,9 +286,9 @@ Posílání SMS z~nadřazeného systému lze provést dvěma způsoby. První mo
 
 \subsubsection{GSM modul}
 
-Poměrně snadný způsob jak odeslat SMS pomocí počítače je využít GSM modul, který lze připojit do USB (například modul E3131 od společnosti Huawei, zobrazený na obrázku \ref{fig:gsm_module}). Počítač může s~modulem komunikovat pomocí sériové linky a příkazů, které definuje GSM standard \cite{gsm_standard}. Díky tomu nejsou nutné specializované ovladače a modul lze použít na mnoha různých zařízení.
+Poměrně snadný způsob, jak odeslat SMS pomocí počítače, je využít GSM modul, který lze připojit do USB (například modul E3131 od společnosti Huawei, zobrazený na obrázku \ref{fig:gsm_module}). Počítač může s~modulem komunikovat pomocí sériové linky a příkazů, které definuje GSM standard \cite{gsm_standard}. Díky tomu nejsou nutné specializované ovladače a modul lze použít na mnoha různých zařízení.
 
-Modul je možné ovládat přímo pomocí sériové linky, vhodnější je však použít program či knihovnu, která zařídí zasílání příslušných příkazů. To je například projekt Gammu, který umožňuje komplexní ovládání modulu buď pomocí příkazové řádky nebo knihovny v~jazyce C \cite{gammu}.
+Modul je možné ovládat přímo pomocí sériové linky, vhodnější je však použít program či knihovnu, která zařídí zasílání příslušných příkazů. To je například projekt Gammu, který umožňuje komplexní ovládání modulu buď pomocí příkazové řádky, nebo knihovny v~jazyce C \cite{gammu}.
 
 \begin{figure}[h!]
     \centering
