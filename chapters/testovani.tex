@@ -163,6 +163,10 @@ Stránka simulátoru je přístupná na \texttt{/simulator}, pokud byla aplikace
 
 % este napsat ze s tim dynamic loadingem nejde ke kolekci garage.events pristupovat primo, takze sme udelali funkci garage.get_events(event_type=None), ktera nam ten pristup zapouzdri a este s ni muzem filtrovat podle typu
 
+% tzn ten tradeoff je ze ted to garage.events neni primo kolekce ale nakej query object kterej nevobsahuje vsechnny ty eventy, ale to nevadi protoze k tem eventum stejne pristupujem jen pres to get events. Este tam muzem napsat ze misto toho dynamickyho loadovani bysme mohli dat ten noload a nenacitat ty eventy vubec a pak v ty metode get_events misto toho query objectu co vraci to dynamicky loadovani (pres relationship) bysme pouzivali proste tu tridu Event, stylem Event.query... ale tohle ze je takovy cistsi.
+
+% prave ten hlavni problem ty python kolekce je ze se do ni pri tim appendu musej nacist vsechny ty vobjekty, coz je zbytecny a drahy. Kdezto pri tim dynamickym loadu je to nenacita protoze jakoby ten append nepristupuje k python kolekci ale k nakymu tomu query objektu (vytvorenymu zas pres ten relationship).
+
 % este napsat ze bez toho se pridavani udalosti ke garazim ktery jich uz maj moc furt spomalovalo kvuli tomu appendu, takhle je to +- stejny furt i pro mega udalosti.
 
 % tohle vsechno vychazi z toho collections clanku
