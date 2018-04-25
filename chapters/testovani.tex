@@ -152,3 +152,19 @@ V~rámci testování aplikace nadřazeného systému jsem vytvořil simulátor p
 Simulátor je implementován jako jednoduchá stránka, která je součástí webového rozhraní nadřazeného systému. Zasílání požadavků je realizováno pomocí Javascriptu a knihovny jQuery \cite{jquery_about}. 
 
 Stránka simulátoru je přístupná na \texttt{/simulator}, pokud byla aplikace nadřazeného systému spuštěna v~ladícím módu (\texttt{DEBUG = True} v~konfiguračním souboru aplikace).
+
+\section{Test odezvy nadřazeného systému}
+
+% napsat ze sme zkouseli jakou odezvu ma nadrazenej system -- tj jak dlouho trva tak poslat udalost (na rapsberry pi)
+
+% napsat ty vysledky, tj asi 200 - 250 ms
+
+% napsat ze sme vodhalili ten problem s lazy loadingem viz http://docs.sqlalchemy.org/en/latest/orm/collections.html, napsat neco v tom smyslu, ze ten normalni loading co tam je je pomalej pro velky kolekce jako sou ty udalosti a ze se musi pouzit trochu jinej pristup. ruzny strategie sou popsany v tim clanku, a ze my sme zvolili to prvni, teda pouziti dynamic loadingu (muzu napsat ze sme este zkouseli noload).
+
+% este napsat ze s tim dynamic loadingem nejde ke kolekci garage.events pristupovat primo, takze sme udelali funkci garage.get_events(event_type=None), ktera nam ten pristup zapouzdri a este s ni muzem filtrovat podle typu
+
+% este napsat ze bez toho se pridavani udalosti ke garazim ktery jich uz maj moc furt spomalovalo kvuli tomu appendu, takhle je to +- stejny furt i pro mega udalosti.
+
+% tohle vsechno vychazi z toho collections clanku
+
+% nakonec napsat ze se to da este trochu zrychlit pouzitim tech sessions v requests
