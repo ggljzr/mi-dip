@@ -332,7 +332,7 @@ Zasílání upozornění pomocí SMS se mi zdá vhodnější než pomocí e-mail
 
 Pro tvorbu systému jsem se rozhodl použít programovací jazyk Python \cite{python_tutorial}. S~tímto jazykem mám nejvíce zkušeností co se týče implementace webových aplikací. Je také dostatečně rozšířený, takže výsledný systém bude možné nasadit na poměrně širokém spektru platforem bez nutnosti složitějšího portování.
 
-K~vytvoření webového rozhraní i API pro podřízené systémy jsem zvolil framework Flask \cite{flask_about}. Hlavní důvod jsou opět předchozí zkušenosti s~tímto frameworkem. Flask také dává více volnosti při návrhu aplikace než například také velmi rozšířený framework Django \cite{django_about}.
+K~vytvoření webového rozhraní i API pro podřízené systémy jsem zvolil framework Flask \cite{flask_about}. Hlavním důvodem jsou opět předchozí zkušenosti s~tímto frameworkem. Flask také dává více volnosti při návrhu aplikace než například také velmi rozšířený framework Django \cite{django_about}.
 
 \section{Výběr platformy}
 \label{sec:an_plat}
@@ -352,7 +352,7 @@ Při výběru počítače byla nejdůležitejším kritériem podpora softwaru p
 
 Pro provoz tohoto softwaru bude potřeba plnohodnotný operační systém, což vylučuje platformy využívající jednoduché mikrokontroléry, jako například Arduino Uno. Kromě toho je nutné připojení k~síti pomocí Ethernetu nebo WiFi. 
 
-V~dalších sekcích jsem se blíže podíval na jednodeskové počítače Raspberry Pi (sekce \ref{sec:an_rpi}) a Zybo Zynq-7000 (sekce \ref{sec:an_zyb}) a zvážil jejich výhody a nevýhody pro implementaci systému.
+V~dalších sekcích jsem blíže zkoumal jednodeskové počítače Raspberry Pi (sekce \ref{sec:an_rpi}) a Zybo Zynq-7000 (sekce \ref{sec:an_zyb}) a zvážil jejich výhody a nevýhody pro implementaci systému.
 
 \subsection{Raspberry Pi}
 \label{sec:an_rpi}
@@ -390,7 +390,7 @@ Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední ve
 
 Tento přípravek od společnosti Digilent je postavený na SoC Xilinx Zynq Z-7010. Hlavní předností tohoto čipu je kombinace dvoujádrového procesoru ARM Cortex A9 s~FPGA odpovídající sérii Artix-7 \cite{zybo_man}. 
 
-Díky tomu je možná těsná integrace mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně se označuje jako \textit{hardware/software codesign} \cite{hw_code}.
+Díky tomu je možná těsná integrace mezi aplikací běžící na procesoru a výkonnými, úzce specializovanými moduly, které jsou syntetizované na FPGA. Tento přístup, kdy je hardware a software systému vyvíjen souběžně, se označuje jako \textit{hardware/software codesign} \cite{hw_code}.
 
 %dostupne operacni systemy -- petalinux, xilinux
 Pro SoC ze série Zynq vznikla linuxová distribuce Xilinux, vycházející z~Ubuntu. Kromě plnohodnotného operačního systému (včetně například grafického rozhraní) poskytuje Xilinux také ovladače pro komunikaci s~FPGA pomocí AXI sběrnice \cite{xilibus}. K~tomu využívá \textcolor{magenta}{IP jádro Xilibus}, které funguje jako adaptér mezi \textcolor{green}{procesorem} a FPGA modulem (viz obrázek \ref{fig:xilibus}). Ten pak ke komunikaci může využívat standardni \textcolor{blue2}{FIFO} fronty a nemusí se zabývat AXI sběrnicí \cite{xilibus}.
@@ -408,14 +408,14 @@ Přípravek je možné připojit k~síti pomocí ethernetového portu, který po
 
 Na přípravku je také k~dispozici 128 MB flash paměti \cite{zybo_man}, k~provozu tedy teoreticky není potřeba SD karta. Tato paměť by však pravděpodobně nestačila k~instalaci vhodného operačního systému a potřebného softwaru. I~zde by tedy bylo nutné použít SD kartu.
 
-Stejně jako Raspberry Pi tato deska postrádá RTC obvod. Firma Digilent však dodává externí obvod, který lze připojit pomocí Pmod rozhraní \cite{pmod_rtc_man}. 
+Stejně jako Raspberry Pi tato deska postrádá RTC obvod. Firma Digilent však dodává externí obvod, který lze připojit pomocí rozhraní Pmod \cite{pmod_rtc_man}. 
 
 Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. Ta se pohybuje okolo 4000 Kč\footnote{Cena podle produktové stránky \url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html}, v~únoru 2018.}. K~tomu je nutné přičíst náklady na SD kartu a RTC obvod, případně i WiFi modul. Cena celého zařízení by se tedy pohybovala v~rozmezí 4500 až 5000 Kč.
 
 %bacha tady este na "As of 9/21/2017- the Zybo will be replaced by the Zybo Z7-10. We have created this guide to help you migrate your designs to the Zybo Z7. " ale nevim jestli to ma cenu resit ty desky se lisej minimalne (SoC je stejnej)
 %^^linx: https://store.digilentinc.com/zybo-z7-zynq-7000-arm-fpga-soc-development-board/
 
-\subsection{Závěr výberu platformy}
+\subsection{Závěr výběru platformy}
 
 \begin{table}[h!]
 \centering
@@ -441,7 +441,7 @@ Jak vyplývá z~tabulky \ref{tab:plat_compare}, Raspberry Pi 3 poskytuje znateln
 
 FPGA by bylo možné využít například k~šifrování úložiště, vzhledem k~předpokládáným objemům dat by však zrychlení oproti softwarovému šifrování neospravedlnilo vysokou cenu přípravku. Na druhou stranu vyšší výkon procesoru u~Raspberry Pi může mít pro nadřazený systém význam, například z~hlediska odezvy uživatelského rozhraní.
 
-Jako platformu pro implementaci nadřazeného systému jsem tedy zvolil Raspberry Pi 3, především kvůli příznivé ceně, výrazně lepšímu poměru cena/výkon (pro tuto práci), a také kvůli podpoře a rozšiřitelnosti.
+Jako platformu pro implementaci nadřazeného systému jsem zvolil Raspberry Pi 3, především kvůli příznivé ceně, výrazně lepšímu poměru cena/výkon (pro tuto práci), a také kvůli podpoře a rozšiřitelnosti.
 
 \subsection{Provoz aplikace na \textit{cloudové} platformě}
 \label{sec:an_cloud}

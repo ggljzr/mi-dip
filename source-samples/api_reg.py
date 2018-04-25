@@ -1,5 +1,5 @@
 import requests
-# server nadřazeného systemu je přístupný
+# server nadřazeného systému je přístupný
 # na adrese raspberrypi.local
 url = 'https://raspberrypi.local/api/garages'
 

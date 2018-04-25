@@ -56,7 +56,7 @@ Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv
     \item \texttt{note} -- poznámka pro další popis garáže.
     \item \texttt{phone} -- telefonní číslo nájemce garáže. V~případě vyplnění budou upozornění týkající se garáže zasílána i nájemci.
     \item \texttt{api\_key} -- klíč umožňující přístup k~API systému. Ten je také zaslán zařízení při jeho registraci. Generování a správa klíčů je blíže popsána v~sekci \ref{sec:de_apikeys}.
-    \item \texttt{last\_report} -- datum a čas posledního kontrolního hlášeí.
+    \item \texttt{last\_report} -- datum a čas posledního kontrolního hlášení.
     \item \texttt{next\_report} -- datum a čas dalšího očekávaného hlášení.
     \item \texttt{period} -- perioda kontrolních hlášení.
     \item \texttt{doors} -- stav dveří garáže (otevřeno/zavřeno).
@@ -67,9 +67,9 @@ Třída \texttt{Garage} reprezentuje konkrétní podřízený systém a uchováv
 \subsubsection{Vytváření nových garáží}
 \label{sec:de_add_garage}
 
-Nové garáže mohou v~systému vznikat dvěma způsoby. První možnost je vytvoření nové garáže přímo v~uživatelském rozhraní. Po vytvoření se zde zobrazí vygenerovaný API klíč, který je potřeba nahrát na příslušný podřízený systém. Způsob nahrávání by závisel na příslušném hardwaru (například sériová linka). Tato možnost je určena především pro podřízené systémy, které by nepodporovaly zaslání registračního požadavku, a nevyžaduje zapnutý registrační mód.
+Nové garáže mohou v~systému vznikat dvěma způsoby. První možnost je vytvoření nové garáže přímo v~uživatelském rozhraní. Po vytvoření se zde zobrazí vygenerovaný API klíč, který je potřeba nahrát na příslušný podřízený systém. Způsob nahrávání by závisel na příslušném hardwaru (například přes sériovou linku). Tato možnost je určena především pro podřízené systémy, které by nepodporovaly zaslání registračního požadavku, a nevyžaduje zapnutý registrační mód.
 
-Druhá možnost je použít registrační mód. V~tom případě je nová garáž vytvořena na základě registračního požadavku podřízeného systému (pro bližší informace o~tomto požadavku viz sekci \ref{sec:de_api}). Vygenerovaný API klíč je přitom zaslán jako odpověď na požadavek, a není tedy nutné ho ručně nahrávat. Registrační mód je možné aktivovat v~uživatelském rozhraní. Pokud mód není aktivovaný, nadřazený systém odmítne všechny požadavky na registraci zaslané tímto způsobem.
+Druhá možnost je použít registrační mód. V~tom případě je nová garáž vytvořena na základě registračního požadavku podřízeného systému (pro bližší informace o~tomto požadavku viz sekci \ref{sec:de_api}). Vygenerovaný API klíč je přitom zaslán jako odpověď na požadavek, a není nutné ho ručně nahrávat. Registrační mód je možné aktivovat v~uživatelském rozhraní. Pokud mód není aktivovaný, nadřazený systém odmítne všechny požadavky na registraci zaslané tímto způsobem.
 
 \subsubsection{API klíče}
 \label{sec:de_apikeys}
@@ -135,9 +135,9 @@ Kromě událostí měnících stav garáže nadřazený systém ještě rozezná
 
 Událost otevření dveří představuje jejich odemčení pomocí klíče. Nesignalizuje tedy neoprávněné vniknutí. Pokud byly dveře odemčeny klíčem, nemá smysl detekovat pohyb.
 
- V~případě, že jsou dveře garáže otevřené, by tedy podřízený systém neměl odesílat žádné události informující o~detekci pohybu. Pokud tak učiní, je událost nadřazeným systémem ignorována. Místo ní je zaznamenána událost informující o~chybě podřízeného systému (\texttt{device\_error}).
+V~případě, že jsou dveře garáže otevřené, by podřízený systém neměl odesílat žádné události informující o~detekci pohybu. Pokud tak učiní, je událost nadřazeným systémem ignorována. Místo ní je zaznamenána událost informující o~chybě podřízeného systému (\texttt{device\_error}).
 
- Události o~pohybu začne nadřazený systém opět registrovat poté, co je informován o~zavření dveří. Neoprávněné vniknutí je tak detekováno zjištěním pohybu v~uzavřené garáži. 
+Události o~pohybu začne nadřazený systém opět registrovat poté, co je informován o~zavření dveří. Neoprávněné vniknutí je tak detekováno zjištěním pohybu v~uzavřené garáži. 
 
 \subsubsection{Zasílání upozornění}
 
@@ -179,7 +179,7 @@ Na hlavní stránce je také zobrazen seznam všech sledovaných garáží včet
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_garage.pdf}
-    \caption[Případy užití správy garáží]{Případy užití správy garáží. Zde uživatel zobrazuje stav garáží a jednotlivé garáže spravuje pomocí uvedených operací}
+    \caption[Případy užití správy garáží]{Případy užití správy garáží. Zde uživatel zobrazuje stav garáží a jednotlivé garáže spravuje pomocí uvedených operací.}
     \label{fig:use_case_garage}
 \end{figure}
 
@@ -217,9 +217,9 @@ V~souboru je uložen otisk přístupového hesla (více v~sekci \ref{sec:de_auth
 
 \textit{Controller} slouží ke zpracování požadavků uživatele a podřízených systémů. Jelikož jde o~HTTP požadavky, definuje \textit{controller} URL, přiřazuje k~nim akce, které se mají provést (kontrola přihlášení, přesměrování atd.) a vrací příslušné odpovědi (například vygenerované stránky).
 
-\textit{Controller} aplikace se dá rozdělit na dvě části. První část zpracovává požadavky zaslané uživatelem z~webového rozhraní. Propojuje tedy případy užití popsané v~sekci \ref{sec:de_web} s~operacemi na modelu ze sekce \ref{sec:de_model}. URL definovaná v~této části jsou využívána pouze uvnitř aplikace, a nejsou součástí API nadřazeného systému.
+\textit{Controller} aplikace se dá rozdělit na dvě části. První část zpracovává požadavky zaslané uživatelem z~webového rozhraní. Propojuje tak případy užití popsané v~sekci \ref{sec:de_web} s~operacemi na modelu ze sekce \ref{sec:de_model}. URL definovaná v~této části jsou využívána pouze uvnitř aplikace, a nejsou součástí API nadřazeného systému.
 
-Druhá část zpracovává požadavky podřízených systémů. Zde definovaná URL tvouří API nadřazeného systému, pomocí kterého se mohou podřízené systémy registrovat a nahrávat nové události. Popisem API, včetně formátu požadavků a návratových hodnot, se zabývá sekce \ref{sec:de_api}.
+Druhá část zpracovává požadavky podřízených systémů. Zde definovaná URL tvoří API nadřazeného systému, pomocí kterého se mohou podřízené systémy registrovat a nahrávat nové události. Popisem API, včetně formátu požadavků a návratových hodnot, se zabývá sekce \ref{sec:de_api}.
 
 \subsection{API}
 \label{sec:de_api}
@@ -243,7 +243,7 @@ Registrační požadavek má následující formát (zaslání registračního p
     \item HTTP metoda -- POST.
     \item Návratová hodnota -- JSON:
     \begin{itemize}
-        \item \texttt{status} -- návratový kód (201 při vytvoření garáže, 403 při vypnutém reg. módu).
+        \item \texttt{status} -- návratový kód (201 při vytvoření garáže, 403 při vypnutém registračním  módu).
         \item \texttt{api\_key} -- unikátní klíč k~API nadřazeného systému (pouze v~případě úspěchu, tedy vytvoření garáže).
     \end{itemize}
 \end{itemize}
@@ -309,16 +309,16 @@ Vytváření dalších událostí je stejné jako vytváření kontrolního hlá
 \section{Autentizace uživatele}
 \label{sec:de_auth}
 
-Do webového rozhraní aplikace je povolen pouze autorizovaný přístup, a je tedy nutné nějakým způsobem ověřit identitu uživatele. Jelikož aplikace nepočítá s~odlišnými stupni přístupu (a tedy každý uživatel s~přístupem do rozhraní má přístup ke všem jeho částem), rozhodl jsem se, že nebudu vytvářet infrastrukturu uživatelských účtů, protože by měla pouze omezené využití.
+Do webového rozhraní aplikace je povolen pouze autorizovaný přístup, a je tedy nutné nějakým způsobem ověřit identitu uživatele. Jelikož aplikace nepočítá s~odlišnými stupni přístupu (každý uživatel s~přístupem do rozhraní má přístup ke všem jeho částem), rozhodl jsem se, že nebudu vytvářet infrastrukturu uživatelských účtů, protože by měla pouze omezené využití.
 
-Přístup do rozhraní tedy nevyžaduje vytvoření účtu a zadávání uživatelského jména, ale pouze heslo. \textit{Hash} tohoto hesla (doplněného solí), je uložen v~souboru s~uživatelským nastavením aplikace. K~vytvoření \textit{hashe} je použit algoritmus Argon2 \cite{argon2}.
+Přístup do rozhraní nevyžaduje vytvoření účtu a zadávání uživatelského jména, ale pouze heslo. \textit{Hash} tohoto hesla (doplněného solí), je uložen v~souboru s~uživatelským nastavením aplikace. K~vytvoření \textit{hashe} je použit algoritmus Argon2 \cite{argon2}.
 
-\textit{Hashování} hesla je zde použito především pro případ, že by uživatel použil stejné heslo jaké používá v~jiných aplikacích či službách. V~případě prozrazení uživatelských dat (například při odcizení systému) tedy útočník nemůže z~otisku zjistit původní použité heslo, tudíž přístup k~těmto uživatelovým účtům není kompromitován.
+\textit{Hashování} hesla je zde použito především pro případ, že by uživatel použil stejné heslo jaké používá v~jiných aplikacích či službách. V~případě prozrazení uživatelských dat (například při odcizení systému) útočník nemůže z~otisku zjistit původní použité heslo, tudíž přístup k~těmto uživatelovým účtům není kompromitován.
 
-Stejně tak někdo s~přístupem k~serveru, na kterém nadřazený systém běží, nemá automaticky přístup do webového rozhraní. Nicméně má stále přístup k~celé (nešifrované) databázi a také může heslo libovolně měnit (spočítáním nového otisku), tedy z~praktického hlediska je přístup k~serveru téměř ekvivalentní s~přístupem do webového rozhraní.
+Stejně tak někdo s~přístupem k~serveru, na kterém nadřazený systém běží, nemá automaticky přístup do webového rozhraní. Nicméně má stále přístup k~celé (nešifrované) databázi a také může heslo libovolně měnit (spočítáním nového otisku), takže z~praktického hlediska je přístup k~serveru téměř ekvivalentní s~přístupem do webového rozhraní.
 
 \subsection{První přihlášení}
 
-Při prvním startu nadřazeného systému je zvoleno jednoduché implicitní heslo (\textit{password}), kterým se uživatel může přihlásit do webového rozhraní. 
+Při prvním startu nadřazeného systému je zvoleno jednoduché implicitní heslo (\uv{password}), kterým se uživatel může přihlásit do webového rozhraní. 
 
 Pokud nadřazený systém detekuje použití tohoto hesla, po přihášení uživatele ihned přesměruje na stránku umožňující změnu hesla a zobrazí varování.
