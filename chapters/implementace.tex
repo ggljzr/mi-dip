@@ -30,6 +30,23 @@ SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{mode
 \inputminted[bgcolor=codebg]{python}{source-samples/db_relationship.py}
 \end{listing}
 
+\subsection{Dynamické načítání databázových vztahů}
+\label{sec:im_lazy}
+
+Definice vztahu mezi garáží a jejími událostmi je na straně třídy \texttt{Garage} provedena pomocí funkce \texttt{relationship} (viz ukázku \ref{lst:db_relationship}). Zde se při testování (sekce \ref{sec:te_lat}) ukázalo, že výchozí chování této funkce není pro účely nadřazeného systému příliš vhodné.
+
+Pokud není uvedeno jinak, funkce \texttt{relationship()} vytvoří na základě databázových záznamů seznam událostí pomocí datového typu jazyka Python \texttt{list} \cite{sqlalchemy_col}. Proměnná \texttt{events} by tak v~tomto případě představovala \texttt{list} obsahující všechny události.
+
+Toto chování dovoluje pohodlnou a intuitivní práci s~uloženými daty (neboť je zachována sémantika Pythonu), nehodí se však pro velké množství záznamů. Problém představuje právě načítání záznamů do datové struktruy.
+
+Při přidávání nové události je nutné nejprve načíst všechny dosud zaznamené události garáže do seznamu \texttt{events}, poté na jeho konec vložit novou událost pomocí metody \texttt{events.append()} a výsledek opět uložit do databáze. Seznam může být udřžován v~paměti od předchozího vkládání, nicméně samotné vložení nového prvku do dlouhého seznamu nemusí být efektivní.
+
+SQLAlchemy nabízí několik řešení, jak definovat vztah pomocí funkce \texttt{relationship()} efektivněji \cite{sqlalchemy_col}. Já jsem zvolil použití dynamického načítání záznamů (\texttt{lazy='dynamic'} v~ukázce \ref{lst:db_relationship}). V~tom případě přístup k~proměnné \texttt{events} nevrátí \texttt{list}, ale instanci třídy \texttt{Query} \cite{sqlalchemy_col}. 
+
+S~její pomocí lze přidávat nové události metodou \texttt{append()} bez nutnosti načítání těch dosud zaznamenaných, a také přistupovat k~uloženým událostem \cite{sqlalchemy_col}.
+
+Použití dynamického načítání zaznamenaných událostí má poměrně výrazný vliv na výkon aplikace při komunikaci s~podřízenými systémy (protože právě ty vkládají nové události).
+
 \subsection{Kontrola zmeškaných hlášení}
 \label{sec:im_scheduler}
 
