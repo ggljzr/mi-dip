@@ -79,7 +79,7 @@ Zobrazení testovaných stránek vyžaduje přihlášení do webového rozhraní
 
 Další možnost je nastavit přihlášení explicitně, modifikací testovací HTTP relace. Proto není nutné spoléhat na funkcionalitu přihlašování, která je testována samostatně.
 
-Framework Flask umožňuje k~aplikaci vygenerovat testovacího klienta, jehož relaci je možné libovolně modifikovat \cite{flask_testing}. Díky tomu lze nastavit proměnnou \texttt{logged\_in}, která je používána ke kontrole přihlášení (viz sekci \ref{sec:im_auth}). Nastavení této proměnné je provedeno následujícím způsobem:
+Framework Flask umožňuje k~aplikaci vygenerovat testovacího klienta, jehož relaci je možné libovolně modifikovat \cite{flask_testing}. Díky tomu lze nastavit proměnnou \texttt{logged\_in}, která je používána ke kontrole přihlášení (viz sekci \ref{sec:im_auth}). Nastavení této proměnné je provedeno způsobem naznačeným v~ukázce \ref{lst:logged_in}.
 
 \begin{listing}[htbp]
 \caption{\label{lst:logged_in} Explicitní nastavení proměnné \texttt{logged\_in} na požadovanou hodnotu. Pomocí takto modifikovaného testovacího klienta lze zasílat požadavky, na které bude aplikace reagovat jako při přihlášení.}
@@ -94,6 +94,7 @@ Toto testování ověřuje jednak funkci \textit{controlleru} provádějícího 
     \item Zobrazení přihlašovací stránky.
     \item Kontrola přihlášení při přístupu k~dalším částem systému (viz sekci \ref{sec:im_auth}).
     \item Přihlášení pomocí implicitního hesla.
+    \item Zadání neplatného hesla.
     \item Odhlášení.
     \item Změna hesla.
 \end{itemize}
@@ -143,7 +144,7 @@ V~konfiguračním souboru aplikace, který je použit při jejím nasazení, byl
 
 \subsection{Provozní server}
 
-Aplikace byla nasazena na virtuálním serveru ze služby Amazon EC2, s~jedním procesorovým jádrem a 1 GB paměti. Použitý byl operační systém Ubuntu Xenial 16.04.
+Aplikace byla nasazena na virtuálním serveru ze služby Amazon EC2, s~jedním procesorovým jádrem a 1 GB paměti. Použit byl operační systém Ubuntu Xenial 16.04.
 
 \section{Simulátor podřízeného systému}
 
@@ -158,7 +159,7 @@ Stránka simulátoru je přístupná na \texttt{/simulator}, pokud byla aplikace
 
 V~závěru testování jsem vyzkoušel dobu odezvy nadřazeného systému při nasazení na Raspberry Pi 3. Chtěl jsem ověřit především dobu zpracování události zaslané podřízeným systémem.
 
-Při testu se ukázalo, že doba odezvy roste s~počtem událostí, které byly pro danou garáž zaznamenány. Z~počátku byly zaslané události zpracovány zhruba za 150 až 200 milisekund. Pokud však měla daná garáž v~databázi uloženo již kolem 2000 událostí, vzrostla doba zpracování až na 800 milisekund.
+Při testu se ukázalo, že doba odezvy roste s~počtem událostí, které byly pro danou garáž zaznamenány. Zpočátku byly zaslané události zpracovány zhruba za 150 až 200 milisekund. Pokud však měla daná garáž v~databázi uloženo již kolem 2000 událostí, vzrostla doba zpracování až na 800 milisekund.
 
 Příčinou byl výchozí způsob, kterým framework SQLAlchemy mapuje databázové záznamy na Python objekty. Problém byl vyřešen dynamickým načítáním záznamů, které je popsáno v~sekci \ref{sec:im_lazy}. Po této úpravě se doba odezvy ustálila na přibližně 200 milisekudnách, bez ohledu na počet zaznamenaných událostí.
 

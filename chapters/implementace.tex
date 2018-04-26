@@ -33,13 +33,13 @@ SQLAlchemy také umožňuje snadno definovat databázové vztahy. V~\textit{mode
 \subsection{Dynamické načítání databázových vztahů}
 \label{sec:im_lazy}
 
-Definice vztahu mezi garáží a jejími událostmi je na straně třídy \texttt{Garage} provedena pomocí funkce \texttt{relationship} (viz ukázku \ref{lst:db_relationship}). Zde se při testování (sekce \ref{sec:te_lat}) ukázalo, že výchozí chování této funkce není pro účely nadřazeného systému příliš vhodné.
+Definice vztahu mezi garáží a jejími událostmi je na straně třídy \texttt{Garage} provedena pomocí funkce \texttt{relationship()} (viz ukázku \ref{lst:db_relationship}). Zde se při testování (sekce \ref{sec:te_lat}) ukázalo, že výchozí chování této funkce není pro účely nadřazeného systému příliš vhodné.
 
 Pokud není uvedeno jinak, funkce \texttt{relationship()} vytvoří na základě databázových záznamů seznam událostí pomocí datového typu jazyka Python \texttt{list} \cite{sqlalchemy_col}. Proměnná \texttt{events} by tak v~tomto případě představovala \texttt{list} obsahující všechny události.
 
-Toto chování dovoluje pohodlnou a intuitivní práci s~uloženými daty (neboť je zachována sémantika Pythonu), nehodí se však pro velké množství záznamů. Problém představuje právě načítání záznamů do datové struktruy.
+Toto chování dovoluje pohodlnou a intuitivní práci s~uloženými daty, neboť je zachována sémantika Pythonu. Nehodí se však pro velké množství záznamů. Problém představuje právě načítání záznamů do datové struktury.
 
-Při přidávání nové události je nutné nejprve načíst všechny dosud zaznamené události garáže do seznamu \texttt{events}, poté na jeho konec vložit novou událost pomocí metody \texttt{events.append()} a výsledek opět uložit do databáze. Seznam může být udřžován v~paměti od předchozího vkládání, nicméně samotné vložení nového prvku do dlouhého seznamu nemusí být efektivní.
+Při přidávání nové události je nutné nejprve načíst všechny dosud zaznamené události garáže do seznamu \texttt{events}, poté na jeho konec vložit novou událost pomocí metody \texttt{events.append()} a výsledek opět uložit do databáze. Seznam může být udrsžován v~paměti od předchozího vkládání, nicméně samotné vložení nového prvku do dlouhého seznamu nemusí být efektivní.
 
 SQLAlchemy nabízí několik řešení, jak definovat vztah pomocí funkce \texttt{relationship()} efektivněji \cite{sqlalchemy_col}. Já jsem zvolil použití dynamického načítání záznamů (\texttt{lazy='dynamic'} v~ukázce \ref{lst:db_relationship}). V~tom případě přístup k~proměnné \texttt{events} nevrátí \texttt{list}, ale instanci třídy \texttt{Query} \cite{sqlalchemy_col}. 
 
@@ -54,7 +54,7 @@ V~databázi nadřazeného systému je potřeba pravidelně provádět kontrolu, 
 
 Aplikace nadřazeného systému nemá v~zásadě možnost, jak tuto kontrolu sama iniciovat, neboť pouze reaguje na příchozí požadavky (od uživatele či podřízeného systému). Provedení kontroly může být důsledkem takového požadavku, například pokud uživatel otevře hlavní stránku webového rozhraní. 
 
-Provádět kontrolu hlášení pouze v~reakci na vnější podnět však není dostatečné. Pokud by nadřazený systém musel pro provedení kontroly hlášení čekat interakci s~webovým rozhraním (nebo například s~podřízeným systémem), nemuselo by vůbec dojít ke změně stavu garáže a tedy ani k~odeslání upozornění. Je tedy nutné zajistit pravidelné provádění kontrol na základě vnitřního podnětu.
+Provádět kontrolu hlášení pouze v~reakci na vnější podnět však není dostatečné. Pokud by nadřazený systém musel pro provedení kontroly hlášení čekat interakci s~webovým rozhraním (nebo například s~podřízeným systémem), nemuselo by vůbec dojít ke změně stavu garáže a odeslání upozornění. Je proto nutné zajistit pravidelné provádění kontrol na základě vnitřního podnětu.
 
 Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apscheduler}. APScheduler funguje jako knihovna do Pythonu, a umožňuje plánovat provádění zvolených funkcí. Nejde tedy o~externí program, plánovač je přímo součástí kódu nadřazeného systému \cite{apscheduler}. Vytvoření pravidelné kontroly hlášení podřízených systémů je naznačeno v~ukázce \ref{lst:scheduler_check}.
 
@@ -69,10 +69,10 @@ Plánovač se kromě kontroly hlášení hodí také při vypínání registrač
 \label{sec:im_notifications}
 
 % napsat ze zpravu posilame na zmenu stavu -> mame ten hook udelanej pres sqlalchemy
-Nadřazený systém zasílá SMS upozornění při změně stavu garáže (kromě změny do stavu \uv{OK}, viz sekci \ref{sec:de_event_eval}). Změnu stavu je možné hlídat pomocí dekorátoru \texttt{listens\_for} z~frameworku SQLAlchemy \cite{sqlalchemy_doc}, jak je naznačeno v~ukázce \ref{lst:state_change}.
+Nadřazený systém zasílá SMS upozornění při změně stavu garáže (kromě změny do stavu \uv{OK}, viz sekci \ref{sec:de_event_eval}). Změnu stavu je možné hlídat pomocí dekorátoru \texttt{@listens\_for} z~frameworku SQLAlchemy \cite{sqlalchemy_doc}, jak je naznačeno v~ukázce \ref{lst:state_change}. Dekorátor je konstrukt jazyka Python, který umožňuje rozšířit danou funkci či metodu o~další funkcionalitu \cite{python_decorators}. 
 
 \begin{listing}[htbp]
-\caption{\label{lst:state_change} Odeslání SMS na základě změny stavu garáže. Změna stavu je zachycena pomocí dekorátoru \texttt{listens\_for}. Jelikož \texttt{listens\_for} reaguje pouze na nastavení hodnoty \texttt{Garage.state}, je ještě nutné provést kontrolu, zda opravdu došlo ke změně stavu.}
+\caption{\label{lst:state_change} Odeslání SMS na základě změny stavu garáže. Změna stavu je zachycena pomocí dekorátoru \texttt{@listens\_for}. Jelikož \texttt{@listens\_for} reaguje pouze na nastavení hodnoty \texttt{Garage.state}, je ještě nutné provést kontrolu, zda opravdu došlo ke změně stavu.}
 \inputminted[bgcolor=codebg]{python}{source-samples/state_change.py}
 \end{listing}
 
@@ -86,16 +86,16 @@ Přidání zprávy do fronty je provedeno okamžitě, není nutné čekat na rea
 
 \section{Implementace \textit{view}}
 
-Tato část se věnuje implementaci stránek webového rozhraní nadřazenéh systému. Jednotlivé HTML stránky rozhraní jsou generovány pomocí šablonovacího systému Jinja \cite{jinja}, který je součástí frameworku Flask \cite{flask_templates}. 
+Tato část se věnuje implementaci stránek webového rozhraní nadřazeného systému. Jednotlivé HTML stránky rozhraní jsou generovány pomocí šablonovacího systému Jinja \cite{jinja}, který je součástí frameworku Flask \cite{flask_templates}. 
 
 Jinja umožňuje dynamické generování HTML stránek z~předem vytvořených šablon a dalších vstupnů, v~tomto případě především dat z~\textit{modelu} aplikace. Tato data jsou šabloně předána \textit{controllerem} (viz sekci \ref{sec:im_controller}). V~šablonách Jinja používá syntaxi založenou na Pythonu \cite{jinja}. Příklad HTML šablony pro tabulku se zaznamenanými událostmi zobrazuje ukázka \ref{lst:jinja_table}.
 
 \begin{listing}[htbp]
-\caption{\label{lst:jinja_table} HTML šablona tabulky zaznamenaných událostí, využívající šablonovací systém Jinja. Proměnná \texttt{garage} je šabloně předána \textit{controllerem} aplikace}
+\caption{\label{lst:jinja_table} HTML šablona tabulky zaznamenaných událostí, využívající šablonovací systém Jinja. Proměnná \texttt{garage} je šabloně předána \textit{controllerem} aplikace.}
 \inputminted[bgcolor=codebg]{html}{source-samples/jinja_table.html}
 \end{listing}
 
-Jinja také ďovoluje definici filtrů sloužících ke zpracování zobrazovaných dat \cite{jinja}. V~ukázce \ref{lst:jinja_table} je použit filtr \texttt{event\_filter}. Ten dostane jako vstup instanci třídy \texttt{event} a vytvoří její textovou reprezentaci s~údaji o~typu a času události. Tím je oddělena implementace této třídy v~\textit{modelu} a její zobrazení ve \textit{view}.
+Jinja také dovoluje definici filtrů sloužících ke zpracování zobrazovaných dat \cite{jinja}. V~ukázce \ref{lst:jinja_table} je použit filtr \texttt{event\_filter}. Ten dostane jako vstup instanci třídy \texttt{event} a vytvoří její textovou reprezentaci s~údaji o~typu a času události. Tím je oddělena implementace této třídy v~\textit{modelu} a její zobrazení ve \textit{view}.
 
 \subsection{Formuláře}
 \label{sec:im_forms}
@@ -118,7 +118,7 @@ Využití tohoto frameworku při implementaci formuláře pro editaci údajů ga
 
 \textit{Controller} aplikace je implementován spárováním URL a funkce, která se má provést při příchozím požadavku na toto URL. Jako odpověď na požadavek je pak klientovi zaslána návratová hodnota funkce. Tento princip (demonstrovaný v~ukázce \ref{lst:route}) představuje základní stavební kámen při tvorbě \textit{controlleru} ve frameworku Flask.
 
-Pro spárování funkce a URL je použit dekorátor \texttt{route}. Dekorátor je konstrukt jazyka Python, který umožňuje rozšířit danou funkci či metodu o~další funkcionalitu \cite{python_decorators}. Pomocí dekorátoru \texttt{route} je definováno URL a případně i povolené HTTP metody, které může klient při požadavku použít. Implicitně je povolena pouze metoda \texttt{get} \cite{flask_api}. 
+Pro spárování funkce a URL je použit dekorátor \texttt{@route}. Pomocí dekorátoru \texttt{@route} je definováno URL a případně i povolené HTTP metody, které může klient při požadavku použít. Implicitně je povolena pouze metoda \texttt{get} \cite{flask_api}. 
 
 \begin{listing}[htbp]
 \caption{\label{lst:route} Přiřazení funkce k~URL. Funkce \texttt{index} bude zavolána při každém příchozím požadavku s~metodou \texttt{get} na kořenové URL \texttt{/}. Návratová hodnota funkce je vygenerovaná HTML stránka, která bude zaslána klientovi.}
@@ -142,7 +142,7 @@ Jelikož se podřízené systémy prokazují pomocí API klíče, není zde nutn
 
 Autentizace uživatele je provedena zadáním hesla. Heslo je zadáváno pomocí formuláře na přihlašovací stránce a posíláno požadavkem \texttt{post}. Použití metody \texttt{get} není vhodné, neboť heslo jako součást URL zůstane uchované jednak v~historii prohlížeče, jednak v~záznamu požadavků na serveru.
 
-Pokud uživatel poskytl správné heslo, je v~jeho HTTP relaci nastavena proměnná \texttt{logged\_in} na hodnotu \texttt{true}. Tato proměnná slouží ke kontrole přihlášení uživatele při přístupu k~dalším částem webového rozhraní. Kód provádějící kontrolu je vkládán do funkcí pomocí dekorátoru \texttt{login\_required}, jehož použití lze vidět v~ukázce \ref{lst:route} (bližší informace o~dekorátorech je možno najít v~sekci \ref{sec:im_controller}). Odhlášení je provedeno nastavením hodnoty \texttt{logged\_in} na \texttt{false}.
+Pokud uživatel poskytl správné heslo, je v~jeho HTTP relaci nastavena proměnná \texttt{logged\_in} na hodnotu \texttt{true}. Tato proměnná slouží ke kontrole přihlášení uživatele při přístupu k~dalším částem webového rozhraní. Kód provádějící kontrolu je vkládán do funkcí pomocí dekorátoru \texttt{@login\_required}, jehož použití lze vidět v~ukázce \ref{lst:route} (bližší informace o~dekorátorech je možno najít v~sekci \ref{sec:im_controller}). Odhlášení je provedeno nastavením hodnoty \texttt{logged\_in} na \texttt{false}.
 
 %ukladani hesla (asi jen ze pouzivame bcrypt a ze to generuje i sul kterou to pripoji k tomu hashi hned takze se nemusi nic resit)
 
