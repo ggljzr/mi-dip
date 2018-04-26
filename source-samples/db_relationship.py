@@ -10,10 +10,13 @@ Base = declarative_base()
 class Event(Base):
     ...
     # odkaz na příslušnou garáž
-    garage_id = Column(Integer, ForeignKey(
-        'Garage.id'), nullable=False)
+    garage_id = Column(Integer, 
+        ForeignKey('Garage.id'), 
+        nullable=False)
 
 class Garage(Base): 
     ...
     # definice 1:N vztahu mezi garáží a událostí
-    events = relationship('Event', backref='Garage')
+    events = relationship('Event', 
+        backref='Garage', 
+        lazy='dynamic')
