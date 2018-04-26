@@ -155,9 +155,11 @@ Stránka simulátoru je přístupná na \texttt{/simulator}, pokud byla aplikace
 
 \section{Test odezvy nadřazeného systému}
 
-% napsat ze sme zkouseli jakou odezvu ma nadrazenej system -- tj jak dlouho trva tak poslat udalost (na rapsberry pi)
+V~závěru testování jsem vyzkoušel dobu odezvy nadřazeného systému při nasazení na Raspberry Pi 3. Chtěl jsem ověřit především dobu zpracování události zaslané podřízeným systémem.
 
-% napsat ty vysledky, tj asi 200 - 250 ms
+Při testu se ukázalo, že doba odezvy roste s~počtem událostí, které byly pro danou garáž zaznamenány. Z~počátku byly zaslané události zpracovány zhruba za 150 až 200 milisekund. Pokud však měla daná garáž v~databázi uloženo již kolem 2000 událostí, vzrostla doba zpracování až na 800 milisekund.
+
+Příčinou byl výchozí způsob, kterým framework SQLAlchemy mapuje databázové záznamy na Python objekty. Problém byl vyřešen dynamickým načítáním záznamů, které je popsáno v~sekci \ref{sec:im_lazy}. Po této úpravě se doba odezvy ustálila na přibližně 200 milisekudnách, bez ohledu na počet zaznamenaných událostí.
 
 % napsat ze sme vodhalili ten problem s lazy loadingem viz http://docs.sqlalchemy.org/en/latest/orm/collections.html, napsat neco v tom smyslu, ze ten normalni loading co tam je je pomalej pro velky kolekce jako sou ty udalosti a ze se musi pouzit trochu jinej pristup. ruzny strategie sou popsany v tim clanku, a ze my sme zvolili to prvni, teda pouziti dynamic loadingu (muzu napsat ze sme este zkouseli noload).
 
