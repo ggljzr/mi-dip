@@ -30,7 +30,7 @@ Tento návrhový vzor popisuje pouze nadřazený systém spravující garáže. 
 
 \textit{Model} představuje jádro nadřazeného systému. Je zde implementována vnitřní reprezentace uchovávaných dat, což jsou především zaznamenané události. Každá událost má také svého původce, tedy garáž (přesněji podřízený systém v~této garáži).
 
-Kromě toho \textit{model} implementuje \textit{business logiku} sytému, jako je například vytváření nových garáží (registraci podřízených systémů) či reakce na příchozích události.
+Kromě toho \textit{model} implementuje \textit{business logiku} sytému, jako je například vytváření nových garáží (registraci podřízených systémů) či reakce na příchozí události.
 
 Ostatní části aplikace (\textit{view} a \textit{controller}) používají \textit{model}, bez znalosti jeho vnitřní struktury, pomocí následujících operací:
 
@@ -92,7 +92,7 @@ Pro ukládání klíčů v~čitelné podobě jsem se rozhodl především z~dův
 \subsection{Událost -- \texttt{Event}}
 \label{sec:de_event}
 
-Třída \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy každá událost má jednoznačně určeného původce, a každá garáž libovolné množství událostí.
+Třída \texttt{Event} představuje událost zaznamenanou podřízeným systémem. Jak bylo zmíněno v~sekci \ref{sec:de_mvc}, jsou tyto události vázány ke konkrétním garážím, kdy má každá událost jednoznačně určeného původce. Každá garáž může mít libovolné množství událostí.
 
 Nadřazený systém rozlišuje dva základní druhy událostí. Kontrolní (plánované) události slouží ke kontrole funkčnosti podřízených systémů. Tyto události jsou odesílány v~pravidelném intervalu, určeném nadřazeným systémem. Ten v~odpovědi na požadavek s~kontrolní událostí zašle očekávaný čas (počet minut) do dalšího hlášení.
 
@@ -190,7 +190,7 @@ Případy užití z~kategorie zobrazení událostí popisuje obrázek \ref{fig:u
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{images/use_case_events.pdf}
-    \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje události spojené s~konkrétní garáží. Zobrazené událostí filtruje podle jejich typu.}
+    \caption[Případy užití zobrazení událostí]{Případy užití zobrazení událostí. Uživatel zobrazuje události spojené s~konkrétní garáží. Zobrazené události filtruje podle jejich typu.}
     \label{fig:use_case_events}
 \end{figure}
 
@@ -257,7 +257,7 @@ Registrační požadavek má následující formát (zaslání registračního p
 
 Kontrolní hlášení slouží k~ověření činnosti podřízeného systému. Jeho zasláním podřízený systém také potvrzuje, že stav sledované garáže je v~pořádku. 
 
-Požadavek zasílající kontrolní hlášení má tento formát:
+Požadavek zasílající kontrolní hlášení má tento formát (průběh zaslání požadavku popisuje ukázka \ref{lst:api_report}):
 
 \begin{itemize}
     \item URL -- \texttt{/api/report\_event}.
@@ -280,7 +280,7 @@ Požadavek zasílající kontrolní hlášení má tento formát:
 
 \subsubsection{Ostatní události}
 
-Vytváření dalších událostí je stejné jako vytváření kontrolního hlášení. Liší se pouze použité URL. Odpovědi na tyto požadavky neobsahují žádná data od nadřazeného systému, pouze návratový kód informující o~úspěchu či chybě:
+Vytváření dalších událostí je stejné jako vytváření kontrolního hlášení. Liší se pouze použité URL. Odpovědi na tyto požadavky neobsahují žádná data od nadřazeného systému, pouze návratový kód informující o~úspěchu či chybě (viz ukázku \ref{lst:api_event}):
 
 \begin{itemize}
     \item URL -- podle typu události:

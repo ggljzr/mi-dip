@@ -197,7 +197,7 @@ V~této části se budu zabývat prostředky pro šifrování komunikace, které
 
 První možnost je pro zabezpečení komunikace využít certifikáty, podobně jako u~HTTPS. Zde by se pravděpodobně také využil \textit{self-signed} certifikát (blíže popsaný v~sekci \ref{sec:an_certs}). Mosquitto navíc také vyžaduje kořenový certifikát certifikační autority \cite{mqtt_mosquitto_tsl}. Při použití \textit{self-signed} ceritifikátů by bylo nutné tuto autoritu vytvořit a používané certifikáty u~ní podepsat (pro bližší informace viz \cite{ca_nguyen}). Kořenový certifikát by také bylo nutné distribuovat klientům.
 
-Kromě certifikátů lze pro šifrování použít i PSK. V~tom případě \textit{broker} a jeho klienti používají pro zašifrování komunikace společný klíč (známý jak klientovi, tak \textit{brokeru}). Různí klienti přitom mohou mít různé klíče. \cite{mqtt_mosquitto_conf}
+Kromě certifikátů lze pro šifrování použít i PSK. V~tom případě \textit{broker} a jeho klienti používají pro zašifrování komunikace společný klíč (známý jak klientovi, tak \textit{brokerovi}). Různí klienti přitom mohou mít různé klíče. \cite{mqtt_mosquitto_conf}
 
 Bohužel podpora PSK v~MQTT klientech není příliš rozšířená. PSK je možné použít v~knihovně libmosquitto, určené pro C/C++ (s~vazbami pro Python). U~této knihovny se mi však podařilo najít pouze manuálovou stránku (viz \cite{libmosquitto_man}), bez informací o~jejím dalším vývoji či udržování. Modul poskytující vazby do Pythonu byl nicméně předán projektu Paho \cite{mosquitto_python}.
 
@@ -209,7 +209,7 @@ Tyto možnosti lze použít i k~autentizaci klientů \textit{brokeru}. Při pou�
 
 V~sekcích \ref{sec:an_https} a \ref{sec:an_mqtt} jsem blíže prozkoumal dva poměrně rozšířené protokoly aplikační vrstvy, které by bylo možné použít pro tvorbu nadřazeného systému.
 
-Pokud by mezi požadavky na systém bylo zahrnuto zasílání nevyžádaných zpráv podřízeným systému (jak je zmíněno v~sekci \ref{sec:an_struct}), zvolil bych pravděpodobně protokol MQTT. V~něm je tato funkcionalita velmi snadno implementovatelná -- stačí, aby podřízené systémy odebíraly \textit{topic}, na kterém by nadřazený systém publikoval zprávy.
+Pokud by mezi požadavky na systém bylo zahrnuto zasílání nevyžádaných zpráv podřízeným systémem (jak je zmíněno v~sekci \ref{sec:an_struct}), zvolil bych pravděpodobně protokol MQTT. V~něm je tato funkcionalita velmi snadno implementovatelná -- stačí, aby podřízené systémy odebíraly \textit{topic}, na kterém by nadřazený systém publikoval zprávy.
 
 Jelikož se však v~této práci zabývám systémem, který zprávy pouze přijímá a zaznamenává, rozhodl jsem se pro HTTPS. Nasazení tohoto protokolu je o~něco snazší (není potřeba na zařízení instalovat \textit{broker} a zařizovat certifikační autoritu -- stačí \textit{self-signed} certifikát) a s~jeho použitím mám více zkušeností. Také se částečně uvolní požadavky na volbu platformy (webový server bude potřeba v~každém případě, při volbě HTTPS jako komunikačního protokolu mezi systémy tedy nebude nutný žádný další software). 
 
@@ -260,7 +260,7 @@ Nadřazený systém má být schopen zasílat uživatelům notifikace o~stavu je
 
 Tyto notifikace by měl obdržet jednak správce garáží (provozovatel nadřazeného systému), jednak jednotliví nájemci, kterým budou zasílány notifikace týkající se jejich garáží.
 
-V~následujících sekcích jsem otestoval několik přístupů k~odesílání těchto notifikací, a to jak pomocí e-mailu, tak SMS.
+V~následujících sekcích jsem vyzkoušel několik přístupů k~odesílání těchto notifikací, a to jak pomocí e-mailu, tak SMS.
 
 \subsection{E-mailové notifikace}
 
@@ -376,7 +376,7 @@ S~počítačem je možné použít množství operačních systémů, z~nichž n
 
 Jednou z~výhod tohoto počítače je obrovské množství podporovaných hardwarových periferií a knihoven pro ně. V~této práci bych využil pouze zmíněný RTC obvod, případné další rozšiřování systému (například o~vestavěný LCD displej) bude na Raspberry Pi pravděpodobně snadnější než na jiných platformách.
 
-Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523 (pro bližší informace o~modulu viz \cite{rpi_rtc_ada}), jehož cena je příbližně 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Celkové náklady na hardware systému se tedy měly pohybovat kolem 1600 Kč\footnote{Ceny převzaté z~obchodů Alza (\url{https://alza.cz}) a SnailShop (\url{www.snailshop.cz}), v~únoru 2018.}.
+Kromě široké podpory je hlavní výhodou Raspberry Pi jeho cena. Poslední verze se pohybuje kolem 1200 Kč. K~celkovým nákladům na systém je ještě třeba připočítat cenu RTC obvodu a SD karty. Zde počítám s~použitím již připraveného modulu s~obvodem PCF8523 (pro bližší informace o~modulu viz \cite{rpi_rtc_ada}), jehož cena je příbližně 200 Kč. Jako úložiště by měla plně dostačovat 16GB SD karta, která se dá pořídit za 200 Kč. Náklady na hardware systému (bez GSM modulu) by se tedy měly pohybovat kolem 1600 Kč\footnote{Ceny převzaté z~obchodů Alza (\url{https://alza.cz}) a SnailShop (\url{www.snailshop.cz}), v~únoru 2018.}.
 
 \subsection{Zybo Zynq-7000}
 \label{sec:an_zyb}
@@ -410,7 +410,7 @@ Na přípravku je také k~dispozici 128 MB flash paměti \cite{zybo_man}, k~prov
 
 Stejně jako Raspberry Pi tato deska postrádá RTC obvod. Firma Digilent však dodává externí obvod, který lze připojit pomocí rozhraní Pmod \cite{pmod_rtc_man}. 
 
-Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. Ta se pohybuje okolo 4000 Kč\footnote{Cena podle produktové stránky \url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html}, v~únoru 2018.}. K~tomu je nutné přičíst náklady na SD kartu a RTC obvod, případně i WiFi modul. Cena celého zařízení by se tedy pohybovala v~rozmezí 4500 až 5000 Kč.
+Nevýhodu této desky (především v~porovnání Raspberry Pi) je její cena. Ta se pohybuje okolo 4000 Kč\footnote{Cena podle produktové stránky \url{https://www.xilinx.com/products/boards-and-kits/1-4azfte.html}, v~únoru 2018.}. K~tomu je nutné přičíst náklady na SD kartu a RTC obvod, případně i WiFi modul. Cena zařízení by se tedy pohybovala v~rozmezí 4500 až 5000 Kč.
 
 %bacha tady este na "As of 9/21/2017- the Zybo will be replaced by the Zybo Z7-10. We have created this guide to help you migrate your designs to the Zybo Z7. " ale nevim jestli to ma cenu resit ty desky se lisej minimalne (SoC je stejnej)
 %^^linx: https://store.digilentinc.com/zybo-z7-zynq-7000-arm-fpga-soc-development-board/
@@ -442,6 +442,8 @@ Jak vyplývá z~tabulky \ref{tab:plat_compare}, Raspberry Pi 3 poskytuje znateln
 FPGA by bylo možné využít například k~šifrování úložiště, vzhledem k~předpokládáným objemům dat by však zrychlení oproti softwarovému šifrování neospravedlnilo vysokou cenu přípravku. Na druhou stranu vyšší výkon procesoru u~Raspberry Pi může mít pro nadřazený systém význam, například z~hlediska odezvy uživatelského rozhraní.
 
 Jako platformu pro implementaci nadřazeného systému jsem zvolil počítač Raspberry Pi 3, především kvůli příznivé ceně, výrazně lepšímu poměru cena/výkon (pro tuto práci), a také kvůli podpoře a rozšiřitelnosti.
+
+Kromě nákladů popsaných v~seckích \ref{sec:an_rpi} a \ref{sec:an_zyb} je ještě potřeba počítat s~pořízením GSM modulu. V~závislosti na typu modulu se jeho cena může pohybovat kolem 800 až 1200 Kč\footnote{Cena LTE modulu Huawei E3372h na e-shopu \url{https://www.t-mobile.cz} v~březnu 2018 je 1151 Kč.}.
 
 \subsection{Provoz aplikace na \textit{cloudové} platformě}
 \label{sec:an_cloud}

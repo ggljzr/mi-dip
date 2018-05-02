@@ -38,7 +38,7 @@ Protokol používá model \textit{client/server}. Klienti zasílají HTTP server
 Požadavek (\textit{request}) zasílaný klientem tvoří následující části \cite{tcp}:
 
 \begin{itemize}
-    \item Metoda a URL požadavku. V~této práci jsou použity především metody \texttt{get} a \texttt{post}. Metoda \texttt{get} slouží ke získávání dat (například HTML stránek) ze serveru. Metoda \texttt{post} je určená k~zasílání nových informací serveru.
+    \item Metoda a URL zaslaného požadavku. V~této práci jsou použity především metody \texttt{get} a \texttt{post}. Metoda \texttt{get} slouží ke získávání dat (například HTML stránek) ze serveru. Metoda \texttt{post} je určená k~zasílání nových informací serveru.
     \item Záhlaví obsahující jednotlivé hlavičky požadavku. Tato část je v~práci využita pro zaslání API klíče podřízeného systému, viz sekci \ref{sec:de_api}.
     \item Volitelná přenášená data (například obsah HTML formuláře).
 \end{itemize}
@@ -109,7 +109,7 @@ Webová aplikace implementovaná v~této práci využívá právě tento způsob
 \section{\textit{Man-in-the-middle} útok}
 \label{sec:th_mitm}
 
-\textit{Man-in-the-middle} útok na protokolu HTTPS využívá situace, kdy certifikát pro ověření totožnosti serveru není důvěryhodný a může být zfalšován \cite{mitm}. 
+\textit{Man-in-the-middle} útok na protokolu HTTPS využívá situace, kdy certifikát pro ověření totožnosti serveru není důvěryhodný a může být zfalšován \cite{mitm}. Schéma útoku popisuje obrázek \ref{fig:mitm}. 
 
 V~tom případě může útočník (\textcolor{magenta}{Eva}) zachytit komunikaci mezi klientem (\textcolor{green}{Bob}) a serverem (\textcolor{blue2}{Alice}), a místo certifikátu serveru zaslat klientovi svůj certifikát. Poté je komunikace rozdělena na dvě části \cite{mitm}:
 

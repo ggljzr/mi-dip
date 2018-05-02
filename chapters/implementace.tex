@@ -39,7 +39,7 @@ Pokud není uvedeno jinak, funkce \texttt{relationship()} vytvoří na základě
 
 Toto chování dovoluje pohodlnou a intuitivní práci s~uloženými daty, neboť je zachována sémantika Pythonu. Nehodí se však pro velké množství záznamů. Problém představuje právě načítání záznamů do datové struktury.
 
-Při přidávání nové události je nutné nejprve načíst všechny dosud zaznamené události garáže do seznamu \texttt{events}, poté na jeho konec vložit novou událost pomocí metody \texttt{events.append()} a výsledek opět uložit do databáze. Seznam může být udrsžován v~paměti od předchozího vkládání, nicméně samotné vložení nového prvku do dlouhého seznamu nemusí být efektivní.
+Při přidávání nové události je nutné nejprve načíst všechny dosud zaznamené události garáže do seznamu \texttt{events}, poté na jeho konec vložit novou událost pomocí metody \texttt{events.append()} a výsledek opět uložit do databáze. Seznam může být udržován v~paměti od předchozího vkládání, nicméně samotné vložení nového prvku do dlouhého seznamu nemusí být efektivní.
 
 SQLAlchemy nabízí několik řešení, jak definovat vztah pomocí funkce \texttt{relationship()} efektivněji \cite{sqlalchemy_col}. Já jsem zvolil použití dynamického načítání záznamů (\texttt{lazy='dynamic'} v~ukázce \ref{lst:db_relationship}). V~tom případě přístup k~proměnné \texttt{events} nevrátí \texttt{list}, ale instanci třídy \texttt{Query} \cite{sqlalchemy_col}. 
 
@@ -65,7 +65,7 @@ Tento problém jsem vyřešil použítím plánovače APScheduler \cite{apschedu
 
 Plánovač se kromě kontroly hlášení hodí také při vypínání registračního módu. Ten z~bezpečnostních důvodů po aktivaci běží po dobu tří minut. Jeho vypnutí je naplánováno obdobně jako kontrola hlášení, jediný rozdíl je, že úkol není spouštěn v~pravidelném intervalu, ale pouze jednou.
 
-\subsection{Zasíláním upozornění}
+\subsection{Zasílání upozornění}
 \label{sec:im_notifications}
 
 % napsat ze zpravu posilame na zmenu stavu -> mame ten hook udelanej pres sqlalchemy

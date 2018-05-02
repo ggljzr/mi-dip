@@ -21,7 +21,7 @@ Dále byl v~kapitole návrh popsán způsob vyhodnocování stavu monitorovanýc
 
 Pro komunikaci s~podřízenými sytémy bylo navrženo API, pomocí kterého mohou nadřazenému systému zasílat události popisující stav garáže (například při detekci kouře). Podřízené systémy se při přístupu k~API prokazují pomocí náhodně generovaných klíčů.
 
-Zde bylo potřeba vyřešit problém distribuce klíčů podřízeným systémům. K~tomu byl implementován takzvaný registrační mód, který lze dočasně povolit ve webovém rozhraní nadřazeného systému. Když je mód zapnutný, mohou se podřízené systémy registrovat pomocí k~tomu určeného API požadavku, a přístupový klíč jim je zaslán v~odpovědi.
+Zde bylo potřeba vyřešit problém distribuce klíčů podřízeným systémům. K~tomu byl implementován takzvaný registrační mód, který lze dočasně povolit ve webovém rozhraní nadřazeného systému. Když je mód zapnutný, mohou se podřízené systémy registrovat pomocí k~tomu určeného API požadavku, a~přístupový klíč jim je zaslán v~odpovědi.
 
 Webové rozhraní nadřazeného systému bylo navrženo na základě předpokládaných případů užití, jako je například zobrazení monitorovaných garáží či událostí zaznamenaných v~konkrétní garáži. Přistup do rozhraní je ověřen pomocí hesla, které je uchováváno v~zabezpečené podobě pomocí \textit{hashovacího} algoritmu Argon2.
 
