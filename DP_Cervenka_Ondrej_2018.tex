@@ -31,16 +31,24 @@
 \abstractCS{
 Tato diplomová práce se zabývá tvorbou zabezpečovacího systému pro správu garáží. Konkrétně jde o~návrh a implementaci nadřazeného systému, který sbírá a zpracovává data zaslaná podřízenými systémy v~jednotlivých garážích.
 
-Výsledná aplikace komunikuje s~podřízenými systémy pomocí protokolu HTTPS a umožňuje správu garáží přes webové rozhraní. Celý nadřazený systém je možné provozovat na Raspberry Pi.
-}
+Výsledná aplikace komunikuje s~podřízenými systémy pomocí protokolu HTTPS a umožňuje správu garáží přes webové rozhraní. 
+
+Aplikace také zasílá SMS upozornění při detekci poteniconálně nebezpečné situace. SMS jsou posílány pomocí GSM modulu.
+
+Nadřazený systém byl vyvíjen v~programovacím jazyku Python a testován pro provoz na jednodeskovém počítači Raspberry Pi.}
+
 \abstractEN{This thesis deals with design and implementation of garage security and monitoring system, which collects data from subsystems placed in individual garages.
 
-Result is an application that commmunicates with subsystems via HTTPS and allows garage monitoring and management trough web interface. Application can deployed on Raspberry Pi.
+Result is an application that commmunicates with subsystems via HTTPS and allows garage monitoring and management trough web interface. 
+
+Application also sends SMS notifications when potentional danger is detected. SMS are send with GSM module.
+
+Security system was developed in Python programming language and tested for use with single board computer Raspberry Pi.
 }
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
-\keywordsCS{bezpečnost, webová aplikace, Raspberry Pi}
-\keywordsEN{security, web application, Raspberry Pi}
+\keywordsCS{bezpečnost, webová aplikace, Raspberry Pi, Python, Flask}
+\keywordsEN{security, web application, Raspberry Pi, Python, Flask}
 % \website{http://site.example/thesis} %volitelná URL práce, objeví se v tiráži - úplně odstraňte, nemáte-li URL práce
 
 \begin{document}
