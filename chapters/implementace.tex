@@ -91,7 +91,7 @@ Tato část se věnuje implementaci stránek webového rozhraní nadřazeného s
 Jinja umožňuje dynamické generování HTML stránek z~předem vytvořených šablon a dalších vstupnů, v~tomto případě především dat z~\textit{modelu} aplikace. Tato data jsou šabloně předána \textit{controllerem} (viz sekci \ref{sec:im_controller}). V~šablonách Jinja používá syntaxi založenou na Pythonu \cite{jinja}. Příklad HTML šablony pro tabulku se zaznamenanými událostmi zobrazuje ukázka \ref{lst:jinja_table}.
 
 \begin{listing}[htbp]
-\caption{\label{lst:jinja_table} HTML šablona tabulky zaznamenaných událostí, využívající šablonovací systém Jinja. Proměnná \texttt{garage} je šabloně předána \textit{controllerem} aplikace.}
+\caption{\label{lst:jinja_table} HTML šablona tabulky zaznamenaných událostí, využívající šablonovací systém Jinja. Proměnná \texttt{events} je šabloně předána \textit{controllerem} aplikace.}
 \inputminted[bgcolor=codebg]{html}{source-samples/jinja_table.html}
 \end{listing}
 
