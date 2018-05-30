@@ -14,3 +14,7 @@ label/label.png
 tmp
 *.pygstyle
 *.pygtex
+*.toc
+presentation
+!presentation/prez.pdf
+!presentation/pres.tex
