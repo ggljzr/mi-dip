@@ -26,18 +26,12 @@
   \begin{frame}
     \frametitle{Cíl práce}
 
-    Cílem práce bylo navrhnout a implementovat nadřazený systém určený k zabezpečení garáže. Systém zbírá data od podřízených systémů umístěných v jednotlivých garážích.
+    Cílem práce bylo navrhnout a implementovat systém určený k zabezpečení garážového komplexu. Systém sbírá data od podřízených systémů monitorujících stav jednotlivých garážích.
 
-    \hspace{1cm}
+    % tady strucne popsat ten podrizenej system, tj zarizeni, ktery je v ty garazi a ma naky senzory kterejma monitoruje jeji stav
 
-    Požadavky na systém:
+    % pak prejit hned na ten dalsi slajd s tim vobrazkem, rict ze to teda vypada takhle
 
-    \begin{itemize}
-      \item Komunikace s podřízenými systémy pomocí WiFi nebo Ethernetu.
-      \item Webové uživatelské rozhraní pro správu.
-      \item Reakce na události zaslané podřízenými systémy.
-      \item Možnost provozu na jednodeskovém počítači (omezený HW).
-    \end{itemize}
   \end{frame}
 
   \begin{frame}
@@ -48,22 +42,48 @@
         \caption{Základní struktura systému.}
       \end{figure}
 
-      % popsat udalost a jak funguje to logovani dat
-      % popsat ty ruzny udalosti vcetne tech kontrolnich hlaseni
+      % rict ze ty podrizeny systemy komunikujou s nadrazenym
+      % na zaklade udalosti zasilanejch pres ten komunikacni kanal (api)
+      % popsat udalost (priklad)
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Návrh systému}
+
+      % tady uz bude popsana zakladni strukura toho systemu, takze muzu zacit popisovat konkretni pozadavky, ty dalsi slajdy pak vychazej z tech pozadavku
+
+      % zacit to tak, ze konkretni pozadavky na system byly takovyhle
+
+      Požadavky na systém:
+
+      \begin{itemize}
+        \item Komunikace s podřízenými systémy pomocí WiFi nebo Ethernetu.
+        \item Webové uživatelské rozhraní pro správu.
+        \item Reakce na události zaslané podřízenými systémy.
+        \item Možnost provozu na jednodeskovém počítači (omezený HW). % tady rict ze sme chteli uceleny zarizeni
+      \end{itemize}
   \end{frame}
 
   \begin{frame}
     \frametitle{Návrh systému}
     \framesubtitle{Komunikační protokol}
 
-    Zkoumány byly protokoly HTTPS a MQTT z hlediska: 
+    Zkoumány byly protokoly HTTPS a MQTT:
 
     \begin{itemize}
-      \item podpory na zvolené platformě (Raspberry Pi),
-      \item zabezpečení. % u vobou ssl
+      \item HTTPS: 
+      \begin{itemize}
+        \item Jeden server pro webové rozhraní a API.
+        \item Snazší implementace.
+        \item Široká podpora.
+      \end{itemize}
+      \item MQTT:
+      \begin{itemize}
+        \item Složitější implementace.
+      \end{itemize}
     \end{itemize}
 
-    Na základě této analýzi byl zvolen protokol HTTPS, na kterém bylo postaveno jednoduché API pro komunikaci s podřízenými systémy.
+    Pro implementaci systému byl zvolen protokol HTTPS.
 
     % rict ze api primarne slouzi k zasilani udalosti vod podrizenejch systemu
     % tady říct, že to api slouží i k registraci/autorizaci systémů pomocí api klíčů.
@@ -84,7 +104,20 @@
       \item Změnu uživatelského nastavení.
     \end{itemize}
 
-    Přístup do rozhraní je zabezpečen heslem. % tady zmínit ukládání hesla (hash)
+    Přístup do rozhraní je zabezpečen heslem.
+    
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Návrh systému}
+    \framesubtitle{Webové rozhraní}
+
+    % jen rict ze tohle je ukazka zobrazeni konkretni garaze, a ze teda vidime ty zaznamenany udalosti
+
+    \begin{figure}
+        \includegraphics[scale=0.161]{../images/webp.png}
+        \caption{Webové rozhraní systému.}
+      \end{figure}
     
   \end{frame}
 
@@ -92,10 +125,11 @@
     \frametitle{Návrh systému}
     \framesubtitle{Reakce na události}
 
+    Zasílání upozornění v případě poplachu:
+
     \begin{figure}
-        \includegraphics[scale=0.45]{alert.pdf}
+        \includegraphics[scale=0.45]{../images/alert.pdf}
     \end{figure}
-    % popsat to s tim zaslanim udalosti ktera zmeni stav, ze se posila upozorneni
 
     Zkoumané metody:
 
@@ -103,14 +137,14 @@
       \item E-mail -- pomocí Google GMail.
       \item SMS:
       \begin{itemize}
-        \item GSM modul,
-        \item služba Twilio. 
+        \item služba Twilio,
+        \item \textbf{GSM modul}. 
       \end{itemize}
     \end{itemize}
 
-    % rict ze sem zkusil vsechno, zkoumal sem i to jak to bude slozity pro toho provozovatele zprovoznit (ruzny registrace atd.).
-    % nakonec sem vybral gsm modul protoze jednoduchej, bez registrace a offline.
-    % este rict ze ten gsm modul v zaklade potrebuje jen seriovou linku (zminit AT prikazy), tj ze se da pouzit na spouste jinejch platforem
+    % popsat ten flow toho posilani upozorneni jak je na tim vobrazku, tj. tu situaci ktera k tomu vede
+    % rict ze spravci a najemci prijdou jiny smsky
+    % strucne rict ze sem zkoumal tyhle metody a nakonec zvolil gsm modul (jednoduchost, staci simkarta)
 
   \end{frame}
 
@@ -131,7 +165,7 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Testováni systému}
+    \frametitle{Testování systému}
 
     \begin{itemize}
       \item Automatizované testy. % unit testy, dulezity pro dalsi rozsirovani
@@ -143,32 +177,57 @@
   \end{frame}
 
   \begin{frame}
-    \frametitle{Nasazení}
+    \frametitle{Nasazení systému na Raspberry Pi}
 
     \begin{figure}
         \includegraphics[scale=0.55]{../images/sw_block.pdf}
         \caption{Blokové schéma nasazeného systému.}
       \end{figure}
+
+      % tady znova zminit, ze ta implementace je na tomhle vlastne nezavisla
+      % tj by tam mohlo bejt klidne treba mysql nebo jinej operacni system atd...
+
   \end{frame}
 
   \begin{frame}
     \frametitle{Závěr}
 
-    Výsledky práce:
+    Výsledkem práce je zařízení (nadřazený systém) založené na Raspberry Pi, které umožňuje sběr dat od podřízených systémů. Nadřazený systém je možno spravovat pomocí webového rozhraní.
 
-     \begin{itemize}
-      \item Návrh a implementace nadřazeného systému,
-      \item jeho otestování,
-      \item nasazení na Raspberry Pi a virtuálním serveru.
-     \end{itemize}
+    \vspace{0.5cm}
+
+    Systém byl vyvíjen především pro nasazení na Raspberry Pi, je však možné jej použít na množství dalších platforem. 
+
   \end{frame}
 
-  \begin{frame}
+  \begin{frame}[noframenumbering]
     \frametitle{Otázky oponenta}
 
     Bylo by možné upravit webové rozhraní tak, aby podporovalo více uživatelů s různými právy? 
 
     Např. nájemce jedné z garáží by mít možnost sledovat události ve své garáži, případně upravovat telefonní číslo apod.
+
+  \end{frame}
+
+  \begin{frame}[noframenumbering]
+    \frametitle{Otázky oponenta}
+    \framesubtitle{Přidání zákaznických účtů}
+
+    Úpravy současného kódu:
+
+    \begin{itemize}
+      \item Funkce zajišťující přihlášení: uložení informací o účtu. % jestli je ucet admin nebo zakaznik, ktery garaze k uctu patrej atd.
+      \item Funkce ověřující přihlášení: kontrola uložených informací.
+      % jestli se zakaznik nesnazi zobrazit garaze ktery mu nepatrej, nebo jestli nezkousi smazat garaz atd.
+      \item Drobné úpravy uživatelského rozhraní. % odstraneni prislusnejch tlacitek (mazani garaze) pri prihlaseni jako zakaznik. 
+    \end{itemize}
+
+    Nové funkce:
+
+    \begin{itemize}
+      \item Registrace zákaznických účtů. % pres admina, urci ktery garaze k uctu patrej
+      \item Správa zákaznických účtů. % mazani, zmeny najemcu garazi
+    \end{itemize}
 
   \end{frame}
 
