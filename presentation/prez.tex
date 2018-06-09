@@ -26,7 +26,7 @@
   \begin{frame}
     \frametitle{Cíl práce}
 
-    Cílem práce bylo navrhnout a implementovat systém určený k zabezpečení garážového komplexu. Systém sbírá data od podřízených systémů monitorujících stav jednotlivých garážích.
+    Cílem práce bylo navrhnout a implementovat systém určený k~zabezpečení garážového komplexu. Systém sbírá data od podřízených systémů monitorujících stav jednotlivých garážích.
 
     % tady strucne popsat ten podrizenej system, tj zarizeni, ktery je v ty garazi a ma naky senzory kterejma monitoruje jeji stav
 
@@ -60,7 +60,7 @@
         \item Komunikace s podřízenými systémy pomocí WiFi nebo Ethernetu.
         \item Webové uživatelské rozhraní pro správu.
         \item Reakce na události zaslané podřízenými systémy.
-        \item Možnost provozu na jednodeskovém počítači (omezený HW). % tady rict ze sme chteli uceleny zarizeni
+        \item Možnost provozu na omezeném HW (například Raspberry Pi). % tady rict ze sme chteli uceleny zarizeni
       \end{itemize}
   \end{frame}
 
@@ -79,7 +79,8 @@
       \end{itemize}
       \item MQTT:
       \begin{itemize}
-        \item Složitější implementace.
+        \item Vhodný pro IoT (malé nároky na HW),
+        \item ale složitější implementace.
       \end{itemize}
     \end{itemize}
 
@@ -98,7 +99,7 @@
     Webové rozhraní je určeno ke správě podřízených systémů a umožňuje:
 
     \begin{itemize}
-      \item Registraci nových podřízených systému.
+      \item Registraci nových podřízených systémů.
       \item Zobrazení zaznamenaných událostí.
       \item Editaci záznamu garáže (telefonní číslo, popis atp.).
       \item Změnu uživatelského nastavení.
@@ -169,10 +170,21 @@
 
     \begin{itemize}
       \item Automatizované testy. % unit testy, dulezity pro dalsi rozsirovani
-      \item Manuálni testy. % u tech smsek/gsm modulu
+      \item Manuální testy. % u tech smsek/gsm modulu
       \item Testovací nasazení.
       \item Simulátor podřízeného systému.
     \end{itemize}
+
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Testování systému}
+
+    \begin{figure}
+        \includegraphics[scale=0.25]{../images/simp.png}
+        \caption{Rozhraní simulátoru.}
+      \end{figure}
+
 
   \end{frame}
 
@@ -205,7 +217,7 @@
 
     Bylo by možné upravit webové rozhraní tak, aby podporovalo více uživatelů s různými právy? 
 
-    Např. nájemce jedné z garáží by mít možnost sledovat události ve své garáži, případně upravovat telefonní číslo apod.
+    Např. nájemce jedné z garáží by měl možnost sledovat události ve své garáži, případně upravovat telefonní číslo apod.
 
   \end{frame}
 
